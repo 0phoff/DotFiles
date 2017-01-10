@@ -26,11 +26,7 @@ if !exists('g:coldevicons_filetypes')   " String containing comma-separated list
 endif
 
 if !exists('g:coldevicons_LLComponent') " Path to palette component (see Lightline Colorschemes)
-    let g:coldevicons_LLComponent = ['normal', 'left', '1']
-endif
-
-if !exists('g:coldevicons_LLHiGroup')   " Component highlight group
-    let g:coldevicons_LLHiGroup = 'LightlineLeft_normal_1'
+    let g:coldevicons_LLComponent = ['left', '1']
 endif
 
 if !exists('g:coldevicons_colormap')    " Colormap containing name for color and RRGGBB hex values
@@ -82,10 +78,8 @@ function! ColDevicons_init()
 	let colors = keys(g:coldevicons_colormap)
     let pal = lightline#palette()
 
-    " Get Lightline Palette ->  Default : lightline#palette['normal']['left']['1']  (default position of filename component)
-    for i in g:coldevicons_LLComponent
-        let pal = pal[i]
-    endfor
+    " Get Lightline Palette ->  Default : lightline#palette['normal']['left']['1'] (default position of filename component)
+    let pal = pal['normal'][g:coldevicons_LLComponent[0]][g:coldevicons_LLComponent[1]]
 
     " Clear Augroup
     augroup coldevicons_aucmd
@@ -104,8 +98,8 @@ function! ColDevicons_init()
     endfor
 endfunction
 
-function! ColDevicons_ColoredLLText(string)
-    let colors = keys(g:coldevicons_colormap)
+function! ColDevicons_ColoredLLText(pre, colored, post) " Arguments : text before colored part, colored text, text after colored part
+    let colors = keys(g:coldevicons_iconmap)
     let artifactFix = "\u00A0"
     let icon = substitute(WebDevIconsGetFileTypeSymbol(), artifactFix, '', '')
 
@@ -117,12 +111,10 @@ function! ColDevicons_ColoredLLText(string)
     endfor
 
     if index == -1
-        exec 'highlight! link modifiedColor '.g:coldevicons_LLHiGroup
+        return substitute(a:pre.a:colored.a:post,'%','%%','g')
     else
-        exec 'highlight! link modifiedColor coldeviconsLL'.color
+        return substitute(a:pre,'%','%%','g') . '%#coldeviconsLL'.color.'#' . substitute(a:colored,'%','%%','g') . '%#Lightline'.g:coldevicons_LLComponent[0].'_active_'.g:coldevicons_LLComponent[1].'#' . substitute(a:post,'%','%%','g')
     endif
-
-    return a:string
 endfunction
 
 " Code taken from Desert256 colorscheme    ->  call s:rgb('HEXString') to get cterm equivalent color {{{

@@ -26,14 +26,14 @@ filetype plugin indent on                           " filetype plugin
 " External Plugins
 call plug#begin()
     Plug 'christoomey/vim-tmux-navigator'           " Use ctrl-hjkl to navigate vim & tmux
-    Plug 'itchyny/lightline.vim'                    " Lightweight and customizable Powerline
-    Plug 'morhetz/gruvbox'                          " Awesome Colortheme
-    Plug 'shinchu/lightline-gruvbox.vim'            " Colortheme for lightline
     Plug 'Yggdroot/indentLine'                      " Indentation lines
     Plug 'fntlnz/atags.vim'                         " Async Ctags generation
+    Plug 'itchyny/lightline.vim'                    " Lightweight and customizable statusline
+    Plug 'morhetz/gruvbox'                          " Awesome Colortheme
+    Plug 'shinchu/lightline-gruvbox.vim'            " Colortheme for lightline
     Plug 'ryanoasis/vim-devicons'                   " Pretty File Icons
 
-    Plug 'mattn/emmet-vim', {'for': emmetFiles}                                     " Emmet fast tag creation
+    Plug 'mattn/emmet-vim', {'for': emmetFiles}                                     " Emmet fast html-tag creation
     Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}                            " Project tree viewer
     Plug 'Shougo/Denite.nvim', {'on': 'Denite', 'do': ':UpdateRemotePlugins' }      " Project Fuzzy Finder
     autocmd! User Denite.nvim call s:DeniteMappings()
@@ -66,8 +66,9 @@ let g:NERDTreeHighlightFolders = 1
 let g:WebDevIconsNerdTreeAfterGlyphPadding = ''
 
 " Denite
-nnoremap <silent> <Leader>f :Denite -auto-resize -no-statusline file_rec<CR>
-highlight! deniteMatchedChar cterm=bold ctermfg=214 ctermbg=NONE
+nnoremap <silent> <Leader>f :Denite -auto-resize -no-statusline -cursor-wrap file_rec<CR>
+nnoremap <silent> <Leader>g :Denite -auto-resize -no-statusline -cursor-wrap grep<CR>
+highlight! link deniteMatchedChar CursorLineNr
 highlight! link deniteMatched Identifier
 augroup Denite
     autocmd!
@@ -111,8 +112,8 @@ let g:lightline = {
     \                 [''],
     \                 ['filetype', 'projectPath', 'rootDir'] ]
     \ },
-    \ 'component': {
-    \   'filenameMod': '%#modifiedColor#%{LLfilesymbol()}%#LightlineLeft_normal_1#%{LLfile()}'
+    \ 'component_expand': {
+    \   'filenameMod': 'LLfilenameMod'
     \ },
     \ 'component_function': {
     \   'projectPath': "LLpath",
@@ -122,11 +123,8 @@ let g:lightline = {
     \ 'separator': { 'left': '', 'right': '' },
     \ 'subseparator': { 'left': '', 'right': '' }
     \ }
-    function! LLfilesymbol()   "{{{
-        if &filetype ==# ''
-            return ''
-        else
-            return ColDevicons_ColoredLLText(WebDevIconsGetFileTypeSymbol())
+    function! LLfilenameMod()   "{{{
+        return ColDevicons_ColoredLLText('', WebDevIconsGetFileTypeSymbol(), LLfile())
     endfunction                 "}}}
     function! LLfile()          "{{{
         if &filetype ==# 'nerdtree' || &filetype ==# '[denite]'
@@ -206,6 +204,12 @@ let g:coldevicons_filetypes = 'nerdtree,denite'
     " File Manipulations
     nnoremap <silent> <Leader>w :w<CR>
     nnoremap <silent> <Leader>x :tabclose<CR>
+    nnoremap <silent> <Leader>q :qa<CR>
+
+    " Delete with X -> black hole register
+    nnoremap x "_x
+    vnoremap x "_x
+
 
 " Function keybinds
     inoremap <silent><expr><BS> BS()
@@ -248,7 +252,11 @@ let g:coldevicons_filetypes = 'nerdtree,denite'
 
 " TEMPORARY
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1                         " Change Cursor Shape Depending on Mode -> syntax will change in future
-autocmd VimLeave * call system('printf "\e[3 q" > $(tty)')  " Reset cursor shape to underscore in Terminal -> Doesnt work
+"autocmd VimLeave * call system('printf "\e[3 q" > $(tty)')  " Reset cursor shape to underscore in Terminal -> Doesnt work
+
+" Highlight current line number of current buffer
+hi CursorLine NONE
+hi CursorLineNR cterm=bold ctermbg=NONE guibg=NONE
 
 " Basics
 set history=250             " Increase history
@@ -256,6 +264,8 @@ set encoding=utf-8          " Set encoding
 set spelllang=en            " Set default spelllang
 
 set nu                      " Set linenumbers
+set rnu                     " Relative numbers
+set cul                     " Highlight current line
 set showcmd                 " Show command
 set conceallevel=0          " Don't hide text
 set linebreak               " Only wrap at whitespace
@@ -297,15 +307,7 @@ set autoindent              " Auto indent code
 
 " Command Groups        {{{
 
-" Highlight current line number of current buffer
-hi CursorLine NONE
-hi CursorLineNR cterm=bold ctermbg=NONE guibg=NONE
-set cul
-augroup lineNRCurWin
-    autocmd!
-    autocmd BufEnter,WinEnter * set cul
-    autocmd BufLeave,WinLeave * set nocul
-augroup END
+autocmd VimEnter * call ColDevicons_init()
 
 " Insert Mode enter/leave
 augroup InserModeCmds
@@ -315,26 +317,13 @@ augroup InserModeCmds
 augroup END
 
 function! s:IEnter()
-    if !exists('w:last_fdm')
-        let w:last_fdm=&foldmethod
-        setlocal foldmethod=manual
-    endif
-
-    if !exists('w:last_tol')
-        let w:last_tol=&timeoutlen
-        setlocal timeoutlen=200
-    endif
+    let b:last_tol=&timeoutlen
+    setlocal timeoutlen=200
 endfunction
 
 function! s:ILeave()
-    if exists('w:last_fdm')
-        let &l:foldmethod=w:last_fdm
-        unlet w:last_fdm
-    endif
-
-    if exists('w:last_tol')
-        let &l:timeoutlen=w:last_tol
-        unlet w:last_tol
+    if exists('b:last_tol')
+        let &l:timeoutlen=b:last_tol
     endif
 endfunction
 
