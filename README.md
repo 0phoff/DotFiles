@@ -6,7 +6,7 @@ I would not recomend blindly taking over my dotfiles, as they contain quite a lo
 ## Different Files Explained
 Like a lot of people, I keep all my dotfiles in a separate folder, and create symlink at the places where they should be.  
 
-	- Bash/ : In this directory you can find mybashrc as well as other small scripts I either source in my bashrc or symlink to /usr/bin to be able to execute
+	- Bash/ : In this directory you can find my bashrc as well as other small scripts I either source in my bashrc or symlink to /usr/bin to be able to execute
 	- Tmux/ : This folder contains my tmux configuration
 	- Vim/	: This folder contains my Vim configuration. I use neovim, so that's a thing to consider...
 
@@ -16,7 +16,7 @@ Creating and maintaining dotfiles is an endless torture, so here is a small todo
 ### Vim
 	#### Settings
 	    - Use std completion
-	        + [ ] automatic popup on X letters
+	        + [ ] automatic popup after X letters are typed and there are less then Y possible completions
 	        + [ ] ctrl-x = toggle completion mode
 	        + [ ] ctrl-p/f/... stay in completion mode
 	#### FileType Specific
