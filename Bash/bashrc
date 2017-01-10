@@ -1,0 +1,48 @@
+# Set Prompt
+PS1='\[\033[01;32m\]\u\[\033[00m\] @ \[\033[01;34m\]\w\[\033[00m\]\n\$ ';
+
+# Set Custom Aliases
+alias rt='cd;clear';
+alias x='exit';
+alias c='clear';
+alias ls='ls --color';
+alias ll='ls -Al';
+alias tks='tmux kill-session ${1:+-t $1}';
+alias tmux="tmux -2";
+alias vim="nvim";
+alias swap="sudo swapon /dev/sda2";
+
+# Custom Alias Functions
+cdl() { cd "$@"; ls -Al; }
+sudo() {
+    if [[ $1 == "vim" ]] || [[ $1 == "nvim" ]]; then
+        command sudo -E nvim "${@:2}"
+    else
+        command sudo "$@"
+    fi
+}
+
+# Set Environment variables
+export EDITOR="vim"
+
+# Check if readlink command exists
+command -v readlink >/dev/null && rlExists=1 || { echo "readlink command not found. some files will not be sourced"; rlExists=0; }
+
+if [ $rlExists == 1 ]; then
+    bashloc=`readlink ~/.bashrc`
+    bashloc=${bashloc%/*}
+
+    # Set Directory Colors
+    eval "$(dircolors ${bashloc}/dircolors)";
+
+    # Source theme for Bash (Gruvbox)
+    if [ -f ${bashloc}/theme.sh ]; then
+        source ${bashloc}/theme.sh
+    fi
+fi
+
+# Start Bash with TMUX
+if command -v tmux>/dev/null;
+then
+    [[ ! $TERM =~ screen ]] && [ -z $TMUX ] && exec tmux;
+fi
