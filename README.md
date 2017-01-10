@@ -14,25 +14,25 @@ Like a lot of people, I keep all my dotfiles in a separate folder, and create sy
 Creating and maintaining dotfiles is an endless torture, so here is a small todo-list for myself
 
 ### Vim
-	#### Settings
-	    - Use std completion
-	        + [ ] automatic popup after X letters are typed and there are less then Y possible completions
-	        + [ ] ctrl-x = toggle completion mode
+#### Settings
+	- Use std completion
+		+ [ ] automatic popup after X letters are typed and there are less then Y possible completions
+		+ [ ] ctrl-x = toggle completion mode
 	        + [ ] ctrl-p/f/... stay in completion mode
-	#### FileType Specific
-	##### Markdown
-			- Change md syntax
-					+ [ ] # be yellow
-	##### C
-			- Remove angle brackets from ClosePair.vim
+#### FileType Specific
+##### Markdown
+	- Change md syntax
+		+ [ ] # be yellow
+##### C
+	- Remove angle brackets from ClosePair.vim
 
 ### Tmux
-	#### Settings
-	    - Customize powerline
-	#### Packages
-	    - Tmuxinator (or other session saver)
-	### Patch Font
-	    - patch with indentLines
+#### Settings
+	- Customize powerline
+#### Packages
+	- Tmuxinator (or other session saver)
+### Patch Font
+	- patch with indentLines
 
 ### Random  
-  * Fix documents created in Linux -> chmod
+	- Fix documents created in Linux -> chmod
