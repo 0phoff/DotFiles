@@ -8,7 +8,7 @@
 "
 "  Colored Devicons Script : Make Devicons Colorful
 "  By 0phoff
-"  Version 1.1
+"  Version 2.0
 "
 " --------------------------------------------------------------------------------------------------
 "
