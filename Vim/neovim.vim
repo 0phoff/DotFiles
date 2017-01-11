@@ -12,7 +12,7 @@
 "
 "  Neovim config file
 "  By 0phoff
-"  Version 2.2
+"  Version 2.3
 "
 " ---------------------------------------------------------------------------------------------------------------
 
@@ -112,6 +112,14 @@ let g:lightline = {
     \                 [''],
     \                 ['filetype', 'projectPath', 'rootDir'] ]
     \ },
+    \ 'component': {
+    \   'mode': '%{&filetype!="nerdtree"?lightline#mode():""}',
+    \   'filetype': '%{&filetype!="nerdtree" && expand("%:t")!="[denite]"?&filetype:""}'
+    \ },
+    \ 'component_visible_condition': {
+    \   'mode': '(&filetype!="nerdtree")',
+    \   'filetype': '(&filetype!="nerdtree" && expand("%:t")!="[denite]")'
+    \ },
     \ 'component_expand': {
     \   'filenameMod': 'LLfilenameMod'
     \ },
@@ -124,16 +132,29 @@ let g:lightline = {
     \ 'subseparator': { 'left': '', 'right': '' }
     \ }
     function! LLfilenameMod()   "{{{
-        return ColDevicons_ColoredLLText('', WebDevIconsGetFileTypeSymbol(), LLfile())
+        return ColDevicons_ColoredLLText('', 'WebDevIconsGetFileTypeSymbol()', 'LLfile()')
     endfunction                 "}}}
     function! LLfile()          "{{{
-        if &filetype ==# 'nerdtree' || &filetype ==# '[denite]'
-            return ''
+        if &filetype ==? 'nerdtree'
+            return 'NERD'
+        elseif expand('%:t') ==? '[denite]'
+            return 'DENITE'
         else
-            return ('' != expand('%:t') ? expand('%:t').LLtype() : '[No Name]')
+            if &readonly || !&modifiable
+                let fileMod = ' '
+            elseif &modified
+                let fileMod = ' +'
+            else
+                let fileMod = ''
+            endif
+            return ('' != expand('%:t') ? expand('%:t') . fileMod : '[No Name]')
         endif
     endfunction                 "}}}
     function! LLpath()          "{{{
+        if &filetype ==? 'nerdtree' || expand('%:t') ==? '[denite]'
+            return ''
+        endif
+
         let pwd = getcwd()
         let fileDir = expand('%:p:h')
         let i = match(fileDir, pwd)
@@ -151,6 +172,10 @@ let g:lightline = {
         endif
     endfunction                 "}}}
     function! LLroot()          "{{{
+        if &filetype ==? 'nerdtree' || expand('%:t') ==? '[denite]'
+            return ''
+        endif
+
         if winwidth(0) > 95
             return split(getcwd(), '/')[-1]
         else
@@ -159,15 +184,6 @@ let g:lightline = {
     endfunction                 "}}}
     function! LLline()          "{{{
         return line(".") . ''
-    endfunction                 "}}}
-    function! LLtype()          "{{{
-        if &readonly || !&modifiable
-            return ' '
-        elseif &modified
-            return ' +'
-        else
-            return ''
-        endif
     endfunction                 "}}}
 
 " Colored Devicons

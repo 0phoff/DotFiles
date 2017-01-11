@@ -8,7 +8,7 @@
 "
 "  Colored Devicons Script : Make Devicons Colorful
 "  By 0phoff
-"  Version 2.0
+"  Version 2.1
 "
 " --------------------------------------------------------------------------------------------------
 "
@@ -98,10 +98,13 @@ function! ColDevicons_init()
     endfor
 endfunction
 
-function! ColDevicons_ColoredLLText(pre, colored, post) " Arguments : text before colored part, colored text, text after colored part
+function! ColDevicons_ColoredLLText(pre, colored, post) " Arguments : string with function names that return text before colored part, colored part, after colored part
     let colors = keys(g:coldevicons_iconmap)
-    let artifactFix = "\u00A0"
-    let icon = substitute(WebDevIconsGetFileTypeSymbol(), artifactFix, '', '')
+    let icon = substitute(WebDevIconsGetFileTypeSymbol(), "\u00A0", '', '')
+
+    let pre =       (a:pre ==# '')      ? '' : '%{'.a:pre.'}'
+    let colored =   (a:colored ==# '')  ? '' : '%{'.a:colored.'}'
+    let post =      (a:post ==# '')     ? '' : '%{'.a:post.'}'
 
     for color in colors
         let index = index(g:coldevicons_iconmap[color], icon)
@@ -111,9 +114,9 @@ function! ColDevicons_ColoredLLText(pre, colored, post) " Arguments : text befor
     endfor
 
     if index == -1
-        return substitute(a:pre.a:colored.a:post,'%','%%','g')
+        return pre . colored . post
     else
-        return substitute(a:pre,'%','%%','g') . '%#coldeviconsLL'.color.'#' . substitute(a:colored,'%','%%','g') . '%#Lightline'.g:coldevicons_LLComponent[0].'_active_'.g:coldevicons_LLComponent[1].'#' . substitute(a:post,'%','%%','g')
+        return pre . '%#coldeviconsLL'.color.'#' . colored . '%#Lightline'.g:coldevicons_LLComponent[0].'_active_'.g:coldevicons_LLComponent[1].'#' . post
     endif
 endfunction
 
