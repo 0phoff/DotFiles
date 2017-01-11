@@ -53,6 +53,11 @@ endfor
 set bg=dark
 colorscheme gruvbox
 
+" Indetline
+let g:indentLine_char = ''
+let g:indentLine_concealcursor = 'inc'
+let g:indentLine_conceallevel = 1
+
 " Atags
 " TODO
 

@@ -19,11 +19,10 @@ Creating and maintaining dotfiles is an endless torture, so here is a small todo
 		+ [ ] automatic popup after X letters are typed and there are less then Y possible completions
 		+ [ ] ctrl-x = toggle completion mode
 		+ [ ] ctrl-p/f/... stay in completion mode
-	- patch font with indentLines
 ##### Markdown
 	- Change md syntax
 		+ [ ] # be yellow
-##### C
+##### C/C++
 	- Remove angle brackets from ClosePair.vim
 
 ### Tmux
@@ -34,3 +33,4 @@ Creating and maintaining dotfiles is an endless torture, so here is a small todo
 
 ### Random  
 	- Fix documents created in Linux -> chmod
+
