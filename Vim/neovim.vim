@@ -23,8 +23,8 @@ let emmetFiles = ["html","xhtml","xml","xaml","xsd","xsl","css","less","scss","s
 " Internal Plugins
 filetype plugin indent on                           " filetype plugin
 
-" External Plugins
 call plug#begin()
+    " External Plugins
     Plug 'christoomey/vim-tmux-navigator'           " Use ctrl-hjkl to navigate vim & tmux
     Plug 'Yggdroot/indentLine'                      " Indentation lines
     Plug 'fntlnz/atags.vim'                         " Async Ctags generation
@@ -37,12 +37,11 @@ call plug#begin()
     Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}                            " Project tree viewer
     Plug 'Shougo/Denite.nvim', {'on': 'Denite', 'do': ':UpdateRemotePlugins' }      " Project Fuzzy Finder
     autocmd! User Denite.nvim call s:DeniteMappings()
-call plug#end()
 
-" Custom Plugins
-for scriptfile in split(globpath("~/.config/nvim/scripts", "*.vim"), '\n')
-    execute('source '.scriptfile)
-endfor
+    " Custom Plugins
+    Plug '~/.config/nvim/scripts/ClosePair'
+    Plug '~/.config/nvim/scripts/ColDevicons'
+call plug#end()
 
 " ----------------------}}}
 
@@ -53,13 +52,10 @@ endfor
 set bg=dark
 colorscheme gruvbox
 
-" Indetline
+" Indentline
 let g:indentLine_char = ''
 let g:indentLine_concealcursor = 'inc'
 let g:indentLine_conceallevel = 1
-
-" Atags
-" TODO
 
 " NerdTree
 nnoremap <silent> <Leader>t :NERDTreeToggle<CR>
@@ -71,8 +67,8 @@ let g:NERDTreeHighlightFolders = 1
 let g:WebDevIconsNerdTreeAfterGlyphPadding = ''
 
 " Denite
-nnoremap <silent> <Leader>f :Denite -auto-resize -no-statusline -cursor-wrap file_rec<CR>
-nnoremap <silent> <Leader>g :Denite -auto-resize -no-statusline -cursor-wrap grep<CR>
+nnoremap <silent> <Leader>ff :Denite -auto-resize -no-statusline -cursor-wrap file_rec<CR>
+nnoremap <silent> <Leader>fg :Denite -auto-resize -no-statusline -cursor-wrap grep<CR>
 highlight! link deniteMatchedChar CursorLineNr
 highlight! link deniteMatched Identifier
 augroup Denite
@@ -205,6 +201,9 @@ let g:coldevicons_filetypes = 'nerdtree,denite'
     nnoremap <Leader><Space> za
     nnoremap <silent> <Leader>h :nohlsearch <CR>
 
+    " Get rid of accidental Ex Mode -> Use gQ if really wanted
+    nnoremap Q <nop>
+
     " JK move through line wraps in stead of real lines (except when X[j,k] is used)
     nnoremap <expr> j v:count ? 'j':'gj' 
     nnoremap <expr> k v:count ? 'k':'gk'
@@ -230,7 +229,6 @@ let g:coldevicons_filetypes = 'nerdtree,denite'
     " Delete with X -> black hole register
     nnoremap x "_x
     vnoremap x "_x
-
 
 " Function keybinds
     inoremap <silent><expr><BS> BS()
@@ -259,10 +257,10 @@ let g:coldevicons_filetypes = 'nerdtree,denite'
 
     imap <silent><expr> <C-e> Ctrle()
         function! Ctrle() "{{{
-            if neosnippet#expandable_or_jumpable()
-                return "\<plug>(neosnippet_expand_or_jump)"
-            elseif emmet#isExpandable()
+            if emmet#isExpandable()
                 return "\<plug>(emmet-expand-abbr)"
+            else
+                return "\<plug>(emmet-move-next)"
             endif
         endfunction         "}}}
 
@@ -273,13 +271,11 @@ let g:coldevicons_filetypes = 'nerdtree,denite'
 
 " TEMPORARY
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1                         " Change Cursor Shape Depending on Mode -> syntax will change in future
-"autocmd VimLeave * call system('printf "\e[3 q" > $(tty)')  " Reset cursor shape to underscore in Terminal -> Doesnt work
 
 " Highlight current line number of current buffer
 hi CursorLine NONE
 hi CursorLineNR cterm=bold ctermbg=NONE guibg=NONE
 
-" Basics
 set history=250             " Increase history
 set encoding=utf-8          " Set encoding
 set spelllang=en            " Set default spelllang
@@ -322,6 +318,10 @@ set softtabstop=-1          " when entering tab -> #shiftwidth spaces are insert
 set shiftwidth=4
 set expandtab               " Expand tab to spaces
 set autoindent              " Auto indent code
+
+set path=.,**               " Search down into subfolders
+set wildmenu                " Display all matching files when tabbing
+set completeopt=menu        " Set completion to only show popup menu & not preview scratch buffer
 
 " ----------------------}}}
 
