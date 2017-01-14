@@ -4,6 +4,9 @@
 let g:tex_flavor = "latex"
 let g:tex_conceal = "" 
 
+" Disable IndentLine -> messes up conceallevel
+IndentLinesDisable
+
 " Random Settings
 setlocal foldmethod=syntax
 setlocal lazyredraw
@@ -14,6 +17,3 @@ setlocal conceallevel=0
 setlocal shiftwidth=2
 setlocal tabstop=2
 setlocal noexpandtab
-
-" Disable IndentLine -> messes up conceallevel
-IndentLinesDisable
