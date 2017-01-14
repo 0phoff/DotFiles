@@ -38,7 +38,7 @@ fi
 if [ ! -d $PWD ]; then
     PWD=$(pwd)
 fi
-tmux setenv -g PWD $PWD
+tmux setenv PWD $PWD
 LAYOUT=${@:$OPTIND:1}
 
 # Create new window if targetWindow is not current
