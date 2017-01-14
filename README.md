@@ -4,7 +4,7 @@ Feel free to look around, copy and redistribute at your own will!
 I would not recomend blindly taking over my dotfiles, as they contain quite a lot of aliasses, vim mappings, etc. It is always better to build your own dotfiles!
 
 ## Different Files Explained
-Like a lot of people, I keep all my dotfiles in a separate folder, and create symlink at the places where they should be.  
+Like a lot of people, I keep all my dotfiles in a separate folder, and create symlinks at the places where they should be.  
 
 	- Bash/ : In this directory you can find my bashrc as well as other scripts I source or link to /usr/local/bin
 	- Tmux/ : This folder contains my tmux configuration
@@ -16,9 +16,7 @@ Creating and maintaining dotfiles is an endless torture, so here is a small todo
 ### Vim
 ##### Settings
 	- Use std completion
-		+ [ ] automatic popup after X letters are typed and there are less then Y possible completions
-		+ [ ] ctrl-x = toggle completion mode
-		+ [ ] ctrl-p/f/... stay in completion mode
+		+ [ ] Upon entering completion mode (^x), print msg with possible shortcuts
 ##### Markdown
 	- Change md syntax
 		+ [ ] # be yellow
@@ -26,11 +24,5 @@ Creating and maintaining dotfiles is an endless torture, so here is a small todo
 	- Remove angle brackets from ClosePair.vim
 
 ### Tmux
-##### Settings
-	- Customize powerline
-##### Packages
-	- Tmuxinator (or other session saver)
-
-### Random  
-	- Fix documents created in Linux -> chmod
-
+  - tmuxCreator script
+    + [ ] if targetwindow is current -> clear all splits but current -> rebuild splits here
