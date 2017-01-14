@@ -22,7 +22,3 @@ Creating and maintaining dotfiles is an endless torture, so here is a small todo
 		+ [ ] # be yellow
 ##### C/C++
 	- Remove angle brackets from ClosePair.vim
-
-### Tmux
-  - tmuxCreator script
-    + [ ] if targetwindow is current -> clear all splits but current -> rebuild splits here
