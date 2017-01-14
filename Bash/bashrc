@@ -1,19 +1,18 @@
 # Set Prompt
-PS1='\[\033[01;32m\]\u\[\033[00m\] @ \[\033[01;34m\]\w\[\033[00m\]\n\$ ';
+PS1="\[\033[01;32m\]\u\[\033[00m\] @ \[\033[01;34m\]\w\[\033[00m\]\n\$ ";
 
 # Set Custom Aliases
 alias rt='cd;clear';
-alias x='exit';
-alias c='clear';
 alias ls='ls --color';
 alias ll='ls -Al';
-alias tks='tmux kill-session ${1:+-t $1}';
-alias tmux="tmux -2";
 alias vim="nvim";
 alias swap="sudo swapon /dev/sda2";
 
+alias tks='tmux kill-session ${1:+-t $1}';
+alias tmux="tmux -2";
+alias tpwd="tmux setenv -g PWD \$PWD"
+
 # Custom Alias Functions
-cdl() { cd "$@"; ls -Al; }
 sudo() {
     if [[ $1 == "vim" ]] || [[ $1 == "nvim" ]]; then
         command sudo -E nvim "${@:2}"
@@ -21,6 +20,11 @@ sudo() {
         command sudo "$@"
     fi
 }
+mycd() {
+  \cd "$@"
+  [ -n "$TMUX" ] && tmux set-environment -g PWD "$PWD"
+}
+alias cd=mycd
 
 # Set Environment variables
 export EDITOR="vim"

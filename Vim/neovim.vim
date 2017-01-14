@@ -33,10 +33,9 @@ call plug#begin()
     Plug 'shinchu/lightline-gruvbox.vim'            " Colortheme for lightline
     Plug 'ryanoasis/vim-devicons'                   " Pretty File Icons
 
+    Plug 'Shougo/Denite.nvim', {'do': ':UpdateRemotePlugins' }                      " Project Fuzzy Finder
     Plug 'mattn/emmet-vim', {'for': emmetFiles}                                     " Emmet fast html-tag creation
     Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}                            " Project tree viewer
-    Plug 'Shougo/Denite.nvim', {'on': 'Denite', 'do': ':UpdateRemotePlugins' }      " Project Fuzzy Finder
-    autocmd! User Denite.nvim call s:DeniteMappings()
 
     " Custom Plugins
     Plug '~/.config/nvim/scripts/ClosePair'
@@ -70,7 +69,23 @@ let g:WebDevIconsNerdTreeAfterGlyphPadding = ''
 nnoremap <silent> <Leader>ff :Denite -auto-resize -no-statusline -cursor-wrap file_rec<CR>
 nnoremap <silent> <Leader>fg :Denite -auto-resize -no-statusline -cursor-wrap grep<CR>
 highlight! link deniteMatchedChar CursorLineNr
-highlight! link deniteMatched Identifier
+highlight! link deniteMatchedRange Identifier
+call denite#custom#source('file_rec', 'converters', ['converter_devicons'])
+call denite#custom#map('insert', '<C-n>', '<denite:move_to_next_line>'      , 'noremap')
+call denite#custom#map('insert', '<C-p>', '<denite:move_to_previous_line>'  , 'noremap')
+call denite#custom#map('insert', '<C-e>', '<denite:do_action:switch>'       , 'noremap')
+call denite#custom#map('insert', '<C-t>', '<denite:do_action:tabswitch>'    , 'noremap')
+call denite#custom#map('insert', '<C-h>', '<denite:do_action:splitswitch>'  , 'noremap')
+call denite#custom#map('insert', '<C-v>', '<denite:do_action:vsplitswitch>' , 'noremap')
+call denite#custom#map('insert', 'jj'   , '<denite:enter_mode:normal>'      , 'noremap')
+call denite#custom#map('insert', 'ZZ'   , '<denite:quit>'                   , 'noremap')
+call denite#custom#map('normal', 'n'    , '<denite:move_to_next_line>'      , 'noremap')
+call denite#custom#map('normal', 'p'    , '<denite:move_to_previous_line>'  , 'noremap')
+call denite#custom#map('normal', 'e'    , '<denite:do_action:switch>'       , 'noremap')
+call denite#custom#map('normal', 't'    , '<denite:do_action:tabswitch>'    , 'noremap')
+call denite#custom#map('normal', 'h'    , '<denite:do_action:splitswitch>'  , 'noremap')
+call denite#custom#map('normal', 'v'    , '<denite:do_action:vsplitswitch>' , 'noremap')
+call denite#custom#map('normal', 'ZZ'   , '<denite:quit>'                   , 'noremap')
 augroup Denite
     autocmd!
     autocmd BufEnter,BufWinEnter \[denite\]* :call s:DeniteEnter()
@@ -82,24 +97,6 @@ augroup END
     function! s:DeniteLeave()   "{{{
         highlight! CursorLine NONE
     endfunction                 "}}}
-    function! s:DeniteMappings()    "{{{
-        call denite#custom#map('insert', '<C-n>', '<denite:move_to_next_line>'      , 'noremap')
-        call denite#custom#map('insert', '<C-p>', '<denite:move_to_previous_line>'  , 'noremap')
-        call denite#custom#map('insert', '<C-e>', '<denite:do_action:switch>'       , 'noremap')
-        call denite#custom#map('insert', '<C-t>', '<denite:do_action:tabswitch>'    , 'noremap')
-        call denite#custom#map('insert', '<C-h>', '<denite:do_action:splitswitch>'  , 'noremap')
-        call denite#custom#map('insert', '<C-v>', '<denite:do_action:vsplitswitch>' , 'noremap')
-        call denite#custom#map('insert', 'jj'   , '<denite:enter_mode:normal>'      , 'noremap')
-        call denite#custom#map('insert', 'ZZ'   , '<denite:quit>'                   , 'noremap')
-        
-        call denite#custom#map('normal', 'n'    , '<denite:move_to_next_line>'      , 'noremap')
-        call denite#custom#map('normal', 'p'    , '<denite:move_to_previous_line>'  , 'noremap')
-        call denite#custom#map('normal', 'e'    , '<denite:do_action:switch>'       , 'noremap')
-        call denite#custom#map('normal', 't'    , '<denite:do_action:tabswitch>'    , 'noremap')
-        call denite#custom#map('normal', 'h'    , '<denite:do_action:splitswitch>'  , 'noremap')
-        call denite#custom#map('normal', 'v'    , '<denite:do_action:vsplitswitch>' , 'noremap')
-        call denite#custom#map('normal', 'ZZ'   , '<denite:quit>'                   , 'noremap')
-    endfunction                     "}}}
 
 " Lightline
 set laststatus=2        " Always show statusbar
@@ -155,11 +152,9 @@ let g:lightline = {
         if &filetype ==? 'nerdtree' || expand('%:t') ==? '[denite]'
             return ''
         endif
-
         let pwd = getcwd()
         let fileDir = expand('%:p:h')
         let i = match(fileDir, pwd)
-    
         if winwidth(0) > 95
             if (i == -1)
                 return fileDir
@@ -176,7 +171,6 @@ let g:lightline = {
         if &filetype ==? 'nerdtree' || expand('%:t') ==? '[denite]'
             return ''
         endif
-
         if winwidth(0) > 95
             return split(getcwd(), '/')[-1]
         else
@@ -223,7 +217,6 @@ let g:coldevicons_filetypes = 'nerdtree,denite'
 
     " File Manipulations
     nnoremap <silent> <Leader>w :w<CR>
-    nnoremap <silent> <Leader>x :tabclose<CR>
     nnoremap <silent> <Leader>q :qa<CR>
 
     " Delete with X -> black hole register
