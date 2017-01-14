@@ -67,10 +67,12 @@ let g:WebDevIconsNerdTreeAfterGlyphPadding = ''
 
 " Denite
 nnoremap <silent> <Leader>ff :Denite -auto-resize -no-statusline -cursor-wrap file_rec<CR>
+nnoremap <silent> <Leader>fd :Denite -auto-resize -no-statusline -cursor-wrap directory_rec<CR>
 nnoremap <silent> <Leader>fg :Denite -auto-resize -no-statusline -cursor-wrap grep<CR>
 highlight! link deniteMatchedChar CursorLineNr
 highlight! link deniteMatchedRange Identifier
 call denite#custom#source('file_rec', 'converters', ['converter_devicons'])
+call denite#custom#source('directory_rec', 'converters', ['converter_devicons'])
 call denite#custom#map('insert', '<C-n>', '<denite:move_to_next_line>'      , 'noremap')
 call denite#custom#map('insert', '<C-p>', '<denite:move_to_previous_line>'  , 'noremap')
 call denite#custom#map('insert', '<C-e>', '<denite:do_action:switch>'       , 'noremap')

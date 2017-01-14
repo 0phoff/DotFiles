@@ -19,7 +19,7 @@ class Filter(Base):
     def filter(self, context):
         for candidate in context['candidates']:
             if isdir(candidate['word']):
-                candidate['word'] = ' ' + self.vim.eval('g:WebDevIconsUnicodeDecorateFolderNodesDefaultSymbol') + candidate['word']
+                candidate['word'] = ' ' + self.vim.eval('g:WebDevIconsUnicodeDecorateFolderNodesDefaultSymbol') + ' ' + candidate['word']
             elif isfile(candidate['word']):
                 candidate['word'] = ' ' + self.vim.funcs.WebDevIconsGetFileTypeSymbol(candidate['word']) + candidate['word']
         return context['candidates']
