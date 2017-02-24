@@ -19,7 +19,6 @@
 
 # Check argument
 if [ $# -le 0 ]; then
-    tmux neww -c "$PWD"
     exit 0
 fi
 
@@ -61,16 +60,16 @@ fi
 case $LAYOUT in
     
     [cC]ommand[rR]unner | [cC][rR] )
-        tmux splitw -d -v -c "#{PWD}" -l 5
+        tmux splitw -d -v -c "#{PWD}" -l 7
         ;;
 
     [bB]uild[rR]unner | [bB][rR] )
-        tmux splitw -d -h -c "#{PWD}" -p 20
+        tmux splitw -d -h -c "#{PWD}" -p 35
         ;;
 
     [dD]ev[rR]unner | [dD][rR] )
-        tmux splitw -d -h -c "#{PWD}" -p 20
-        tmux splitw -d -v -c "#{PWD}" -l 3
+        tmux splitw -d -h -c "#{PWD}" -p 30
+        tmux splitw -d -v -c "#{PWD}" -l 5
         ;;
 
 esac

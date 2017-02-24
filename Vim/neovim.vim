@@ -21,25 +21,24 @@
 let emmetFiles = ["html","xhtml","xml","xaml","xsd","xsl","css","less","scss","sass","styl","svg"]
 
 " Internal Plugins
-filetype plugin indent on                           " filetype plugin
+"filetype plugin indent on -> plug does this
 
 call plug#begin()
     " External Plugins
     Plug 'christoomey/vim-tmux-navigator'           " Use ctrl-hjkl to navigate vim & tmux
     Plug 'Yggdroot/indentLine'                      " Indentation lines
-    Plug 'fntlnz/atags.vim'                         " Async Ctags generation
+    Plug 'scrooloose/nerdtree'                      " Project tree viewer
     Plug 'itchyny/lightline.vim'                    " Lightweight and customizable statusline
     Plug 'morhetz/gruvbox'                          " Awesome Colortheme
     Plug 'shinchu/lightline-gruvbox.vim'            " Colortheme for lightline
-    Plug 'ryanoasis/vim-devicons'                   " Pretty File Icons
 
+    Plug '0phoff/vim-devicons', { 'branch': 'colors' }                              " Pretty colored file icons
     Plug 'Shougo/Denite.nvim', {'do': ':UpdateRemotePlugins' }                      " Project Fuzzy Finder
     Plug 'mattn/emmet-vim', {'for': emmetFiles}                                     " Emmet fast html-tag creation
-    Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}                            " Project tree viewer
 
     " Custom Plugins
     Plug '~/.config/nvim/scripts/ClosePair'
-    Plug '~/.config/nvim/scripts/ColDevicons'
+    "Plug '~/.config/nvim/scripts/ColDevicons'
 call plug#end()
 
 " ----------------------}}}
@@ -64,6 +63,10 @@ let g:NERDTreeMapOpenVSplit = 'v'
 let g:WebDevIconsUnicodeDecorateFolderNodes = 1
 let g:NERDTreeHighlightFolders = 1
 let g:WebDevIconsNerdTreeAfterGlyphPadding = ''
+highlight! link NERDTreeDir Identifier
+highlight! link NERDTreeOpenable NonText
+highlight! link NERDTreeClosable NonText
+highlight! link NERDTreeExecFile Normal
 
 " Denite
 nnoremap <silent> <Leader>ff :Denite -auto-resize -no-statusline -cursor-wrap file_rec<CR>
@@ -71,8 +74,6 @@ nnoremap <silent> <Leader>fd :Denite -auto-resize -no-statusline -cursor-wrap di
 nnoremap <silent> <Leader>fg :Denite -auto-resize -no-statusline -cursor-wrap grep<CR>
 highlight! link deniteMatchedChar CursorLineNr
 highlight! link deniteMatchedRange Identifier
-call denite#custom#source('file_rec', 'converters', ['converter_devicons'])
-call denite#custom#source('directory_rec', 'converters', ['converter_devicons'])
 call denite#custom#map('insert', '<C-n>', '<denite:move_to_next_line>'      , 'noremap')
 call denite#custom#map('insert', '<C-p>', '<denite:move_to_previous_line>'  , 'noremap')
 call denite#custom#map('insert', '<C-e>', '<denite:do_action:switch>'       , 'noremap')
@@ -81,12 +82,6 @@ call denite#custom#map('insert', '<C-h>', '<denite:do_action:splitswitch>'  , 'n
 call denite#custom#map('insert', '<C-v>', '<denite:do_action:vsplitswitch>' , 'noremap')
 call denite#custom#map('insert', 'jj'   , '<denite:enter_mode:normal>'      , 'noremap')
 call denite#custom#map('insert', 'ZZ'   , '<denite:quit>'                   , 'noremap')
-call denite#custom#map('normal', 'n'    , '<denite:move_to_next_line>'      , 'noremap')
-call denite#custom#map('normal', 'p'    , '<denite:move_to_previous_line>'  , 'noremap')
-call denite#custom#map('normal', 'e'    , '<denite:do_action:switch>'       , 'noremap')
-call denite#custom#map('normal', 't'    , '<denite:do_action:tabswitch>'    , 'noremap')
-call denite#custom#map('normal', 'h'    , '<denite:do_action:splitswitch>'  , 'noremap')
-call denite#custom#map('normal', 'v'    , '<denite:do_action:vsplitswitch>' , 'noremap')
 call denite#custom#map('normal', 'ZZ'   , '<denite:quit>'                   , 'noremap')
 augroup Denite
     autocmd!
@@ -132,7 +127,7 @@ let g:lightline = {
     \ 'subseparator': { 'left': '', 'right': '' }
     \ }
     function! LLfilenameMod()   "{{{
-        return ColDevicons_ColoredLLText('', 'WebDevIconsGetFileTypeSymbol()', 'LLfile()')
+        return webdevicons#ColoredLightLine('', 'WebDevIconsGetFileTypeSymbol()', 'LLfile()')
     endfunction                 "}}}
     function! LLfile()          "{{{
         if &filetype ==? 'nerdtree'
@@ -183,9 +178,6 @@ let g:lightline = {
         return line(".") . ''
     endfunction                 "}}}
 
-" Colored Devicons
-let g:coldevicons_filetypes = 'nerdtree,denite'
-
 " ----------------------}}}
 
 
@@ -219,7 +211,6 @@ let g:coldevicons_filetypes = 'nerdtree,denite'
 
     " File Manipulations
     nnoremap <silent> <Leader>w :w<CR>
-    nnoremap <silent> <Leader>q :qa<CR>
 
     " Delete with X -> black hole register
     nnoremap x "_x
@@ -308,9 +299,9 @@ set foldtext=IndFoldTxt()   " Indent Fold Text
         return indent.txt
     endfunction             "}}}
 
-set tabstop=4               " Tabs are 4 characters long
+set tabstop=2               " Tabs are 4 characters long
 set softtabstop=-1          " when entering tab -> #shiftwidth spaces are inserted
-set shiftwidth=4
+set shiftwidth=2
 set expandtab               " Expand tab to spaces
 set autoindent              " Auto indent code
 
@@ -323,7 +314,7 @@ set completeopt=menu        " Set completion to only show popup menu & not previ
 
 " Command Groups        {{{
 
-autocmd VimEnter * call ColDevicons_init()
+"autocmd VimEnter * call ColDevicons_init()
 
 " Insert Mode enter/leave
 augroup InserModeCmds
@@ -344,3 +335,4 @@ function! s:ILeave()
 endfunction
 
 " ----------------------}}}
+

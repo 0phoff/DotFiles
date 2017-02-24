@@ -91,25 +91,18 @@ function! ColDevicons_init()
         execute 'highlight! coldevicons'.color.' guifg=#'.g:coldevicons_colormap[color].' ctermfg='.s:rgb(g:coldevicons_colormap[color])
         execute 'highlight! coldeviconsLL'.color.' guifg=#'.g:coldevicons_colormap[color].' ctermfg='.s:rgb(g:coldevicons_colormap[color]).' guibg='.pal[1].' ctermbg='.pal[3]
         
-
         " Syntax Groups
         augroup coldevicons_aucmd
             execute 'autocmd FileType '.g:coldevicons_filetypes.' syntax match coldevicons'.color.' /\v'.join(g:coldevicons_iconmap[color], '|').'/ containedin=ALL'
 
             " Denite Specific
-            if match(g:coldevicons_filetypes, 'denite') >= 0
+            if match(g:coldevicons_filetypes, 'denite') >= 0 || g:coldevicons_filetypes == "*"
                 execute 'autocmd BufEnter,BufWinEnter \[denite\]* syntax match coldevicons'.color.' /\v'.join(g:coldevicons_iconmap[color], '|').'/ containedin=ALL'
             endif
         augroup END
     endfor
-endfunction
 
-function! ColDevicons_Denite()
-    let colors = keys(g:coldevicons_colormap)
-
-    for color in colors
-        execute 'syntax match coldevicons'.color.' /\v'.join(g:coldevicons_iconmap[color], '|').'/ containedin=ALL'
-    endfor
+    call lightline#update()
 endfunction
 
 function! ColDevicons_ColoredLLText(pre, colored, post) " Arguments : string with function names that return text before colored part, colored part, after colored part
