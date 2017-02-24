@@ -12,8 +12,9 @@
 # Usage: tmuxCreator [-d directory] [-t targetWindow] [-n windowName] layoutName
 # Layouts:
 #   - commandrunner [cr] : 1 main split, 1 small split at bottom to run quick commands
-#   - buildrunner   [br] : main split, with side split at right for automated tasks (make,server,exec)
-#   - devrunner     [dr] : main split, small bottom split for quick cmd, side split for automated tasks
+#   - buildrunner   [br] : 1 main split, with side split at right for automated tasks (make,server,exec)
+#   - devrunner     [dr] : 1 main split, small bottom split for quick cmd, side split for automated tasks
+#   - launchrunner  [lr] : 4 splits of equal size, used to launch and inspect tasks
 #
 #--------------------------------------------------------------------------------------------------------
 
@@ -70,6 +71,13 @@ case $LAYOUT in
     [dD]ev[rR]unner | [dD][rR] )
         tmux splitw -d -h -c "#{PWD}" -p 30
         tmux splitw -d -v -c "#{PWD}" -l 5
+        ;;
+
+    [lL]aunch[rR]unner | [lL][rR] )
+        tmux splitw -h -c "#{PWD}" -p 50
+        tmux splitw -d -v -c "#{PWD}" -p 50
+        tmux lastp
+        tmux splitw -d -v -c "#{PWD}" -p 50
         ;;
 
 esac
