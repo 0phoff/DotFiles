@@ -1,5 +1,9 @@
 #!/bin/sh
 #
+# Shamelessly stolen from : https://github.com/jc00ke/move-to-next-monitor
+# CREDITS TO : jc00ke
+# DEPENDENCIES : xdotool, wmctrl
+#
 # Move the current window to the next monitor.
 #
 # Only works on a horizontal monitor setup.
