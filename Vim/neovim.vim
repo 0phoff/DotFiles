@@ -38,7 +38,6 @@ call plug#begin()
 
     " Custom Plugins
     Plug '~/.config/nvim/scripts/ClosePair'
-    "Plug '~/.config/nvim/scripts/ColDevicons'
 call plug#end()
 
 " ----------------------}}}
@@ -74,6 +73,7 @@ nnoremap <silent> <Leader>fd :Denite -auto-resize -no-statusline -cursor-wrap di
 nnoremap <silent> <Leader>fg :Denite -auto-resize -no-statusline -cursor-wrap grep<CR>
 highlight! link deniteMatchedChar CursorLineNr
 highlight! link deniteMatchedRange Identifier
+call denite#custom#var('file_rec', 'command', ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
 call denite#custom#map('insert', '<C-n>', '<denite:move_to_next_line>'      , 'noremap')
 call denite#custom#map('insert', '<C-p>', '<denite:move_to_previous_line>'  , 'noremap')
 call denite#custom#map('insert', '<C-e>', '<denite:do_action:switch>'       , 'noremap')
