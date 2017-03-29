@@ -15,8 +15,9 @@ Creating and maintaining dotfiles is an endless torture, so here is a small todo
 
 ### Vim
 ##### Settings
-	- Use std completion
+	- Completion Mode
 		+ [ ] Upon entering completion mode (^x), print msg with possible shortcuts
+    + [ ] Enable omnicompletion functions (generate tags for c,c++,opencv,ros,...)
 ##### Markdown
 	- Change md syntax
 		+ [ ] # be yellow
