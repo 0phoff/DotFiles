@@ -81,8 +81,8 @@ function! CP_RemoveEmptyPair()
     return ClosePair#KeyMapping#RemoveEmptyPair()
 endfunction
 
-function! CP_IndentInsideCurlyBracket()
-    return ClosePair#KeyMapping#IndentInsideCurlyBracket()
+function! CP_Indent()
+    return ClosePair#KeyMapping#Indent()
 endfunction
 
 function! CP_JumpOutPair()

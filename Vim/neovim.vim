@@ -21,7 +21,6 @@
 let emmetFiles = ["html","xhtml","xml","xaml","xsd","xsl","css","less","scss","sass","styl","svg"]
 
 " Internal Plugins
-"filetype plugin indent on -> plug does this
 
 call plug#begin()
     " External Plugins
@@ -31,6 +30,7 @@ call plug#begin()
     Plug 'itchyny/lightline.vim'                    " Lightweight and customizable statusline
     Plug 'morhetz/gruvbox'                          " Awesome Colortheme
     Plug 'shinchu/lightline-gruvbox.vim'            " Colortheme for lightline
+    Plug 'sheerun/vim-polyglot'                     " Language pack
 
     Plug '0phoff/vim-devicons', { 'branch': 'colors' }                              " Pretty colored file icons
     Plug 'Shougo/Denite.nvim', {'do': ':UpdateRemotePlugins' }                      " Project Fuzzy Finder
@@ -211,13 +211,14 @@ let g:lightline = {
 
     " File Manipulations
     nnoremap <silent> <Leader>w :w<CR>
+    nnoremap <silent> QQ :q!<CR>
 
     " Delete with X -> black hole register
     nnoremap x "_x
     vnoremap x "_x
 
 " Function keybinds
-    inoremap <silent><expr><BS> BS()
+    inoremap <silent><expr> <BS> BS()
         function! BS()    "{{{
             let val = CP_RemoveEmptyPair()
             if val ==# ""
@@ -229,7 +230,7 @@ let g:lightline = {
     
     inoremap <silent><expr> <CR> CR()
         function! CR()    "{{{
-            let val = CP_IndentInsideCurlyBracket()
+            let val = CP_Indent()
             if pumvisible()
                 return "\<C-y>"
             elseif val ==# ""
@@ -249,6 +250,12 @@ let g:lightline = {
                 return "\<plug>(emmet-move-next)"
             endif
         endfunction         "}}}
+
+    inoremap <expr> <C-x> FullCompletion()
+        function! FullCompletion()  "{{{
+          echo "Completion: ^L_line ^N_file ^K_dictionary ^T_thesaurus ^I_included ^]_tags ^F_files ^D_definitions ^V_vimcommand ^U_userdef ^O_omni s_spell"
+          return "\<C-x>"
+        endfunction                 "}}}
 
 " ----------------------}}}
 

@@ -28,14 +28,24 @@ function! ClosePair#KeyMapping#RemoveEmptyPair()
     return ""
 endfunction
 
-function! ClosePair#KeyMapping#IndentInsideCurlyBracket()
+function! ClosePair#KeyMapping#Indent()
     let prev = matchstr(getline('.'), '\%' . (col('.')-1) . 'c.')
     let next = matchstr(getline('.'), '\%' . (col('.')) . 'c.')
 
-    if prev == '{' && next == '}'
+    for p in b:CP_Pairs
+      if prev == p[0] && next == p[1]
         return "\<CR>\<CR>\<UP>\<RIGHT>\<TAB>"
+      endif
+
+      if p[0] == "<"
+        let angleBrackets = 1
+      endif
+    endfor
+
+    if exists("angleBrackets") && prev == ">" && next == "<"
+      return "\<CR>\<CR>\<UP>\<RIGHT>\<TAB>"
     else
-        return ""
+      return ""
     endif
 endfunction
 

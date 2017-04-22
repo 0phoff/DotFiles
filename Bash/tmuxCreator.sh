@@ -49,7 +49,9 @@ if [[ -v TARGET ]]; then
         if [[ -v NAME ]]; then
             tmux renamew ${NAME:3}
         fi
-        GOTOPATH=$PWD
+        if [[ "$PWD" != "$(pwd)" ]]; then
+            GOTOPATH=$PWD
+        fi
     else
         tmux neww -k -t ${TARGET} ${NAME} -c "#{PWD}"
     fi
