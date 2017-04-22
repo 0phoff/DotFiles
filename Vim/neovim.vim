@@ -244,11 +244,16 @@ let g:lightline = {
 
     imap <silent><expr> <C-e> Ctrle()
         function! Ctrle() "{{{
+          if (match(&ft, join(g:emmetFiles, '\|')) != -1)
             if emmet#isExpandable()
                 return "\<plug>(emmet-expand-abbr)"
             else
                 return "\<plug>(emmet-move-next)"
             endif
+          else
+            echo "fail"
+            return ""
+          endif
         endfunction         "}}}
 
     inoremap <expr> <C-x> FullCompletion()
