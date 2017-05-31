@@ -1,4 +1,5 @@
-" Markdown Specific Settings
+" Markdown Settings
+if exists('b:did_ftplugin') | finish | endif
 
 setlocal shiftwidth=2
 setlocal tabstop=2
@@ -15,3 +16,6 @@ function! MarkdownLevel()
         return ">" . len(h)
     endif
 endfunction
+
+" Settings loaded buffer flag
+let b:did_ftplugin = 1

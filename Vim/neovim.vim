@@ -23,21 +23,35 @@ let emmetFiles = ["html","xhtml","xml","xaml","xsd","xsl","css","less","scss","s
 " Internal Plugins
 
 call plug#begin()
-    " External Plugins
-    Plug 'christoomey/vim-tmux-navigator'           " Use ctrl-hjkl to navigate vim & tmux
-    Plug 'Yggdroot/indentLine'                      " Indentation lines
-    Plug 'scrooloose/nerdtree'                      " Project tree viewer
-    Plug 'itchyny/lightline.vim'                    " Lightweight and customizable statusline
-    Plug 'morhetz/gruvbox'                          " Awesome Colortheme
-    Plug 'shinchu/lightline-gruvbox.vim'            " Colortheme for lightline
-    Plug 'sheerun/vim-polyglot'                     " Language pack
+    " Syntax Plugins
+    Plug 'octol/vim-cpp-enhanced-highlight'                         " C++ 11/14/17
+    Plug 'petRUShka/vim-opencl'                                     " OpenCL
+    Plug 'othree/html5.vim', {'for': 'html'}                        " Html 5
+    Plug 'JulesWang/css.vim', {'for': ['css','styl','scss','less']} " Css
+    Plug 'wavded/vim-stylus', {'for': 'styl'}                       " Stylus
+    Plug 'pangloss/vim-javascript', {'for': 'javascript'}           " Js
+    Plug 'elzr/vim-json',{'for': 'json'}                            " Json
+    Plug 'stephpy/vim-yaml', {'for': 'yaml'}                        " Yaml
+    Plug 'kurayama/systemd-vim-syntax'                              " Systemd
+    Plug 'keith/tmux.vim'                                           " Tmux
 
-    Plug '0phoff/vim-devicons', { 'branch': 'colors' }                              " Pretty colored file icons
-    Plug 'Shougo/Denite.nvim', {'do': ':UpdateRemotePlugins' }                      " Project Fuzzy Finder
-    Plug 'mattn/emmet-vim', {'for': emmetFiles}                                     " Emmet fast html-tag creation
+    "Plug 'fatih/vim-go'                                             " GO
+
+    " Functional Plugins
+    Plug 'scrooloose/nerdtree'                                      " Project tree viewer
+    Plug 'Shougo/Denite.nvim', {'do': ':UpdateRemotePlugins' }      " Project Fuzzy Finder
+    Plug 'christoomey/vim-tmux-navigator'                           " Use ctrl-hjkl to navigate vim & tmux
+    Plug 'mattn/emmet-vim', {'for': emmetFiles}                     " Emmet fast html-tag creation
+
+    " Visual Plugins
+    Plug 'itchyny/lightline.vim'                                    " Lightweight and customizable statusline
+    Plug 'morhetz/gruvbox'                                          " Awesome Colortheme
+    Plug 'shinchu/lightline-gruvbox.vim'                            " Colortheme for lightline
+    Plug 'ryanoasis/vim-devicons'                                   " Fancy Icons
 
     " Custom Plugins
     Plug '~/.config/nvim/scripts/ClosePair'
+    Plug '~/.config/nvim/scripts/ColDevicons'
 call plug#end()
 
 " ----------------------}}}
@@ -45,14 +59,12 @@ call plug#end()
 
 " Plugin Settings       {{{
 
+" Json
+let g:vim_json_syntax_conceal = 0
+
 " Gruvbox
 set bg=dark
 colorscheme gruvbox
-
-" Indentline
-let g:indentLine_char = ''
-let g:indentLine_concealcursor = 'inc'
-let g:indentLine_conceallevel = 1
 
 " NerdTree
 nnoremap <silent> <Leader>t :NERDTreeToggle<CR>
@@ -69,11 +81,14 @@ highlight! link NERDTreeExecFile Normal
 
 " Denite
 nnoremap <silent> <Leader>ff :Denite -auto-resize -no-statusline -cursor-wrap file_rec<CR>
+"nnoremap <silent> <Leader>fa :Denite -auto-resize -no-statusline -cursor-wrap file<CR>
 nnoremap <silent> <Leader>fd :Denite -auto-resize -no-statusline -cursor-wrap directory_rec<CR>
 nnoremap <silent> <Leader>fg :Denite -auto-resize -no-statusline -cursor-wrap grep<CR>
 highlight! link deniteMatchedChar CursorLineNr
 highlight! link deniteMatchedRange Identifier
-call denite#custom#var('file_rec', 'command', ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
+call denite#custom#var('file_rec', 'command', ['ag', '--follow', '--nocolor', '--nogroup', '--ignore=*.jpg', '--ignore=*.png', '--ignore=*.bmp', '--ignore=*.gif', '--ignore=*.webp', '--ignore=*.pdf', '--ignore=*.eps', '--ignore=*.svg', '--ignore=*.mp4', '--ignore=*.avi', '--ignore=*.mov', '--ignore=*.mkv', '--ignore=*.webm', '-g', ''])
+"call denite#custom#var('file', 'command', ['ag', '-r', '--follow', '--nocolor', '--nogroup', '-u', '-g', ''])
+"call denite#custom#source('file', 'converters', ['devicons_denite_converter'])
 call denite#custom#map('insert', '<C-n>', '<denite:move_to_next_line>'      , 'noremap')
 call denite#custom#map('insert', '<C-p>', '<denite:move_to_previous_line>'  , 'noremap')
 call denite#custom#map('insert', '<C-e>', '<denite:do_action:switch>'       , 'noremap')
@@ -127,7 +142,7 @@ let g:lightline = {
     \ 'subseparator': { 'left': '', 'right': '' }
     \ }
     function! LLfilenameMod()   "{{{
-        return webdevicons#ColoredLightLine('', 'WebDevIconsGetFileTypeSymbol()', 'LLfile()')
+        return ColDevicons_ColoredLLText('', 'WebDevIconsGetFileTypeSymbol()', 'LLfile()')
     endfunction                 "}}}
     function! LLfile()          "{{{
         if &filetype ==? 'nerdtree'
@@ -212,6 +227,7 @@ let g:lightline = {
     " File Manipulations
     nnoremap <silent> <Leader>w :w<CR>
     nnoremap <silent> QQ :q!<CR>
+    nnoremap <silent> <Leader>q mx:w\|%bd\|e#<CR>`x:delmarks x<CR>
 
     " Delete with X -> black hole register
     nnoremap x "_x

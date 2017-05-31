@@ -31,42 +31,42 @@ endif
 
 if !exists('g:coldevicons_colormap')    " Colormap containing name for color and RRGGBB hex values
     let g:coldevicons_colormap = {
-        \'Brown'        : '905532',
-        \'Aqua'         : '3AFFDB',
-        \'Blue'         : '689FB6',
-        \'Darkblue'     : '44788E',
-        \'Purple'       : '834F79',
-        \'Red'          : 'AE403F',
-        \'Beige'        : 'F5C06F',
-        \'Yellow'       : 'F09F17',
-        \'Orange'       : 'D4843E',
-        \'Darkorange'   : 'F16529',
-        \'Pink'         : 'CB6F6F',
-        \'Salmon'       : 'EE6E73',
-        \'Green'        : '8FAA54',
-        \'Lightgreen'   : '31B53E',
-        \'White'        : 'FFFFFF'
-    \}
+      \'Brown'        : '905532',
+      \'Aqua'         : '3AFFDB',
+      \'Blue'         : '689FB6',
+      \'Darkblue'     : '44788E',
+      \'Purple'       : '834F79',
+      \'Red'          : 'AE403F',
+      \'Beige'        : 'F5C06F',
+      \'Yellow'       : 'F09F17',
+      \'Orange'       : 'D4843E',
+      \'Darkorange'   : 'F16529',
+      \'Pink'         : 'CB6F6F',
+      \'Salmon'       : 'EE6E73',
+      \'Green'        : '8FAA54',
+      \'Lightgreen'   : '31B53E',
+      \'White'        : 'FFFFFF'
+      \}
 endif
 
 if !exists('g:coldevicons_iconmap')     " Iconmap mapping colors to the Symbols [default unused symbols : , , ]
     let g:coldevicons_iconmap = {
-        \'Brown'        : [''],
-        \'Aqua'         : [''],
-        \'Blue'         : ['','','','','','','','','','',''],
-        \'Darkblue'     : ['',''],
-        \'Purple'       : ['','','','','',''],
-        \'Red'          : ['','','','','',''],
-        \'Beige'        : ['','','',''],
-        \'Yellow'       : ['','','λ','',''],
-        \'Orange'       : [''],
-        \'Darkorange'   : ['','','','',''],
-        \'Pink'         : ['',''],
-        \'Salmon'       : [''],
-        \'Green'        : ['','','','',''],
-        \'Lightgreen'   : ['',''],
-        \'White'        : ['','','','','','']
-    \}                                                       
+      \'Brown'        : [''],
+      \'Aqua'         : [''],
+      \'Blue'         : ['','','','','','','','','','',''],
+      \'Darkblue'     : ['',''],
+      \'Purple'       : ['','','','','',''],
+      \'Red'          : ['','','','','',''],
+      \'Beige'        : ['','','',''],
+      \'Yellow'       : ['','','λ','',''],
+      \'Orange'       : [''],
+      \'Darkorange'   : ['','','','',''],
+      \'Pink'         : ['',''],
+      \'Salmon'       : [''],
+      \'Green'        : ['','','','',''],
+      \'Lightgreen'   : ['',''],
+      \'White'        : ['','','','','','']
+      \}
 endif
 
 " }}}
@@ -74,57 +74,83 @@ endif
 
 " Functions {{{
 
-function! ColDevicons_init()
-	let colors = keys(g:coldevicons_colormap)
-    let pal = lightline#palette()
-
-    " Get Lightline Palette ->  Default : lightline#palette['normal']['left']['1'] (default position of filename component)
-    let pal = pal['normal'][g:coldevicons_LLComponent[0]][g:coldevicons_LLComponent[1]]
-
-    " Clear Augroup
-    augroup coldevicons_aucmd
-        autocmd!
+function! s:ColDevicons_init()
+	  let colors = keys(g:coldevicons_colormap)
+    
+    if exists('g:loaded_lightline')
+      let pal = lightline#palette()
+    endif
+    
+    let filetypes = []  " Buffers that have filetypes should be added here
+    let bufname = []    " If the buffer has no filetype, but will always have same name it can be added here
+    if exists('g:loaded_nerd_tree') && g:webdevicons_enable_nerdtree
+      call add(filetypes, "nerdtree")
+    endif
+    if exists('g:loaded_ctrlp') && g:webdevicons_enable_ctrlp
+      call add(bufname, "ControlP")
+    endif
+    if exists('g:loaded_unite') && g:webdevicons_enable_unite
+      call add(filetypes, "unite")
+    endif
+    if exists('g:loaded_denite') && g:webdevicons_enable_denite
+      call add(bufname, "\\[denite\\]")
+    endif
+    if exists('g:loaded_startify')
+      call add(filetypes, "startify")
+    endif
+    if exists("g:loaded_vimfiler") && g:webdevicons_enable_vimfiler
+      call add(filetypes, "vimfiler")
+    endif
+    let stringFiletypes = join(filetypes, ",")
+    let stringBufname = join(bufname, ",")
+    
+    augroup devicon_colors
+      au!
     augroup END
-
     for color in colors
-        " Highlight Groups
-        execute 'highlight! coldevicons'.color.' guifg=#'.g:coldevicons_colormap[color].' ctermfg='.s:rgb(g:coldevicons_colormap[color])
-        execute 'highlight! coldeviconsLL'.color.' guifg=#'.g:coldevicons_colormap[color].' ctermfg='.s:rgb(g:coldevicons_colormap[color]).' guibg='.pal[1].' ctermbg='.pal[3]
-        
-        " Syntax Groups
-        augroup coldevicons_aucmd
-            execute 'autocmd FileType '.g:coldevicons_filetypes.' syntax match coldevicons'.color.' /\v'.join(g:coldevicons_iconmap[color], '|').'/ containedin=ALL'
-
-            " Denite Specific
-            if match(g:coldevicons_filetypes, 'denite') >= 0 || g:coldevicons_filetypes == "*"
-                execute 'autocmd BufEnter,BufWinEnter \[denite\]* syntax match coldevicons'.color.' /\v'.join(g:coldevicons_iconmap[color], '|').'/ containedin=ALL'
-            endif
-        augroup END
+      execute 'highlight default coldevicons'.color.' guifg=#'.g:coldevicons_colormap[color].' ctermfg='.s:rgb(g:coldevicons_colormap[color])
+      
+      augroup devicon_colors
+        if stringFiletypes != ""
+          execute 'autocmd FileType '.stringFiletypes.' syntax match coldevicons'.color.' /\v'.join(g:coldevicons_iconmap[color], '|').'/ containedin=ALL'
+        endif
+        if stringBufname != ""
+          execute 'autocmd BufEnter,BufWinEnter '.stringBufname.' syntax match coldevicons'.color.' /\v'.join(g:coldevicons_iconmap[color], '|').'/ containedin=ALL'
+        endif
+      augroup END
+      
+      if exists("g:loaded_lightline")
+        execute 'highlight default coldeviconsLL'.color.' guifg=#'.g:coldevicons_colormap[color].' ctermfg='.s:rgb(g:coldevicons_colormap[color]).' guibg='.pal['normal'][g:coldevicons_LLComponent[0]][g:coldevicons_LLComponent[1]][1].' ctermbg='.pal['normal'][g:coldevicons_LLComponent[0]][g:coldevicons_LLComponent[1]][3]
+      endif
     endfor
+    
+    if exists('g:loaded_lightline')
+      call lightline#update()
+    endif
 
-    call lightline#update()
 endfunction
 
 function! ColDevicons_ColoredLLText(pre, colored, post) " Arguments : string with function names that return text before colored part, colored part, after colored part
-    let colors = keys(g:coldevicons_iconmap)
-    let icon = substitute(WebDevIconsGetFileTypeSymbol(), "\u00A0", '', '')
 
-    let pre =       (a:pre ==# '')      ? '' : '%{'.a:pre.'}'
-    let colored =   (a:colored ==# '')  ? '' : '%{'.a:colored.'}'
-    let post =      (a:post ==# '')     ? '' : '%{'.a:post.'}'
+  let colors = keys(g:coldevicons_iconmap)
+  let icon = substitute(WebDevIconsGetFileTypeSymbol(), "\u00A0", '', '')
 
-    for color in colors
-        let index = index(g:coldevicons_iconmap[color], icon)
-        if index != -1
-            break
-        endif
-    endfor
+  let pre =     (a:pre ==# '')      ? '' : '%{'.a:pre.'}'
+  let colored = (a:colored ==# '')  ? '' : '%{'.a:colored.'}'
+  let post =    (a:post ==# '')     ? '' : '%{'.a:post.'}'
 
-    if index == -1
-        return pre . colored . post
-    else
-        return pre . '%#coldeviconsLL'.color.'#' . colored . '%#Lightline'.g:coldevicons_LLComponent[0].'_active_'.g:coldevicons_LLComponent[1].'#' . post
+  for color in colors
+    let index = index(g:coldevicons_iconmap[color], icon)
+    if index != -1
+      break
     endif
+  endfor
+
+  if index == -1
+    return pre . colored . post
+  else
+    return pre . '%#coldeviconsLL'.color.'#' . colored . '%#Lightline'.g:coldevicons_LLComponent[0].'_active_'.g:coldevicons_LLComponent[1].'#' . post
+  endif
 endfunction
 
 " Code taken from Desert256 colorscheme    ->  call s:rgb('HEXString') to get cterm equivalent color {{{
@@ -323,5 +349,16 @@ endfunction
     endfun
 
 " }}}
+
+" }}}
+
+
+" Start Script {{{
+
+if v:vim_did_enter
+  call s:ColDevicons_init()
+else
+  au VimEnter * call s:ColDevicons_init()
+endif
 
 " }}}

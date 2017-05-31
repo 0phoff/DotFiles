@@ -15,6 +15,7 @@
 #   - buildrunner   [br] : 1 main split, with side split at right for automated tasks (make,server,exec)
 #   - devrunner     [dr] : 1 main split, small bottom split for quick cmd, side split for automated tasks
 #   - launchrunner  [lr] : 4 splits of equal size, used to launch and inspect tasks
+#   - singlerunner  [sr] : 1 pane
 #
 #--------------------------------------------------------------------------------------------------------
 
@@ -80,6 +81,9 @@ case $LAYOUT in
         tmux splitw -d -v -c "#{PWD}" -p 50
         tmux lastp
         tmux splitw -d -v -c "#{PWD}" -p 50
+        ;;
+
+    [sS]ingle[rR]unner | [sS][rR] )
         ;;
 
 esac

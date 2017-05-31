@@ -1,7 +1,6 @@
-" Tex Settings
+" LaTeX Settings
+if exists('b:did_ftplugin') | finish | endif
 
-" Tex files -> LaTeX
-let g:tex_flavor = "latex"
 let g:tex_conceal = "" 
 
 " Disable IndentLine -> messes up conceallevel
@@ -17,3 +16,6 @@ setlocal conceallevel=0
 setlocal shiftwidth=2
 setlocal tabstop=2
 setlocal noexpandtab
+
+" Settings loaded buffer flag
+let b:did_ftplugin = 1
