@@ -3,6 +3,11 @@
 #########################
 #   run: git config --global core.excludesfile 'path to global gitignore'
 
+# Personal Files #
+##################
+.TODO.md
+.startup.sh
+
 # Compiled source #
 ###################
 *.com

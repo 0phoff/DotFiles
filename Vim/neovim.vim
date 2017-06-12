@@ -64,6 +64,8 @@ let g:vim_json_syntax_conceal = 0
 
 " Gruvbox
 set bg=dark
+set termguicolors
+let g:gruvbox_italic=1
 colorscheme gruvbox
 
 " NerdTree
@@ -104,7 +106,7 @@ augroup Denite
     autocmd BufLeave \[denite\]* :call s:DeniteLeave()
 augroup END
     function! s:DeniteEnter()   "{{{
-        highlight! CursorLine ctermbg=237
+        highlight! CursorLine guibg=#3a3a3a
     endfunction                 "}}}
     function! s:DeniteLeave()   "{{{
         highlight! CursorLine NONE

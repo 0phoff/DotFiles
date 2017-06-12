@@ -1,0 +1,24 @@
+[user]
+	name = 0phoff
+	email = 0phoff@users.noreply.github.com
+[alias]
+  st = status
+  lg = log --graph --date=relative --pretty=tformat:'%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%an %ad)%Creset'
+  local-log = "!git lg @{push}.."
+  tidy = "rebase -i @{upstream}"
+[credential]
+	helper = cache
+[color]
+  ui = auto
+[core]
+	excludesfile = /home/ophoff/.gitignore
+  pager = cat
+  editor = nvim
+  whitespace = -trailing-space
+[diff]
+  mnemonicPrefix = true
+  renames = true
+  wordregex = .
+  submodule = log
+[log]
+  abbrevCommit = true

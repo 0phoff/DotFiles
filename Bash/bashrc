@@ -1,6 +1,5 @@
 # Set Prompt
 PS1=$'\e[7;32;49m\uE0B0\e[0m\e[30;42m \u \e[0m\e[32;49m\uE0B0\e[7;90;49m\uE0B0\e[0m\e[97;100m \w \e[90;49m\uE0B0\e[0m\n'
-#PS1=$'\e[7;32;49m\uE0B0\e[0m\e[30;42m \u \e[0m\e[32;49m\uE0B0\e[7;90;49m\uE0B0\e[0m\e[97;100m \w \e[90;49m\uE0B0\e[0m\n'   # Powerline, separator, light on dark
 #PS1=$'\[\033[01;32m\]\u\[\033[00m\] @ \[\033[01;34m\]\w\[\033[00m\]\n$ ';                                                  # Default
 
 # Set Prompt Command
@@ -21,7 +20,6 @@ alias top="vtop --theme wizard"
 alias mediastart="minidlnad -f /home/ophoff/.config/minidlna/minidlna.conf -P /home/ophoff/.config/minidlna/minidlna.pid"
 alias mediastop="pkill minidlnad"
 
-alias tks="tmux kill-session ${1:+-t $1}"
 alias tmux="tmux -2"
 alias tpwd="tmux setenv PWD \$PWD"
 
@@ -29,11 +27,23 @@ alias catkin_make="catkin_make -DPYTHON_EXECUTABLE=/usr/bin/python2 -DPYTHON_INC
 alias rosinit="source rosinit.sh"
 
 # Custom Alias Functions
+## Executes sudo -E for nvim so it loads with user config and not root config
+## Otherwise behaves like regular sudo command
 sudo() {
     if [[ $1 == "vim" ]] || [[ $1 == "nvim" ]]; then
         command sudo -E nvim "${@:2}"
     else
         command sudo "$@"
+    fi
+}
+## tks       => tmux kill-server
+## tks -a    => tmux kill-session -a
+## tks 1     => tmux kill-session -t 1
+tks() {
+    if [ -z ${1+x} ]; then
+        tmux kill-server
+    else
+        [ ${1:0:1} == "-" ] && tmux kill-session $1 || tmux kill-session -t $1
     fi
 }
 
