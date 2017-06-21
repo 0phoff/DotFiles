@@ -19,8 +19,8 @@
 # Default Values
 WLAN="wlp3s0"
 ETH="enp4s0f2"
-SSID="gt_AP"
-PWD="gtWins00"
+SSID="ophoff_AP"
+PWD="ophoffAP123"
 WAIT="raspberrypi"
 WAITENABLE=false
 
