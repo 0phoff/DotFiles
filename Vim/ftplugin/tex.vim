@@ -3,9 +3,6 @@ if exists('b:did_ftplugin') | finish | endif
 
 let g:tex_conceal = "" 
 
-" Disable IndentLine -> messes up conceallevel
-IndentLinesDisable
-
 " Random Settings
 setlocal foldmethod=syntax
 setlocal lazyredraw

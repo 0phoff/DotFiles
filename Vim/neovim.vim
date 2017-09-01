@@ -34,7 +34,6 @@ call plug#begin()
     Plug 'stephpy/vim-yaml', {'for': 'yaml'}                        " Yaml
     Plug 'kurayama/systemd-vim-syntax'                              " Systemd
     Plug 'keith/tmux.vim'                                           " Tmux
-
     "Plug 'fatih/vim-go'                                             " GO
 
     " Functional Plugins
@@ -42,6 +41,7 @@ call plug#begin()
     Plug 'Shougo/Denite.nvim', {'do': ':UpdateRemotePlugins' }      " Project Fuzzy Finder
     Plug 'christoomey/vim-tmux-navigator'                           " Use ctrl-hjkl to navigate vim & tmux
     Plug 'mattn/emmet-vim', {'for': emmetFiles}                     " Emmet fast html-tag creation
+    Plug 'neomake/neomake'                                          " Async task running
 
     " Visual Plugins
     Plug 'itchyny/lightline.vim'                                    " Lightweight and customizable statusline
@@ -82,15 +82,31 @@ highlight! link NERDTreeClosable NonText
 highlight! link NERDTreeExecFile Normal
 
 " Denite
-nnoremap <silent> <Leader>ff :Denite -auto-resize -no-statusline -cursor-wrap file_rec<CR>
-"nnoremap <silent> <Leader>fa :Denite -auto-resize -no-statusline -cursor-wrap file<CR>
-nnoremap <silent> <Leader>fd :Denite -auto-resize -no-statusline -cursor-wrap directory_rec<CR>
-nnoremap <silent> <Leader>fg :Denite -auto-resize -no-statusline -cursor-wrap grep<CR>
+call denite#custom#source('_', 'converters', ['devicons_denite_converter'])
+
+call denite#custom#var('file_rec', 'command', ['ag', '--follow', '--nocolor', '--nogroup', '--ignore=*.jpg', '--ignore=*.png', '--ignore=*.bmp', '--ignore=*.gif', '--ignore=*.webp', '--ignore=*.pdf', '--ignore=*.eps', '--ignore=*.svg', '--ignore=*.mp4', '--ignore=*.avi', '--ignore=*.mov', '--ignore=*.mkv', '--ignore=*.webm', '-g', ''])
+call denite#custom#alias('source', 'file_all', 'file_rec')
+  call denite#custom#var('file_all', 'command', ['ag', '--follow', '--nocolor', '--nogroup', '-u', '-g', ''])
+call denite#custom#var('grep', 'command', ['ag'])
+  call denite#custom#var('grep', 'default_opts', ['-S', '--line-numbers', '--follow', '--nocolor', '--nogroup'])
+  call denite#custom#source('grep', 'converters', [])
+call denite#custom#alias('source', 'grep_all', 'grep')
+  call denite#custom#var('grep_all', 'command', ['ag'])
+  call denite#custom#var('grep_all', 'default_opts', ['-S', '--line-numbers', '--follow', '--nocolor', '--nogroup', '-u'])
+	call denite#custom#var('grep,grep_all', 'recursive_opts', [])
+	call denite#custom#var('grep,grep_all', 'pattern_opt', [])
+	call denite#custom#var('grep,grep_all', 'separator', ['--'])
+	call denite#custom#var('grep,grep_all', 'final_opts', [])
+  call denite#custom#source('grep_all', 'converters', [])
+
+nnoremap <silent> <Leader>ff  :Denite -auto-resize -no-statusline -cursor-wrap file_rec<CR>
+nnoremap <silent> <Leader>faf :Denite -auto-resize -no-statusline -cursor-wrap file_all<CR>
+nnoremap <silent> <Leader>fg  :Denite -auto-resize -no-statusline -cursor-wrap -no-empty grep<CR>
+nnoremap <silent> <Leader>fag :Denite -auto-resize -no-statusline -cursor-wrap -no-empty grep_all<CR>
+nnoremap <silent> <Leader>fd  :Denite -auto-resize -no-statusline -cursor-wrap directory_rec<CR>
 highlight! link deniteMatchedChar CursorLineNr
 highlight! link deniteMatchedRange Identifier
-call denite#custom#var('file_rec', 'command', ['ag', '--follow', '--nocolor', '--nogroup', '--ignore=*.jpg', '--ignore=*.png', '--ignore=*.bmp', '--ignore=*.gif', '--ignore=*.webp', '--ignore=*.pdf', '--ignore=*.eps', '--ignore=*.svg', '--ignore=*.mp4', '--ignore=*.avi', '--ignore=*.mov', '--ignore=*.mkv', '--ignore=*.webm', '-g', ''])
-"call denite#custom#var('file', 'command', ['ag', '-r', '--follow', '--nocolor', '--nogroup', '-u', '-g', ''])
-"call denite#custom#source('file', 'converters', ['devicons_denite_converter'])
+
 call denite#custom#map('insert', '<C-n>', '<denite:move_to_next_line>'      , 'noremap')
 call denite#custom#map('insert', '<C-p>', '<denite:move_to_previous_line>'  , 'noremap')
 call denite#custom#map('insert', '<C-e>', '<denite:do_action:switch>'       , 'noremap')
@@ -138,7 +154,7 @@ let g:lightline = {
     \ 'component_function': {
     \   'projectPath': "LLpath",
     \   'rootDir': "LLroot",
-    \   'linenumber': "LLline"
+    \   'linenumber': "LLline",
     \ },
     \ 'separator': { 'left': '', 'right': '' },
     \ 'subseparator': { 'left': '', 'right': '' }
@@ -194,6 +210,17 @@ let g:lightline = {
     function! LLline()          "{{{
         return line(".") . ''
     endfunction                 "}}}
+
+" Neomake
+let g:neomake_warning_sign = {
+  \ 'text': '⚠',
+  \ 'texthl': 'GruvboxYellowSign',
+  \ }
+let g:neomake_error_sign = {
+  \ 'text': '✖',
+  \ 'texthl': 'GruvboxRedSign',
+  \ }
+let g:neomake_javascript_enabled_makers = ['xo']
 
 " ----------------------}}}
 
@@ -276,7 +303,18 @@ let g:lightline = {
 
     inoremap <expr> <C-x> FullCompletion()
         function! FullCompletion()  "{{{
-          echo "Completion: ^L_line ^N_file ^K_dictionary ^T_thesaurus ^I_included ^]_tags ^F_files ^D_definitions ^V_vimcommand ^U_userdef ^O_omni s_spell"
+          let width = winwidth(0)
+          let msg = "Completion: ^L_line ^N_infile ^K_dictionary ^T_thesaurus ^I_included ^]_tags ^F_files ^D_definitions ^V_vimcommand ^U_userdef ^O_omni s_spell"
+          let len = strlen(msg)
+          let x=&ruler | let y=&showcmd
+          set noruler noshowcmd
+          redraw
+          if (width <= len)
+            echo strpart(msg, 0, width-4) . "..."
+          else
+            echo msg
+          endif
+          let &ruler=x | let &showcmd=y
           return "\<C-x>"
         endfunction                 "}}}
 
