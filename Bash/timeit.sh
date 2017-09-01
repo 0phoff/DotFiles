@@ -18,20 +18,34 @@
 #   -s : [silent mode] pipe output of command to /dev/null
 #   -S : [Silent mode] only print average values
 #   -n : Number of times the command shall be run
+#   -h : Print help
 #
 # Defaults:
 #   -n10
 #
 #----------------------------------------------------------------------------------------------------------------------
 
+# Functions
+help()
+{
+    printf "timeit Usage:\n  timeit [-s|S] [-n loopcount] command\n\n"
+    printf "Flags:\n"
+    printf "  -h : Print help\n"
+    printf "  -s : [silent mode] pipe output of command to /dev/null\n"
+    printf "  -S : [Silent mode] only print average values\n"
+    printf "  -n : Number of times the command shall be run\n"
+    exit
+}
+
 # Parse arguments
 LOOP=10
 SILENT=0
-while getopts "n:sS" flag; do
+while getopts "n:sSh" flag; do
     case "$flag" in
         n) LOOP=$OPTARG ;;
         s) SILENT=1 ;;
         S) SILENT=2 ;;
+        h)  help ;;
         \?) ;;
     esac
 done
