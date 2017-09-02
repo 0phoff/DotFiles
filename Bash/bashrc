@@ -63,8 +63,8 @@ if [ $rlExists == 1 ]; then
     eval "$(dircolors ${bashloc}/dircolors)";
 
     # Source theme for Bash (Gruvbox)
-    if [ -f $bashloc/theme.sh ]; then
-        source $bashloc/theme.sh
+    if [ -f $bashloc/theme ]; then
+        source $bashloc/theme
     fi
 fi
 
