@@ -1,0 +1,25 @@
+# Installation Todo
+This is a list of things todo when installing these dotfiles.
+
+## Packages
+These packages are needed to fully use the dotfiles.
+  - [ ] Bash
+  - [ ] Gnome-terminal
+  - [ ] Tmux
+  - [ ] Neovim
+  - [ ] Git
+  - [ ] Ag
+  - [ ] Minidlnad
+  - [ ] ROS
+  - [ ] Node _(NVM/NPM)_
+  - [ ] Vtop _(Node package)_
+  - [ ] Todocmd _(Node package)_
+
+## Post-Install
+Things to do after installing the dotfiles.
+  - [ ] Check if simlinks are correct
+  - [ ] Powerline font
+  - [ ] vim-plug _https://github.com/junegunn/vim-plug_
+  - [ ] Neovim PlugInstall
+  - [ ] Change keyboard _(optional)_
+
