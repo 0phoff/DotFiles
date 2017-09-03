@@ -10,7 +10,7 @@
 #----------------------------------------------------------------------------------------------------------------------
 #
 # Usage: 
-#   ./install.sh
+#   sudo -E ./install.sh
 #
 # Dry run:
 #   DEBUG=echo ./install.sh
@@ -22,33 +22,34 @@ HOME=$HOME
 SCRIPT='/usr/local/bin'
 
 # Bash folder
-$DEBUG ln -s $PWD/Bash/agignore            $HOME/.agignore
-$DEBUG ln -s $PWD/Bash/bashrc              $HOME/.bashrc
-$DEBUG ln -s $PWD/Bash/global.gitconfig    $HOME/.gitconfig
-$DEBUG ln -s $PWD/Bash/global.gitignore    $HOME/.gitignore
+$DEBUG ln -sf $PWD/Bash/agignore            $HOME/.agignore
+$DEBUG ln -sf $PWD/Bash/bashrc              $HOME/.bashrc
+$DEBUG ln -sf $PWD/Bash/global.gitconfig    $HOME/.gitconfig
+$DEBUG ln -sf $PWD/Bash/global.gitignore    $HOME/.gitignore
 
 for f in $PWD/Bash/*.sh
 do
     if [ '${f##*/}' == 'tmuxCreator.sh' ]; then
-        $DEBUG ln -s $f     $SCRIPT/tmc
+        $DEBUG ln -sf $f     $SCRIPT/tmc
     else
         base=${f##*/}
-        $DEBUG ln -s $f     $SCRIPT/${base%.*}
+        $DEBUG ln -sf $f     $SCRIPT/${base%.*}
     fi
 done
 
 # Tmux folder
-$DEBUG ln -s $PWD/Tmux/tmux.conf            $HOME/.tmux.conf
+$DEBUG ln -sf $PWD/Tmux/tmux.conf            $HOME/.tmux.conf
 
 # Vim folder
-$DEBUG ln -s $PWD/Vim/neovim.vim            $HOME/.config/nvim/init.vim
-$DEBUG ln -s $PWD/Vim/ftdetect              $HOME/.config/nvim/ftdetect
-$DEBUG ln -s $PWD/Vim/ftplugin              $HOME/.config/nvim/ftplugin
-$DEBUG ln -s $PWD/Vim/scripts               $HOME/.config/nvim/scripts
-$DEBUG ln -s $PWD/Vim/syntax                $HOME/.config/nvim/syntax
+mkdir -p $HOME/.config/nvim
+$DEBUG ln -sf $PWD/Vim/neovim.vim            $HOME/.config/nvim/init.vim
+$DEBUG ln -sf $PWD/Vim/ftdetect              $HOME/.config/nvim/ftdetect
+$DEBUG ln -sf $PWD/Vim/ftplugin              $HOME/.config/nvim/ftplugin
+$DEBUG ln -sf $PWD/Vim/scripts               $HOME/.config/nvim/scripts
+$DEBUG ln -sf $PWD/Vim/syntax                $HOME/.config/nvim/syntax
 
 # Print todo
-if [ -z '$DEBUG' ]; then
+if [ -z ${var+x} ]; then
     printf "Check \e[1mINSTALLATION.md\e[0m for further install instructions!\n"
 else
     printf "\nThese are the \e[1msimlinks\e[0m that will be created if you run this command...\n"

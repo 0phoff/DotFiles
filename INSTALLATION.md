@@ -1,5 +1,5 @@
-# Installation Todo
-This is a list of things todo when installing these dotfiles.
+# DOTFILES INSTALLATION
+This is a list of things todo when installing dotfiles.
 
 ## Packages
 These packages are needed to fully use the dotfiles.
@@ -19,6 +19,7 @@ These packages are needed to fully use the dotfiles.
 Things to do after installing the dotfiles.
   - [ ] Check if simlinks are correct
   - [ ] Powerline font
+  - [ ] gnome-terminal-colors _https://github.com/metalelf0/gnome-terminal-colors_
   - [ ] vim-plug _https://github.com/junegunn/vim-plug_
   - [ ] Neovim PlugInstall
   - [ ] Change keyboard _(optional)_
