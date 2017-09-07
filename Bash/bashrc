@@ -17,11 +17,15 @@ alias lx="ls -AgohX"
 alias vim="nvim"
 alias swap="sudo swapon /dev/sda2"
 alias top="vtop --theme wizard"
-alias mediastart="minidlnad -f /home/ophoff/.config/minidlna/minidlna.conf -P /home/ophoff/.config/minidlna/minidlna.pid -r"
-alias mediastop="pkill minidlnad"
 
 alias tmux="tmux -2"
 alias tpwd="tmux setenv PWD \$PWD"
+
+alias mediaserve="minidlnad -f /home/ophoff/.config/minidlna/minidlna.conf -P /home/ophoff/.config/minidlna/minidlna.pid -r"
+alias mediakill="pkill minidlnad"
+
+alias mdserve="sudo -E grip 80 &>/dev/null"
+alias mdkill="sudo -E pkill grip"
 
 alias catkin_make="catkin_make -DPYTHON_EXECUTABLE=/usr/bin/python2 -DPYTHON_INCLUDE_DIR=/usr/include/python2.7 -DPYTHON_LIBRARY=/usr/lib/libpython2.7.so"
 alias rosinit="source rosinit.sh"
