@@ -1,5 +1,5 @@
 " Markdown Settings
-if exists('b:did_ftplugin') | finish | endif
+if exists('b:did_ftplugin_pers') | finish | endif
 
 setlocal shiftwidth=2
 setlocal tabstop=2
@@ -11,23 +11,34 @@ endif
 call CP_AddPair('_', '_')
 call CP_AddPair('~', '~')
 
-setlocal foldexpr=MarkdownLevel()
+iabbrev <buffer> -> →
+iabbrev <buffer> <- ←
+iabbrev <buffer> << «
+iabbrev <buffer> >> »
+
 setlocal foldmethod=expr
+setlocal foldexpr=MarkdownLevel(v:lnum)
+function! MarkdownLevel(lineNo)
+  let str = getline(a:lineNo)
 
-function! MarkdownLevel()
-    let str = getline(v:lnum)
-    let h = substitute(matchstr(str, '^\s*#\+'), '\s', '', "g")
+  " Empty lines → -1 → get smallest fold level from line above or below
+  if str =~? '\v^\s*$'
+    return '-1'
+  endif
 
-    if (empty(h))
-        if ((empty(str) && empty(getline(v:lnum+1))) || matchstr(str, '^\s*[\-_]{3,}\s*$'))
-          return '<'
-        else
-          return '='
-        endif
-    else
-        return ">" . len(h)
-    endif
+  " Header → >x → Start fold of lvl equal to heading
+  if str =~? '\v^\s*#+'
+    let lvl = len(matchlist(str, '\v^\s*(#+)')[1])
+    return '>'.lvl
+  endif
+
+  " ---/___ → 0 → Stop all folds
+  if str =~? '\v^\s*[\-_]{3,}\s*$'
+    return '0'
+  endif
+
+  return '='
 endfunction
 
 " Settings loaded buffer flag
-let b:did_ftplugin = 1
+let b:did_ftplugin_pers = 1

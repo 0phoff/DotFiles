@@ -1,5 +1,5 @@
 " LaTeX Settings
-if exists('b:did_ftplugin') | finish | endif
+if exists('b:did_ftplugin_pers') | finish | endif
 
 let g:tex_conceal = "" 
 
@@ -15,4 +15,4 @@ setlocal tabstop=2
 setlocal noexpandtab
 
 " Settings loaded buffer flag
-let b:did_ftplugin = 1
+let b:did_ftplugin_pers = 1

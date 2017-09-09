@@ -1,5 +1,5 @@
 " Javascript Settings
-if exists('b:did_afterftplugin') | finish | endif
+if exists('b:did_ftplugin_pers') | finish | endif
 
 " Add ` to pairs
 if !exists('b:CP_Pairs')
@@ -12,4 +12,4 @@ call CP_AddPair('`', '`')
 autocmd! BufReadPost,BufWritePost *.js Neomake
 
 " Settings loaded buffer flag
-let b:did_afterftplugin = 1
+let b:did_ftplugin_pers = 1

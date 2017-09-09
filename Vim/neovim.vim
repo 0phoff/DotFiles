@@ -34,6 +34,7 @@ call plug#begin()
     Plug 'stephpy/vim-yaml', {'for': 'yaml'}                        " Yaml
     Plug 'kurayama/systemd-vim-syntax'                              " Systemd
     Plug 'keith/tmux.vim'                                           " Tmux
+    Plug 'gabrielelana/vim-markdown'                                " Markdown
     "Plug 'fatih/vim-go'                                             " GO
 
     " Functional Plugins
@@ -221,6 +222,10 @@ let g:neomake_error_sign = {
   \ 'texthl': 'GruvboxRedSign',
   \ }
 let g:neomake_javascript_enabled_makers = ['xo']
+
+" Markdown
+let g:markdown_mapping_switch_status = '-'
+let g:markdown_enable_spell_checking = 0
 
 " ----------------------}}}
 
