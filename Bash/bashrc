@@ -1,8 +1,5 @@
 # Set Prompt
 PS1=$'\e[7;32;49m\uE0B0\e[0m\e[30;42m \u \e[0m\e[32;49m\uE0B0\e[7;90;49m\uE0B0\e[0m\e[97;100m \w \e[90;49m\uE0B0\e[0m\n'
-#PS1=$'\[\033[01;32m\]\u\[\033[00m\] @ \[\033[01;34m\]\w\[\033[00m\]\n$ ';                                                  # Default
-
-# Set Prompt Command
 precmd() {
   if [ -n "$TMUX" ]; then
     tmux setenv TMUXPWD_$(tmux display -p "#D" | tr -d %) "$PWD"
@@ -10,16 +7,17 @@ precmd() {
 }
 PROMPT_COMMAND=precmd
 
+# Set Environment variables
+export EDITOR="vim"
+export PAGER="less"
+
 # Set Custom Aliases
 alias ls="ls --color"
 alias ll="ls -Al"
 alias lx="ls -AgohX"
 alias vim="nvim"
-alias swap="sudo swapon /dev/sda2"
 alias top="vtop --theme wizard"
-
-alias tmux="tmux -2"
-alias tpwd="tmux setenv PWD \$PWD"
+alias dev=". .startup.sh"
 
 alias mediaserve="minidlnad -f /home/ophoff/.config/minidlna/minidlna.conf -P /home/ophoff/.config/minidlna/minidlna.pid -r"
 alias mediakill="pkill minidlnad"
@@ -51,12 +49,6 @@ tks() {
     fi
 }
 
-# Set Environment variables
-export EDITOR="vim"
-export PAGER="less"
-export GOPATH="$HOME/Programs/Go"
-export PATH="$HOME/Programs/Go/bin:$PATH"
-
 # ROS Settings
 if [ -f /opt/ros/kinetic/setup.bash ]; then
     source /opt/ros/kinetic/setup.bash
@@ -66,13 +58,14 @@ if [ -f /opt/ros/kinetic/setup.bash ]; then
     fi
 fi
 
+# NVM Node version manager
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
 # Start Bash with TMUX
 if command -v tmux>/dev/null;
 then
     [[ ! $TERM =~ screen ]] && [ -z $TMUX ] && exec tmux;
 fi
 
-# NVM Node version manager
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
