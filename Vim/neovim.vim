@@ -109,8 +109,8 @@ nnoremap <silent> <Leader>faf :Denite -auto-resize -no-statusline -cursor-wrap f
 nnoremap <silent> <Leader>fg  :Denite -auto-resize -no-statusline -cursor-wrap -no-empty grep<CR>
 nnoremap <silent> <Leader>fag :Denite -auto-resize -no-statusline -cursor-wrap -no-empty grep_all<CR>
 nnoremap <silent> <Leader>fd  :Denite -auto-resize -no-statusline -cursor-wrap directory_rec<CR>
-highlight! link deniteMatchedChar Statement
-highlight! link deniteMatchedRange Identifier
+highlight! link deniteMatchedChar Directory
+highlight! link deniteMatchedRange Normal
 
 call denite#custom#map('insert', '<C-n>', '<denite:move_to_next_line>'      , 'noremap')
 call denite#custom#map('insert', '<C-p>', '<denite:move_to_previous_line>'  , 'noremap')
