@@ -57,21 +57,6 @@ export PAGER="less"
 export GOPATH="$HOME/Programs/Go"
 export PATH="$HOME/Programs/Go/bin:$PATH"
 
-# Check if readlink command exists
-command -v readlink >/dev/null && rlExists=1 || { echo "readlink command not found. some files will not be sourced"; rlExists=0; }
-if [ $rlExists == 1 ]; then
-    bashloc=`readlink ~/.bashrc`
-    bashloc=${bashloc%/*}
-
-    # Set Directory Colors
-    eval "$(dircolors ${bashloc}/dircolors)";
-
-    # Source theme for Bash (Gruvbox)
-    if [ -f $bashloc/theme ]; then
-        source $bashloc/theme
-    fi
-fi
-
 # ROS Settings
 if [ -f /opt/ros/kinetic/setup.bash ]; then
     source /opt/ros/kinetic/setup.bash

@@ -46,9 +46,12 @@ call plug#begin()
 
     " Visual Plugins
     Plug 'itchyny/lightline.vim'                                    " Lightweight and customizable statusline
-    Plug 'morhetz/gruvbox'                                          " Awesome Colortheme
     Plug 'shinchu/lightline-gruvbox.vim'                            " Colortheme for lightline
     Plug 'ryanoasis/vim-devicons'                                   " Fancy Icons
+
+    " Themes
+    Plug 'morhetz/gruvbox'
+    Plug 'arcticicestudio/nord-vim'
 
     " Custom Plugins
     Plug '~/.config/nvim/scripts/ClosePair'
@@ -65,9 +68,10 @@ let g:vim_json_syntax_conceal = 0
 
 " Gruvbox
 set bg=dark
-set termguicolors
+"set termguicolors
 let g:gruvbox_italic=1
-colorscheme gruvbox
+let g:nord_italic_comments=1
+colorscheme nord
 
 " NerdTree
 nnoremap <silent> <Leader>t :NERDTreeToggle<CR>
@@ -105,7 +109,7 @@ nnoremap <silent> <Leader>faf :Denite -auto-resize -no-statusline -cursor-wrap f
 nnoremap <silent> <Leader>fg  :Denite -auto-resize -no-statusline -cursor-wrap -no-empty grep<CR>
 nnoremap <silent> <Leader>fag :Denite -auto-resize -no-statusline -cursor-wrap -no-empty grep_all<CR>
 nnoremap <silent> <Leader>fd  :Denite -auto-resize -no-statusline -cursor-wrap directory_rec<CR>
-highlight! link deniteMatchedChar CursorLineNr
+highlight! link deniteMatchedChar Statement
 highlight! link deniteMatchedRange Identifier
 
 call denite#custom#map('insert', '<C-n>', '<denite:move_to_next_line>'      , 'noremap')
@@ -123,7 +127,7 @@ augroup Denite
     autocmd BufLeave \[denite\]* :call s:DeniteLeave()
 augroup END
     function! s:DeniteEnter()   "{{{
-        highlight! CursorLine guibg=#3a3a3a
+        highlight! CursorLine ctermbg=8
     endfunction                 "}}}
     function! s:DeniteLeave()   "{{{
         highlight! CursorLine NONE
@@ -133,7 +137,7 @@ augroup END
 set laststatus=2        " Always show statusbar
 set noshowmode          " Dont show mode -> already in lightline
 let g:lightline = {
-    \ 'colorscheme' : 'gruvbox',
+    \ 'colorscheme' : 'nord',
     \ 'active': {
     \   'left':     [ ['mode', 'paste'],
     \                 ['filenameMod'] ],
