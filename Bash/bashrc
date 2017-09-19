@@ -1,3 +1,6 @@
+# Only source bashrc on interactive prompts
+[[ $- != *i* ]] && return
+
 # Set Prompt
 PS1=$'\e[7;32;49m\uE0B0\e[0m\e[30;42m \u \e[0m\e[32;49m\uE0B0\e[7;90;49m\uE0B0\e[0m\e[97;100m \w \e[90;49m\uE0B0\e[0m\n'
 precmd() {
@@ -63,8 +66,9 @@ if [ -f ~/.dir_colors ]; then
 fi
 
 # Start Bash with TMUX
-if command -v tmux>/dev/null;
-then
-    [[ ! $TERM =~ screen ]] && [ -z $TMUX ] && exec tmux;
+if [ -z "$SSH_CONNECTION" ]; then
+    if command -v tmux>/dev/null; then
+        [[ -z "$TMUX" ]] && exec tmux
+    fi
 fi
 
