@@ -22,3 +22,5 @@
   submodule = log
 [log]
   abbrevCommit = true
+[push]
+  default = simple
