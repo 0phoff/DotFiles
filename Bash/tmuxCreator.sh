@@ -9,7 +9,7 @@
 #
 #--------------------------------------------------------------------------------------------------------
 #
-# Usage: tmuxCreator [-d directory] [-t targetWindow] [-n windowName] layoutName
+# Usage: tmuxCreator [-d directory] [-s|-t targetWindow] [-n windowName] layoutName
 # Layouts:
 #   - commandrunner [cr] : 1 main split, 1 small split at bottom to run quick commands
 #   - buildrunner   [br] : 1 main split, with side split at right for automated tasks (make,server,exec)
@@ -25,9 +25,10 @@ if [ $# -le 0 ]; then
 fi
 
 # Parse arguments
-while getopts "d:t:n:" flag; do
+while getopts "d:st:n:" flag; do
     case "$flag" in
         d) PWD=$OPTARG;;
+        s) TARGET=$(tmux display -p "#I");;
         t) TARGET=$OPTARG;;
         n) NAME="-n $OPTARG";;
         \?) ;;
