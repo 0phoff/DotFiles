@@ -31,7 +31,7 @@ while getopts "d:st:n:" flag; do
         s) TARGET=$(tmux display -p "#I");;
         t) TARGET=$OPTARG;;
         n) NAME="-n $OPTARG";;
-        \?) ;;
+        *) ;;
     esac
 done
 if [ ! ${PWD:0:1} = "/" ]; then

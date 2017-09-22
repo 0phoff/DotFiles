@@ -29,12 +29,18 @@ $DEBUG ln -sf $PWD/Bash/global.gitignore    $HOME/.gitignore
 
 for f in $PWD/Bash/*.sh
 do
-    if [ '${f##*/}' == 'tmuxCreator.sh' ]; then
-        $DEBUG ln -sf $f     $SCRIPT/tmc
-    else
-        base=${f##*/}
-        $DEBUG ln -sf $f     $SCRIPT/${base%.*}
-    fi
+    base=$(basename $f)
+    case "$base" in
+        tmuxCreator.sh)
+            $DEBUG ln -sf $f $SCRIPT/tmc
+            ;;
+        rosinit.sh)
+            $DEBUG ln -sf $f $SCRIPT/$base
+            ;;
+        *)
+            $DEBUG ln -sf $f $SCRIPT/${base%.*}
+            ;;
+    esac
 done
 
 # Tmux folder
