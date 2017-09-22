@@ -2,7 +2,18 @@
 [[ $- != *i* ]] && return
 
 # Set Prompt
-PS1=$'\e[7;32;49m\uE0B0\e[0m\e[30;42m \u \e[0m\e[32;49m\uE0B0\e[7;90;49m\uE0B0\e[0m\e[97;100m \w \e[90;49m\uE0B0\e[0m\n'
+PS1=$'\e[7;32;49m\uE0B0\e[0m\e[30;42m \u $(virtualenv_info)\e[0m\e[32;49m\uE0B0\e[7;90;49m\uE0B0\e[0m\e[97;100m \w \e[90;49m\uE0B0\e[0m\n'
+virtualenv_info() {
+     # Get Virtual Env
+    if [[ -n "$VIRTUAL_ENV" ]]; then
+        # Strip out the path and just leave the env name
+        venv=" ${VIRTUAL_ENV##*/} "
+    else
+        # In case you don't have one activated
+        venv=''
+    fi
+    [[ -n "$venv" ]] && echo "$venv"
+}
 precmd() {
   if [ -n "$TMUX" ]; then
     tmux setenv TMUXPWD_$(tmux display -p "#D" | tr -d %) "$PWD"
@@ -63,6 +74,17 @@ fi
 
 if [ -f ~/.dir_colors ]; then
     eval "$(dircolors ~/.dir_colors)"
+fi
+
+# Python virutalenvwrapper
+if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
+    export VIRTUAL_ENV_DISABLE_PROMPT=1
+    if [ -f /usr/local/bin/virtualenvwrapper_lazy.sh ]; then
+        export VIRTUALENVWRAPPER_SCRIPT=/usr/local/bin/virtualenvwrapper.sh
+        source /usr/local/bin/virtualenvwrapper_lazy.sh
+    else
+        source /usr/local/bin/virtualenvwrapper.sh
+    fi
 fi
 
 # Start Bash with TMUX

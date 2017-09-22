@@ -241,6 +241,7 @@ let g:markdown_enable_spell_checking = 0
     inoremap jj <ESC>
     nnoremap <Leader><Space> za
     nnoremap <silent> <Leader>h :nohlsearch <CR>
+    nnoremap <silent> <Leader>r :tabe\|tabo!\|%bd <CR>
 
     " Get rid of accidental Ex Mode -> Use gQ if really wanted
     nnoremap Q <nop>
