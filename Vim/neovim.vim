@@ -411,7 +411,7 @@ function! s:ILeave()
 endfunction
 
 " Gitmux Update variables on save
-autocmd BufWritePost * silent! !eval $(tmux display -p "\#{GITMUX_SCRIPT}")
+autocmd BufWritePost * silent! jobstart(['bash', '-c', 'eval $(tmux display -p "\#{GITMUX_SCRIPT}")'])
 
 " ----------------------}}}
 
