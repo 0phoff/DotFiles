@@ -392,8 +392,6 @@ set completeopt=menu        " Set completion to only show popup menu & not previ
 
 " Command Groups        {{{
 
-"autocmd VimEnter * call ColDevicons_init()
-
 " Insert Mode enter/leave
 augroup InserModeCmds
     autocmd!
@@ -411,6 +409,9 @@ function! s:ILeave()
         let &l:timeoutlen=b:last_tol
     endif
 endfunction
+
+" Gitmux Update variables on save
+autocmd BufWritePost * silent! !eval $(tmux display -p "\#{GITMUX_SCRIPT}")
 
 " ----------------------}}}
 
