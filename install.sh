@@ -10,7 +10,7 @@
 #----------------------------------------------------------------------------------------------------------------------
 #
 # Usage: 
-#   sudo -E ./install.sh
+#   ./install.sh
 #
 # Dry run:
 #   DEBUG=echo ./install.sh
@@ -19,7 +19,7 @@
 
 # Variables
 HOME=$HOME
-SCRIPT='/usr/local/bin'
+SCRIPT="$HOME/bin"
 
 # Bash folder
 $DEBUG ln -sf $PWD/Bash/agignore            $HOME/.agignore

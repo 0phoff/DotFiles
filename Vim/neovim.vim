@@ -55,7 +55,7 @@ call plug#begin()
 
     " Custom Plugins
     Plug '~/.config/nvim/scripts/ClosePair'
-    Plug '~/.config/nvim/scripts/ColDevicons'
+    " Plug '~/.config/nvim/scripts/ColDevicons'                     " BROKEN
 call plug#end()
 
 " ----------------------}}}
@@ -165,7 +165,8 @@ let g:lightline = {
     \ 'subseparator': { 'left': '', 'right': '' }
     \ }
     function! LLfilenameMod()   "{{{
-        return ColDevicons_ColoredLLText('', 'WebDevIconsGetFileTypeSymbol()', 'LLfile()')
+        "return ColDevicons_ColoredLLText('', 'WebDevIconsGetFileTypeSymbol()', 'LLfile()')
+        return WebDevIconsGetFileTypeSymbol() . ' ' . LLfile()
     endfunction                 "}}}
     function! LLfile()          "{{{
         if &filetype ==? 'nerdtree'
@@ -242,6 +243,8 @@ let g:markdown_enable_spell_checking = 0
     nnoremap <Leader><Space> za
     nnoremap <silent> <Leader>h :nohlsearch <CR>
     nnoremap <silent> <Leader>r :tabe\|tabo!\|%bd <CR>
+    nnoremap <silent> <Leader>q mx:w\|%bd\|e#<CR>`x:delmarks x<CR>
+    nnoremap <silent> <Leader>s :syntax sync fromstart <CR>
 
     " Get rid of accidental Ex Mode -> Use gQ if really wanted
     nnoremap Q <nop>
@@ -265,8 +268,6 @@ let g:markdown_enable_spell_checking = 0
 
     " File Manipulations
     nnoremap <silent> <Leader>w :w<CR>
-    nnoremap <silent> QQ :q!<CR>
-    nnoremap <silent> <Leader>q mx:w\|%bd\|e#<CR>`x:delmarks x<CR>
 
     " Delete with X -> black hole register
     nnoremap x "_x
@@ -377,7 +378,7 @@ set foldtext=IndFoldTxt()   " Indent Fold Text
         return indent.txt
     endfunction             "}}}
 
-set tabstop=2               " Tabs are 4 characters long
+set tabstop=2               " Tabs are 2 characters long
 set softtabstop=-1          " when entering tab -> #shiftwidth spaces are inserted
 set shiftwidth=2
 set expandtab               " Expand tab to spaces

@@ -31,6 +31,7 @@ alias ll="ls -Al"
 alias lx="ls -AgohX"
 alias vim="nvim"
 alias top="vtop --theme wizard"
+alias grep="grep --color"
 alias dev=". .startup.sh"
 
 alias mediaserve="minidlnad -f /home/ophoff/.config/minidlna/minidlna.conf -P /home/ophoff/.config/minidlna/minidlna.pid -r"
@@ -62,6 +63,41 @@ tks() {
         [ ${1:0:1} == "-" ] && tmux kill-session $1 || tmux kill-session -t $1
     fi
 }
+## Docker: clean <none> images
+dockerclean() {
+    #containers=$(docker ps -q -f "status=exited" | tr '\n' ' ')
+    #if [ ! -z ${containers// } ]; then
+    #    echo -e "\e[01mDeleting containers:\e[00m"
+    #    docker rm $containers
+    #fi
+
+    images=$(docker images -q -f "dangling=true" | tr '\n' ' ')
+    if [ ! -z ${images// } ]; then
+        echo -e "\e[01mDeleting images:\e[00m"
+        docker rmi $images
+    fi
+}
+tmux() {
+    local tmux=$(type -fp tmux)
+    case "$1" in
+        update-environment|update-env|env-update)
+            local v
+            while read v; do
+                if [[ $v == -* ]]; then
+                    unset ${v/#-/}
+                else
+                    # Add quotes around the argument
+                    v=${v/=/=\"}
+                    v=${v/%/\"}
+                    eval export $v
+                fi
+            done < <(tmux show-environment)
+            ;;
+        *)
+            $tmux "$@"
+            ;;
+    esac
+}
 
 # ROS Settings
 if [ -f /opt/ros/kinetic/setup.bash ]; then
@@ -90,7 +126,10 @@ fi
 # Start Bash with TMUX
 if [ -z "$SSH_CONNECTION" ]; then
     if command -v tmux>/dev/null; then
-        [[ -z "$TMUX" ]] && exec tmux
+        if [[ -z "$TMUX" ]]; then
+            export TERM="tmux-256color"
+            tmux has -t random && exec tmux attach -t random || exec tmux
+        fi
     fi
 fi
 

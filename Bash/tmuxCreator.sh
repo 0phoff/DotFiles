@@ -11,11 +11,13 @@
 #
 # Usage: tmuxCreator [-d directory] [-s|-t targetWindow] [-n windowName] layoutName
 # Layouts:
-#   - commandrunner [cr] : 1 main split, 1 small split at bottom to run quick commands
-#   - buildrunner   [br] : 1 main split, with side split at right for automated tasks (make,server,exec)
-#   - devrunner     [dr] : 1 main split, small bottom split for quick cmd, side split for automated tasks
+#   - buildrunner   [br] : 1 main split, 1 small split at bottom for automated tasks, side pane for cmds
+#   - commandrunner [cr] : 1 main split, with side split at right for commands
+#   - devrunner     [dr] : 1 main split, small bottom split for automated tasks, 2 side splits for cmds
 #   - launchrunner  [lr] : 4 splits of equal size, used to launch and inspect tasks
 #   - singlerunner  [sr] : 1 pane
+#   - horizontal    [hh] : 2 equal panes, stacked
+#   - vertical      [vv] : 2 equal panes, side-by-side
 #
 #--------------------------------------------------------------------------------------------------------
 
@@ -37,10 +39,10 @@ done
 if [ ! ${PWD:0:1} = "/" ]; then
     PWD="$(pwd)/$PWD"
 fi
-if [ ! -d $PWD ]; then
+if [ ! -d "$PWD" ]; then
     PWD=$(pwd)
 fi
-tmux setenv PWD $PWD
+tmux setenv PWD "$PWD"
 LAYOUT=${@:$OPTIND:1}
 
 # Create new window if targetWindow is not current
@@ -63,18 +65,20 @@ fi
 
 # Create corresponding layout
 case $LAYOUT in
-    
-    [cC]ommand[rR]unner | [cC][rR] )
-        tmux splitw -d -v -c "#{PWD}" -l 7
-        ;;
 
-    [bB]uild[rR]unner | [bB][rR] )
+    [cC]ommand[rR]unner | [cC][rR] )
         tmux splitw -d -h -c "#{PWD}" -p 35
         ;;
 
-    [dD]ev[rR]unner | [dD][rR] )
+    [bB]uild[rR]unner | [bB][rR] )
         tmux splitw -d -h -c "#{PWD}" -p 30
-        tmux splitw -d -v -c "#{PWD}" -l 5
+        tmux splitw -d -v -c "#{PWD}" -l 7
+        ;;
+    
+    [dD]ev[rR]unner | [dD][rR] )
+        tmux splitw -h -c "#{PWD}" -p 35
+        tmux splitw -d -v -c "#{PWD}" -p 40
+        tmux lastp
         ;;
 
     [lL]aunch[rR]unner | [lL][rR] )
@@ -85,6 +89,14 @@ case $LAYOUT in
         ;;
 
     [sS]ingle[rR]unner | [sS][rR] )
+        ;;
+
+    [hH]orizontal | [hH][hH] )
+        tmux splitw -d -v -c "#{PWD}" -p 50
+        ;;
+
+    [vV]ertical | [vV][vV] )
+        tmux splitw -d -h -c "#{PWD}" -p 50
         ;;
 
 esac
