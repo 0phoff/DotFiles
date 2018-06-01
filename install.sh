@@ -54,6 +54,11 @@ $DEBUG ln -sf $PWD/vim/ftplugin              $HOME/.config/nvim/ftplugin
 $DEBUG ln -sf $PWD/vim/scripts               $HOME/.config/nvim/scripts
 $DEBUG ln -sf $PWD/vim/syntax                $HOME/.config/nvim/syntax
 
+$DEBUG rm -f $PWD/vim/ftdetect/ftdetect
+$DEBUG rm -f $PWD/vim/ftplugin/ftplugin
+$DEBUG rm -f $PWD/vim/scripts/scripts
+$DEBUG rm -f $PWD/vim/syntax/syntax
+
 # Print todo
 if [ -z ${var+x} ]; then
     printf "Check \e[1mINSTALLATION.md\e[0m for further install instructions!\n"
