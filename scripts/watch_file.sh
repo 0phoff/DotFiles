@@ -34,6 +34,6 @@ while read -r folder event filename; do
 
   if [ ! -z ${match+x} ]; then
     unset match
-    eval $cmd
+    eval "$cmd"
   fi
 done

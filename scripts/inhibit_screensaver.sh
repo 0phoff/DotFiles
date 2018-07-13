@@ -1,18 +1,22 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #--------------------------------------------------------------------------------------------------------
-# OPTIPRIME SCRIPT
+# INHIBIT SCREENSAVER
 #--------------------------------------------------------------------------------------------------------
 #
-# Optiprime : Run bumblebee the way I like
+# Inhibit Screensaver : Prevents xscreensaver from kicking in by using xdg-screensaver suspend
 # By 0phoff
 # MIT license
 #
 #--------------------------------------------------------------------------------------------------------
 #
-# Usage: optiprime <application>
-#   vblank_mode is set to 0 because I noticed great performance gain (prob smth wrong with my setup..)
-#   use primus is better for battery life & performance
+# Usage: inhibit_screensaver window_name
 #
 #--------------------------------------------------------------------------------------------------------
 
-vblank_mode=0 optirun -b primus "$@"
+if [ $# -le 0 ]; then
+	echo 'Please give a window name'
+	exit 1
+fi
+
+WID=$(xwininfo -name "$1" | awk '/Window id/ {print $4}')
+xdg-screensaver suspend $WID

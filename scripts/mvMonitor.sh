@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 #
 # Shamelessly stolen from : https://github.com/jc00ke/move-to-next-monitor
 # CREDITS TO : jc00ke

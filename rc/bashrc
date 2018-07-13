@@ -2,24 +2,45 @@
 [[ $- != *i* ]] && return
 
 # Set Prompt
-PS1=$'\e[7;32;49m\uE0B0\e[0m\e[30;42m \u $(virtualenv_info)\e[0m\e[32;49m\uE0B0\e[7;90;49m\uE0B0\e[0m\e[97;100m \w \e[90;49m\uE0B0\e[0m\n'
-virtualenv_info() {
-     # Get Virtual Env
-    if [[ -n "$VIRTUAL_ENV" ]]; then
-        # Strip out the path and just leave the env name
-        venv=" ${VIRTUAL_ENV##*/} "
-    else
-        # In case you don't have one activated
-        venv=''
-    fi
-    [[ -n "$venv" ]] && echo "$venv"
-}
 precmd() {
   if [ -n "$TMUX" ]; then
     tmux setenv TMUXPWD_$(tmux display -p "#D" | tr -d %) "$PWD"
   fi
 }
-PROMPT_COMMAND="precmd;$PROMPT_COMMAND"
+compile_prompt() {
+  local CONNECTBAR_DOWN=$'\u250C\u2500\u257C'
+  local CONNECTBAR_UP=$'\u2514\u2500\u257C'
+  local SPLITBAR=$'\u257E\u2500\u257C'
+  local c_gray='\[\e[01;30m\]'
+  local c_blue='\[\e[0;34m\]'
+  local c_purple='\[\e[0;35m\]'
+  local c_reset='\[\e[0m\]'
+
+  # > Connectbar Down
+  # Format:   (connectbar down)
+  PS1="${c_gray}$CONNECTBAR_DOWN"
+
+  # > Username
+  # Format:   (bracket open)(username)(bracket close)
+  PS1+="[${c_blue}\u${c_gray}]"
+
+  # > Python Virtual Environment
+  # Format:   (bracket open)(virtualenv)(bracket close)
+  if [[ -n "$VIRTUAL_ENV" ]]; then
+    PS1+="[${c_purple}${VIRTUAL_ENV##*/}${c_gray}]"
+  fi
+
+  # > Working Directory
+  # Format:   (splitbar)(bracket open)(working directory)(bracket close)(newline)(connectbar up)
+  PS1+="$SPLITBAR"
+  PS1+="[${c_blue}\w${c_gray}]\n"
+  PS1+="${c_gray}$CONNECTBAR_UP "
+
+  # Color reset
+  PS1+="${c_reset}"
+}
+
+PROMPT_COMMAND="precmd;compile_prompt;$PROMPT_COMMAND"
 
 # Set Environment variables
 export EDITOR="vim"
@@ -42,6 +63,8 @@ alias mdkill="sudo -E pkill grip"
 
 alias catkin_make="catkin_make -DPYTHON_EXECUTABLE=/usr/bin/python2 -DPYTHON_INCLUDE_DIR=/usr/include/python2.7 -DPYTHON_LIBRARY=/usr/lib/libpython2.7.so"
 alias rosinit="source rosinit.sh"
+
+alias no-tmux="exec xfce4-terminal -e 'env NO_TMUX=1 bash'"
 
 # Custom Alias Functions
 ## Executes sudo -E for nvim so it loads with user config and not root config
@@ -124,10 +147,9 @@ if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
 fi
 
 # Start Bash with TMUX
-if [ -z "$SSH_CONNECTION" ]; then
+if [ -z "$SSH_CONNECTION" ] && [ -z "$NO_TMUX" ]; then
     if command -v tmux>/dev/null; then
         if [[ -z "$TMUX" ]]; then
-            export TERM="tmux-256color"
             tmux has -t random && exec tmux attach -t random || exec tmux
         fi
     fi
