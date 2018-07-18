@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+#--------------------------------------------------------------------------------------------------------
+# TINT2 EXECUTOR - BATTERY
+#--------------------------------------------------------------------------------------------------------
+#
+# Tint2 Executor - Battery : A tint2 executor that displays battery percentage
+# Taken from Addy [https://github.com/addy-dclxvi/almighty-dotfiles]
+# Modified by 0phoff
+# GPL license
+#
+#--------------------------------------------------------------------------------------------------------
+#
+# Usage: ./battery [-i] [-t]
+#	-i : Enable icon
+#	-t : Enable tooltip
+#
+#--------------------------------------------------------------------------------------------------------
+
+BATTERY=0
+BATTERY_INFO=$(acpi -b | grep "Battery ${BATTERY}")
+BATTERY_STATE=$(echo "${BATTERY_INFO}" | grep -wo "Full\|Charging\|Discharging")
+BATTERY_POWER=$(echo "${BATTERY_INFO}" | grep -o '[0-9]\+%' | tr -d '%')
+
+# Get Options
+while getopts "it" flag; do
+  case "$flag" in
+    i) ICON=true;;
+    t) TIP=true;;
+    \?) ;;
+  esac
+done
+
+# Print Tooltip
+if [ "$TIP" = true ]; then
+  >&2 printf "%s\n" "$BATTERY_INFO"
+fi
+
+# Print Battery Info
+if [ "${BATTERY_STATE}" = "Charging" ]; then
+  if  [ "$ICON" = true ]; then
+    echo "$HOME/.config/tint2/icons/bat-charging.svg"
+    echo "${BATTERY_POWER}%"
+  else
+    echo "+ ${BATTERY_POWER}%"
+  fi
+	
+elif [ "${BATTERY_STATE}" = "Discharging" ]; then
+  if  [ "$ICON" = true ]; then
+    if (( BATTERY_POWER>=90 )); then
+      echo "$HOME/.config/tint2/icons/bat-100.svg"
+    elif (( BATTERY_POWER>=64 )); then
+      echo "$HOME/.config/tint2/icons/bat-75.svg"
+    elif (( BATTERY_POWER>=37 )); then
+      echo "$HOME/.config/tint2/icons/bat-50.svg"
+    elif (( BATTERY_POWER>=11 )); then
+      echo "$HOME/.config/tint2/icons/bat-25.svg"
+    else
+      echo "$HOME/.config/tint2/icons/bat-0.svg"
+    fi
+    echo "${BATTERY_POWER}%"
+  else
+    echo "- ${BATTERY_POWER}%"
+  fi
+  
+else
+  if  [ "$ICON" = true ]; then
+    echo "$HOME/.config/tint2/icons/bat-plugged.svg"
+    echo "${BATTERY_POWER}%"
+  fi
+    echo "  ${BATTERY_POWER}%"
+fi

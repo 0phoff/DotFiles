@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+#--------------------------------------------------------------------------------------------------------
+# TINT2 EXECUTOR - CPU
+#--------------------------------------------------------------------------------------------------------
+#
+# Tint2 Executor - CPU : A tint2 executor that displays CPU usage
+# By 0phoff
+# GPL license
+#
+#--------------------------------------------------------------------------------------------------------
+#
+# Usage: ./cpu [-i] [-t]
+#	-i : Enable icon
+#	-t : Enable tooltip
+#
+#--------------------------------------------------------------------------------------------------------
+
+CPU_INFO=$(iostat -c | awk '/avg-cpu/ { getline; print $0 }')
+CPU_POWER=$(echo $CPU_INFO | awk '/./ { print 100 - $6 }')
+
+# Get options
+while getopts "it" flag; do
+  case "$flag" in
+    i) ICON=true;;
+    t) TIP=true;;
+    \?) ;;
+  esac
+done
+
+# Print tooltip
+if [ "$TIP" = true ]; then
+  >&2 printf "%s\n" "$( echo $CPU_INFO | awk '/./ { print "User:\t"$1"%\nNice:\t"$2"%\nSystem:\t"$3"%\nIO wait:\t"$4"%\nSteal:\t"$5"%" }')"
+fi
+
+# Print volume info
+if  [ "$ICON" = true ]; then
+  echo "/home/top/.config/tint2/icons/cpu.svg"
+fi
+echo "${CPU_POWER}%"

@@ -89,4 +89,12 @@ elif [[ "$1" =~ ^fonts/?$ ]]; then
     if [ -z ${DEBUG+x} ]; then
         echo 'Installed terminal fonts. Select the right one in the settings of your terminal emulator'
     fi
+elif [[ "$1" =~ ^openbox/?$ ]]; then
+    $DEBUG ln -sf $PWD/openbox/dunst 		$HOME/.config/dunst
+    $DEBUG ln -sf $PWD/openbox/obmenu-generator	$HOME/.config/obmenu-generator
+    $DEBUG ln -sf $PWD/openbox/openbox 		$HOME/.config/openbox
+    $DEBUG ln -sf $PWD/openbox/tint2 		$HOME/.config/tint2
+    if [ -z ${DEBUG+x} ]; then
+        echo 'Openbox config files installed'
+    fi
 fi

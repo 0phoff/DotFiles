@@ -1,0 +1,85 @@
+#!/usr/bin/env bash
+#--------------------------------------------------------------------------------------------------------
+# TINT2 EXECUTOR - NETWORK
+#--------------------------------------------------------------------------------------------------------
+#
+# Tint2 Executor - Network : A tint2 executor that connected network
+# By 0phoff
+# GPL license
+#
+#--------------------------------------------------------------------------------------------------------
+#
+# Enter the correct network interfaces below (check ifonfig)
+# Usage: ./network [-i] [-t]
+#	-i : Enable icon
+#	-t : Enable tooltip
+#
+#--------------------------------------------------------------------------------------------------------
+
+ETH=enp4s0f2
+WIFI=wlp3s0
+
+# Get options
+while getopts "it" flag; do
+  case "$flag" in
+    i) ICON=true;;
+    t) TIP=true;;
+    \?) ;;
+  esac
+done
+
+ETH_UP=$(ethtool ${ETH} 2>/dev/null | awk '/Link detected/ { print $3 }') 
+if [ "${ETH_UP}" == yes ]; then
+
+  # Print tooltip
+  if [ "${TIP}" = true ]; then
+    >&2 printf "%s\n" "$(ethtool "$ETH")"
+  fi
+
+  # Print ethernet info
+  if  [ "${ICON}" = true ]; then
+    echo "/home/top/.config/tint2/icons/net-ethernet.svg"
+  fi
+  echo "Ethernet"
+
+else
+  NET_NAME=$(iwgetid -r "$WIFI")
+  if [ -n "${NET_NAME}" ]; then
+    NET_POWER=$(iwconfig "$WIFI" | awk -F'[=/ ]+' '/Link Quality/ { print int(100 * $4 / $5) }')
+
+    # Print tooltip
+    if [ "${TIP}" = true ]; then
+      >&2 printf "%s\n" "$(wicd-cli -i)"
+    fi
+
+    # Print wifi info
+    if  [ "${ICON}" = true ]; then
+      if (( NET_POWER>=90 )); then
+        echo "$HOME/.config/tint2/icons/net-wifi_4.svg"
+      elif (( NET_POWER>=64 )); then
+        echo "$HOME/.config/tint2/icons/net-wifi_3.svg"
+      elif (( NET_POWER>=37 )); then
+        echo "$HOME/.config/tint2/icons/net-wifi_2.svg"
+      elif (( NET_POWER>=11 )); then
+        echo "$HOME/.config/tint2/icons/net-wifi_1.svg"
+      else
+        echo "$HOME/.config/tint2/icons/net-wifi_0.svg"
+      fi
+    fi
+    echo "${NET_NAME}"
+
+  else
+
+    # Print tooltip
+    if [ "${TIP}" = true ]; then
+      >&2 printf "No Connection...\nClick here to search for networks\n"
+    fi
+    
+    # Print info
+    if  [ "${ICON}" = true ]; then
+      echo "/home/top/.config/tint2/icons/net-none.svg"
+    fi
+    echo "None"
+
+  fi
+fi

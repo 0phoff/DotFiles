@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+#--------------------------------------------------------------------------------------------------------
+# TINT2 EXECUTOR - VOLUME
+#--------------------------------------------------------------------------------------------------------
+#
+# Tint2 Executor - Volume : A tint2 executor that displays volume percentage
+# By 0phoff
+# GPL license
+#
+#--------------------------------------------------------------------------------------------------------
+#
+# Usage: ./volume [-i] [-t]
+#	-i : Enable icon
+#	-t : Enable tooltip
+#
+#--------------------------------------------------------------------------------------------------------
+
+VOLUME_INFO=$(amixer sget Master)
+VOLUME_STATE=$(echo "${VOLUME_INFO}" | awk -F"[][]" '/dB/ { print $6 }')
+VOLUME_POWER=$(pactl list sinks | grep '^[[:space:]]Volume:' |     head -n $(( $SINK + 1 )) | tail -n 1 | sed -e 's,.* \([0-9][0-9]*\)%.*,\1,' | uniq)
+
+# Get options
+while getopts "it" flag; do
+  case "$flag" in
+    i) ICON=true;;
+    t) TIP=true;;
+    \?) ;;
+  esac
+done
+
+# Print tooltip
+if [ "$TIP" = true ]; then
+  >&2 printf "%s\n" "$VOLUME_INFO"
+fi
+
+# Print volume info
+if  [ "$ICON" = true ]; then
+  if [ "${VOLUME_STATE}" = "off" ]; then
+    echo "$HOME/.config/tint2/icons/vol-muted.svg"
+  elif (( VOLUME_POWER>=67 )); then
+    echo "$HOME/.config/tint2/icons/vol-3.svg"
+  elif (( VOLUME_POWER>=33 )); then
+    echo "$HOME/.config/tint2/icons/vol-2.svg"
+  elif (( VOLUME_POWER>0 )); then
+    echo "$HOME/.config/tint2/icons/vol-1.svg"
+  else
+    echo "$HOME/.config/tint2/icons/vol-0.svg"
+  fi
+fi
+echo "${VOLUME_POWER}%"

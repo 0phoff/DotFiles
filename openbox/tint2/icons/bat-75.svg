@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg8"
+   version="1.1"
+   viewBox="0 0 13.229167 28.045813"
+   height="28.045813mm"
+   width="13.229167mm"
+   sodipodi:docname="bat_75.svg"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)">
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1050"
+     id="namedview11"
+     showgrid="false"
+     inkscape:zoom="2.2264167"
+     inkscape:cx="25.000001"
+     inkscape:cy="52.999961"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg8" />
+  <defs
+     id="defs2" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <rect
+     id="rect4526"
+     width="13.229167"
+     height="26.458334"
+     x="3.100586e-07"
+     y="1.5874785"
+     rx="1.3229166"
+     ry="1.3229166"
+     style="fill:#2f343f;fill-opacity:1;stroke-width:0.26458332" />
+  <path
+     style="fill:#2f343f;fill-opacity:1;stroke-width:0.26458332"
+     d="M 4.7625002,-9.2773433e-8 H 8.4666668 C 8.9064043,-9.2773433e-8 9.2604167,0.3540124 9.2604167,0.7937499 v 1.0583333 c 0,0.4397375 -0.3540124,0.79375 -0.7937499,0.79375 H 4.7625002 c -0.4397375,0 -0.79375,-0.3540125 -0.79375,-0.79375 V 0.7937499 C 3.9687502,0.3540124 4.3227627,-9.2773433e-8 4.7625002,-9.2773433e-8 Z"
+     id="rect4528" />
+  <rect
+     style="fill:#ffffff;stroke-width:0.22450639"
+     y="2.9104004"
+     x="1.3229145"
+     height="23.8125"
+     width="10.583333"
+     id="rect4530" />
+  <rect
+     id="rect4550"
+     width="9.5249996"
+     height="17.727083"
+     x="1.8520817"
+     y="8.4666443"
+     style="fill:#2f343f;fill-opacity:1;stroke-width:0.18376639" />
+</svg>
