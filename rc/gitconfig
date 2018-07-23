@@ -1,0 +1,32 @@
+[user]
+  name = 0phoff
+  email = 0phoff@users.noreply.github.com
+[alias]
+  unstage = "reset HEAD --"
+  # Visualisation
+  st = status
+  lg = log --graph --date=relative --abbrev-commit --pretty=tformat:'%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%an %ad)%Creset'
+  lgl = "!git lg @{push}.."
+  lgf = "show --name-status -r"
+  # Configuration
+  gh = "!git config user.name \"$GH_USER\" && git config user.email \"$GH_MAIL\""
+  gl = "!git config user.name \"$GL_USER\" && git config user.email \"$GL_MAIL\""
+	remote-set = "!f() { git remote set-url $1 $(git remote get-url $1 | sed \"s/git\\(hub\\|lab\\)\\.com/$(git config user.name)@\\0/\" | sed 's@\\(/[^.]*\\)\\(\\.git\\)\\{0,1\\}$@\\1.git@'); git remote get-url $1; }; f"
+[credential]
+  helper = cache
+[color]
+  ui = auto
+[core]
+  excludesfile = /home/top/.gitignore
+  pager = cat
+  editor = nvim
+  whitespace = -trailing-space
+[diff]
+  mnemonicPrefix = true
+  renames = true
+  wordregex = .
+  submodule = log
+[log]
+  abbrevCommit = true
+[push]
+  default = simple

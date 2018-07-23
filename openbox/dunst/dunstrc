@@ -29,7 +29,7 @@
     # the top and down respectively.
     # The width can be negative.  In this case the actual width is the
     # screen width minus the width defined in within the geometry option.
-    geometry = "0x50-52+64"
+    geometry = "250x50-52+64"
 
     # Show how many messages are currently hidden (because of geometry).
     indicate_hidden = yes
@@ -159,7 +159,7 @@
     max_icon_size = 32
 
     # Paths to default icons.
-    icon_folders = /usr/share/icons/Numix/16/status/:/usr/share/icons/Numix/16/devices/
+    icon_folders = /usr/share/icons/Numix/16/status/:/usr/share/icons/Numix/16/devices/:/usr/share/icons/Numix/scalable/status/:/usr/share/icons/Numix/scalable/devices/
 
     ### History ###
 
@@ -231,7 +231,7 @@
     # On the US keyboard layout "grave" is normally above TAB and left
     # of "1". Make sure this key actually exists on your keyboard layout,
     # e.g. check output of 'xmodmap -pke'
-    history = mod4+twosuperior
+    history = mod4+grave
 
     # Context menu.
     context = mod4+mod1+space

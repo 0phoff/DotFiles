@@ -1,7 +1,9 @@
 # Only source bashrc on interactive prompts
 [[ $- != *i* ]] && return
 
+
 # Set Prompt
+############
 precmd() {
   if [ -n "$TMUX" ]; then
     tmux setenv TMUXPWD_$(tmux display -p "#D" | tr -d %) "$PWD"
@@ -42,11 +44,15 @@ compile_prompt() {
 
 PROMPT_COMMAND="precmd;compile_prompt;$PROMPT_COMMAND"
 
-# Set Environment variables
+
+# Environment variables
+#######################
 export EDITOR="vim"
 export PAGER="less"
 
-# Set Custom Aliases
+
+# Aliases
+#########
 alias ls="ls --color"
 alias ll="ls -Al"
 alias lx="ls -AgohX"
@@ -64,9 +70,6 @@ alias mdkill="sudo -E pkill grip"
 alias catkin_make="catkin_make -DPYTHON_EXECUTABLE=/usr/bin/python2 -DPYTHON_INCLUDE_DIR=/usr/include/python2.7 -DPYTHON_LIBRARY=/usr/lib/libpython2.7.so"
 alias rosinit="source rosinit.sh"
 
-alias no-tmux="exec xfce4-terminal -e 'env NO_TMUX=1 bash'"
-
-# Custom Alias Functions
 ## Executes sudo -E for nvim so it loads with user config and not root config
 ## Otherwise behaves like regular sudo command
 sudo() {
@@ -76,6 +79,7 @@ sudo() {
         command sudo "$@"
     fi
 }
+
 ## tks       => tmux kill-server
 ## tks -a    => tmux kill-session -a
 ## tks 1     => tmux kill-session -t 1
@@ -86,43 +90,34 @@ tks() {
         [ ${1:0:1} == "-" ] && tmux kill-session $1 || tmux kill-session -t $1
     fi
 }
+
 ## Docker: clean <none> images
 dockerclean() {
-    #containers=$(docker ps -q -f "status=exited" | tr '\n' ' ')
-    #if [ ! -z ${containers// } ]; then
-    #    echo -e "\e[01mDeleting containers:\e[00m"
-    #    docker rm $containers
-    #fi
-
     images=$(docker images -q -f "dangling=true" | tr '\n' ' ')
     if [ ! -z ${images// } ]; then
         echo -e "\e[01mDeleting images:\e[00m"
         docker rmi $images
     fi
 }
-tmux() {
-    local tmux=$(type -fp tmux)
-    case "$1" in
-        update-environment|update-env|env-update)
-            local v
-            while read v; do
-                if [[ $v == -* ]]; then
-                    unset ${v/#-/}
-                else
-                    # Add quotes around the argument
-                    v=${v/=/=\"}
-                    v=${v/%/\"}
-                    eval export $v
-                fi
-            done < <(tmux show-environment)
-            ;;
-        *)
-            $tmux "$@"
-            ;;
-    esac
+
+# Update environment variables for eg. SSH sessions
+tmux-env() {
+    local v
+    while read v; do
+        if [[ $v == -* ]]; then
+            unset ${v/#-/}
+        else
+            # Add quotes around the argument
+            v=${v/=/=\"}
+            v=${v/%/\"}
+            eval export $v
+        fi
+    done < <(tmux show-environment)
 }
 
-# ROS Settings
+
+# Sourcing ROS
+##############
 if [ -f /opt/ros/kinetic/setup.bash ]; then
     source /opt/ros/kinetic/setup.bash
     
@@ -135,7 +130,9 @@ if [ -f ~/.dir_colors ]; then
     eval "$(dircolors ~/.dir_colors)"
 fi
 
-# Python virutalenvwrapper
+
+# Sourcing virutalenvwrapper
+############################
 if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
     export VIRTUAL_ENV_DISABLE_PROMPT=1
     if [ -f /usr/local/bin/virtualenvwrapper_lazy.sh ]; then
@@ -146,12 +143,11 @@ if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
     fi
 fi
 
-# Start Bash with TMUX
-if [ -z "$SSH_CONNECTION" ] && [ -z "$NO_TMUX" ]; then
-    if command -v tmux>/dev/null; then
-        if [[ -z "$TMUX" ]]; then
-            tmux has -t random && exec tmux attach -t random || exec tmux
-        fi
+
+# Tmux autostart
+################
+if [ -z "$TMUX" ] && [ -z "$SSH_CONNECTION" ] && [ -z "$NO_TMUX" ]; then
+    if type -f tmux &> /dev/null; then
+        tmux has -t random && exec tmux attach -t random || exec tmux
     fi
 fi
-

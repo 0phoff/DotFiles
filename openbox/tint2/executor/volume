@@ -15,9 +15,9 @@
 #
 #--------------------------------------------------------------------------------------------------------
 
-VOLUME_INFO=$(amixer sget Master)
+VOLUME_INFO=$(amixer -M get Master)
 VOLUME_STATE=$(echo "${VOLUME_INFO}" | awk -F"[][]" '/dB/ { print $6 }')
-VOLUME_POWER=$(pactl list sinks | grep '^[[:space:]]Volume:' |     head -n $(( $SINK + 1 )) | tail -n 1 | sed -e 's,.* \([0-9][0-9]*\)%.*,\1,' | uniq)
+VOLUME_POWER=$(echo "${VOLUME_INFO}" | awk -F"[][%]" '/dB/ { print $2 }')
 
 # Get options
 while getopts "it" flag; do

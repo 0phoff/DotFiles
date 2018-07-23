@@ -1,21 +1,20 @@
 # Set Windows key to garbage combination for openbox keybindings
 xcape -e 'Super_L=Super_L|Alt_L|F1' &
 
+# Remap CapsLock to control
+setxkbmap -option ctrl:nocaps
+
 # Turn off system beep
 xset b off
 
 # System
 xfce4-power-manager &
-xfce4-volumed &
-numlockx &
 
 # Visual stuff
 compton -b &
-nitrogen --restore &
 tint2 -c /home/top/.config/tint2/popside-top.tint2rc &
 tint2 -c /home/top/.config/tint2/popside-bottom.tint2rc &
 
 # Applications
-(sleep 2 && xscreensaver -no-splash) &
-(sleep 2 && thunar --daemon) &
+(sleep 2 && light-locker) &
 (sleep 2 && touchoff) &

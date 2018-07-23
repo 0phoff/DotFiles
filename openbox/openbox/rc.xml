@@ -316,7 +316,7 @@
     </keybind>
     <keybind key="W-f">
       <action name="Execute">
-        <command>thunar</command>
+        <command>nautilus</command>
       </action>
     </keybind>
     <keybind key="W-l">
@@ -324,23 +324,50 @@
         <command>oblogout</command>
       </action>
     </keybind>
+    <!-- Volume -->
+    <keybind key="XF86AudioRaiseVolume">
+        <action name="Execute"> 
+	    <command>volume up 1</command>
+        </action>
+    </keybind>
+    <keybind key="XF86AudioLowerVolume">
+        <action name="Execute">
+            <command>volume down 1</command>
+        </action>
+    </keybind>
+    <keybind key="XF86AudioMute">
+        <action name="Execute"> 
+            <command>volume mute</command>
+        </action>
+    </keybind>
+    <!-- Brightness -->
+    <keybind key="XF86MonBrightnessUp">
+        <action name="Execute"> 
+	    <command>sudo brightness up</command>
+        </action>
+    </keybind>
+    <keybind key="XF86MonBrightnessDown">
+        <action name="Execute">
+            <command>sudo brightness down</command>
+        </action>
+    </keybind>
     <!-- Screenshots -->
     <keybind key="Print">
       <action name="Execute">
-        <command>scrot ~/Pictures/screenshots/%Y_%m_%d-%H:%M:%S.png</command>
         <!-- Current screen -->
+        <command>scrot ~/Pictures/screenshots/%Y_%m_%d-%H:%M:%S.png</command>
       </action>
     </keybind>
     <keybind key="S-Print">
       <action name="Execute">
-        <command>scrot -m ~/Pictures/screenshots/%Y_%m_%d-%H:%M:%S.png</command>
         <!-- Multiple screens -->
+        <command>scrot -m ~/Pictures/screenshots/%Y_%m_%d-%H:%M:%S.png</command>
       </action>
     </keybind>
     <keybind key="C-Print">
       <action name="Execute">
-        <command>scrot -s ~/Pictures/screenshots/%Y_%m_%d-%H:%M:%S.png</command>
         <!-- Select window or area -->
+        <command>scrot -s ~/Pictures/screenshots/%Y_%m_%d-%H:%M:%S.png</command>
       </action>
     </keybind>
   </keyboard>

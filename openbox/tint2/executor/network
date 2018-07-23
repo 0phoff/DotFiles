@@ -16,8 +16,8 @@
 #
 #--------------------------------------------------------------------------------------------------------
 
-ETH=enp4s0f2
-WIFI=wlp3s0
+ETH=none
+WIFI=wlp2s0
 
 # Get options
 while getopts "it" flag; do
