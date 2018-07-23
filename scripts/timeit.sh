@@ -3,9 +3,9 @@
 # TIMEIT SCRIPT
 #----------------------------------------------------------------------------------------------------------------------
 #
-# Timeit Script : Will execute a command multiple times and calculate average running time
-# By            bobmcn
-# Modified by   0phoff
+# Timeit Script : Execute a command multiple times and calculate average running time
+# By		bobmcn
+# Modified by	0phoff
 #
 # https://stackoverflow.com/questions/17601539/calculate-the-average-of-several-time-commands-in-linux
 #

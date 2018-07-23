@@ -9,7 +9,7 @@
 #
 #--------------------------------------------------------------------------------------------------------
 #
-# Usage: sudo create_hp [-s ssid] [-p password ][-W|-w hostname]
+# Usage: sudo create_hotspot [-s ssid] [-p password ][-W|-w hostname]
 # Extra commands :
 #   - create_ap --list-running                  list running hotspots
 #   - create_ap --list-client $ACCESSPOINT      list connected clients to certain hotspot

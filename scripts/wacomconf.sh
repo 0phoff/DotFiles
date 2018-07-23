@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Pad
 # Setting Button keys to unused ID's, order: top left, bottom left, top right, bottom right

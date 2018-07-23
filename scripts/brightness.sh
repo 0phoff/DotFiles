@@ -4,7 +4,8 @@
 #--------------------------------------------------------------------------------------------------------
 #
 # Brightness Control : Control your brightness and send notification
-# Modified by   0phoff
+# By 0phoff
+# MIT license
 #
 # Be sure to install dunst from source and also install the dunstify utility:
 #    > make
@@ -17,7 +18,7 @@
 #
 #--------------------------------------------------------------------------------------------------------
 #
-# Usage: xrandr up|down|set|mute [percent]
+# Usage: brightness up|down|set|mute [percent]
 #
 #--------------------------------------------------------------------------------------------------------
 NOTIF_ID=6667
