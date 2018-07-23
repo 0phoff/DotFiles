@@ -23,7 +23,7 @@ fi
 
 # Commands
 tmux send -t Monitor.1 'top' Enter
-tmux send -t Monitor.2 'watch -n0.1 nvidia-smi' Enter
+tmux send -t Monitor.2 'watch -tn0.1 nvidia-smi' Enter
 
 # Select main window
 tmux selectw -t Monitor
