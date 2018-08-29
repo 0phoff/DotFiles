@@ -2,7 +2,20 @@
 [[ $- != *i* ]] && return
 
 
-# Set Prompt
+# History management
+####################
+shopt -s histappend
+
+export HISTCONTROL=ignoredups:erasedups
+export HISTSIZE=10000
+export HISTFILESIZE=10000
+PROMPT_COMMAND="history -a;$PROMPT_COMMAND"
+
+bind '"\C-p": history-search-backward'
+bind '"\C-n": history-search-forward'
+
+
+# Set prompt
 ############
 precmd() {
   if [ -n "$TMUX" ]; then
@@ -55,7 +68,7 @@ export PAGER="less"
 #########
 alias ls="ls --color"
 alias ll="ls -Al"
-alias lx="ls -AgohX"
+alias lx="ls -AgohXL --group-directories-first"
 alias vim="nvim"
 alias top="vtop --theme wizard"
 alias grep="grep --color"
