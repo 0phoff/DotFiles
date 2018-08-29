@@ -355,16 +355,40 @@
     <keybind key="Print">
       <action name="Execute">
         <!-- Current screen -->
-        <command>scrot ~/Pictures/screenshots/%Y_%m_%d-%H:%M:%S.png</command>
+	<command>
+          sh -c 'scrot ~/Pictures/screenshots/temp.png ; xclip -target image/png -selection clipboard -i ~/Pictures/screenshots/temp.png ; rm ~/Pictures/screenshots/temp.png'
+	</command>
       </action>
     </keybind>
     <keybind key="S-Print">
       <action name="Execute">
         <!-- Multiple screens -->
-        <command>scrot -m ~/Pictures/screenshots/%Y_%m_%d-%H:%M:%S.png</command>
+	<command>
+          sh -c 'scrot -m ~/Pictures/screenshots/temp.png ; xclip -target image/png -selection clipboard -i ~/Pictures/screenshots/temp.png ; rm ~/Pictures/screenshots/temp.png'
+	</command>
       </action>
     </keybind>
     <keybind key="C-Print">
+      <action name="Execute">
+        <!-- Select window or area -->
+	<command>
+          sh -c 'scrot -s ~/Pictures/screenshots/temp.png ; xclip -target image/png -selection clipboard -i ~/Pictures/screenshots/temp.png ; rm ~/Pictures/screenshots/temp.png'
+	</command>
+      </action>
+    </keybind>
+    <keybind key="A-Print">
+      <action name="Execute">
+        <!-- Current screen -->
+        <command>scrot ~/Pictures/screenshots/%Y_%m_%d-%H:%M:%S.png</command>
+      </action>
+    </keybind>
+    <keybind key="S-A-Print">
+      <action name="Execute">
+        <!-- Multiple screens -->
+        <command>scrot -m ~/Pictures/screenshots/%Y_%m_%d-%H:%M:%S.png</command>
+      </action>
+    </keybind>
+    <keybind key="C-A-Print">
       <action name="Execute">
         <!-- Select window or area -->
         <command>scrot -s ~/Pictures/screenshots/%Y_%m_%d-%H:%M:%S.png</command>
