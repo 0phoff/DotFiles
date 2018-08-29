@@ -17,4 +17,4 @@ tint2 -c /home/top/.config/tint2/popside-bottom.tint2rc &
 
 # Applications
 (sleep 2 && light-locker) &
-(sleep 2 && touchoff) &
+(sleep 2 && touchpad_off) &
