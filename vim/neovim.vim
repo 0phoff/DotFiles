@@ -34,7 +34,6 @@ call plug#begin()
     "Plug 'gabrielelana/vim-markdown'                                " Markdown
 
     " Functional Plugins
-    Plug 'scrooloose/nerdtree'                                      " Project tree viewer
     Plug 'christoomey/vim-tmux-navigator'                           " Use ctrl-hjkl to navigate vim & tmux
     Plug 'mattn/emmet-vim', {'for': emmetFiles}                     " Emmet fast html-tag creation
 
@@ -51,25 +50,6 @@ call plug#end()
 
 " Plugin Settings       {{{
 
-" NerdTree
-nnoremap <silent> <Leader>t :NERDTreeToggle<CR>
-let g:NERDTreeStatusline = '%8*'
-let g:NERDTreeQuitOnOpen = 1
-let g:NERDTreeMapOpenSplit = 'h'
-let g:NERDTreeMapOpenVSplit = 'v'
-let g:NERDTreeHighlightFolders = 1
-highlight! link NERDTreeDir Identifier
-highlight! link NERDTreeOpenable NonText
-highlight! link NERDTreeClosable NonText
-highlight! link NERDTreeExecFile Normal
-
-" Markdown
-"let g:markdown_mapping_switch_status = '-'
-"let g:markdown_enable_spell_checking = 0
-
-" Json
-"let g:vim_json_syntax_conceal = 0
-
 " Theme
 set bg=dark
 let g:nord_italic_comments=1
@@ -77,7 +57,7 @@ colorscheme nord
 
 " Statusline
 set laststatus=2        " Always show statusbar
-set noshowmode          " Dont show mode -> already in lightline
+set noshowmode          " Dont show mode -> already in statusline
 
 " ----------------------}}}
 
@@ -103,9 +83,11 @@ set noshowmode          " Dont show mode -> already in lightline
     onoremap <silent> <expr> j v:count ? 'j':'gj' 
     onoremap <silent> <expr> k v:count ? 'k':'gk'
 
-    " Alt-jk move through tabs
-    nnoremap <M-j> gt
-    nnoremap <M-k> gT
+    " Buffer mappings
+    nnoremap <M-j> :bn <CR>
+    nnoremap <M-k> :bp <CR>
+    nnoremap <silent> <Leader>bh :b# <CR>
+    nnoremap <Leader>bb :ls<CR>:b<Space>
 
     " Search visual selection
     vnoremap // y/<C-r>"<CR>
@@ -204,6 +186,7 @@ set smartcase               " Searching is case sensitive if there is a capital
 set incsearch               " Set incremetal searching
 set hlsearch                " Highlight search
 
+set hidden                  " Allow to leave unsaved buffers
 set splitbelow              " Split below current
 set splitright              " Split right of current
 
