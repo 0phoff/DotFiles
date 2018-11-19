@@ -8,7 +8,7 @@
 "
 "  Ascii Statusline and Tabline
 "  By 0phoff
-"  Version 1.0
+"  Version 1.1
 "
 " ---------------------------------------------------------------------------------------------------------------
 
@@ -200,25 +200,29 @@ function! SL_Tabline() abort
     let s .= (tabnr == t ? '%4*' : '%2*')
 
     " Insert BufferName
-    let buflist = tabpagebuflist(tabnr)
-    let winnr = tabpagewinnr(tabnr)
-    let bufnr = buflist[winnr - 1]
-    let file = bufname(bufnr)
-    let buftype = getbufvar(bufnr, '&buftype')
-
-    if buftype == 'help'
-      let file = 'help:' . fnamemodify(file, ':t:r')
-    elseif buftype == 'quickfix'
-      let file = 'quickfix'
-    elseif buftype == 'nofile'
-      if file =~ '\/.'
-        let file = substitute(file, '.*\/\ze.', '', '')
-      endif
-    else
-      let file = pathshorten(fnamemodify(file, ':p:~:.'))
-    endif
+    let file = gettabvar(tabnr, 'tabname')
     if file == ''
-      let file = '[No Name]'
+      let buflist = tabpagebuflist(tabnr)
+      let winnr = tabpagewinnr(tabnr)
+      let bufnr = buflist[winnr - 1]
+      let file = bufname(bufnr)
+      let buftype = getbufvar(bufnr, '&buftype')
+
+      
+      if buftype == 'help'
+        let file = 'help:' . fnamemodify(file, ':t:r')
+      elseif buftype == 'quickfix'
+        let file = 'quickfix'
+      elseif buftype == 'nofile'
+        if file =~ '\/.'
+          let file = substitute(file, '.*\/\ze.', '', '')
+        endif
+      else
+        let file = pathshorten(fnamemodify(file, ':p:~:.'))
+      endif
+      if file == ''
+        let file = '[No Name]'
+      endif
     endif
 
     let s .= file
@@ -236,5 +240,12 @@ hi! link TabLine      User1
 hi! link TabLineSel   User1
 hi! link TabLineFill  User1
 set tabline=%!SL_Tabline()
+
+" ----------------------}}}
+
+
+" Setup commands        {{{
+
+command! -nargs=? Tabname call AsciiStatus#KeyMapping#SetTabName(<q-args>)
 
 " ----------------------}}}
