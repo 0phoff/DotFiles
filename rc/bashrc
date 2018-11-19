@@ -55,6 +55,7 @@ compile_prompt() {
   PS1+="${c_reset}"
 }
 
+PROMPT_DIRTRIM=5
 PROMPT_COMMAND="precmd;compile_prompt;$PROMPT_COMMAND"
 
 
