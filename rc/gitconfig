@@ -3,11 +3,12 @@
   email = 0phoff@users.noreply.github.com
 [alias]
   unstage = "reset HEAD --"
+  sha = "!git lg --color=always | fzf --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort | grep -o '[a-f0-9]\\{7\\}'"
   # Visualisation
   st = status
   lg = log --graph --date=relative --abbrev-commit --pretty=tformat:'%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%an %ad)%Creset'
   lgl = "!git lg @{push}.."
-  lgf = "show --name-status -r"
+  lgb = "!git lg --color=always | fzf --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort --bind \"ctrl-m:execute:(echo {} | grep -o '[a-f0-9]\\{7\\}' | xargs -I % sh -c 'git show --color=always % | less -R')\" --bind \"ctrl-f:execute:(echo {} | grep -o '[a-f0-9]\\{7\\}' | xargs -I % sh -c 'git show --color=always --name-status -r % | less -R')\""
   # Configuration
   gh = "!git config user.name \"$GH_USER\" && git config user.email \"$GH_MAIL\""
   gl = "!git config user.name \"$GL_USER\" && git config user.email \"$GL_MAIL\""

@@ -11,6 +11,7 @@ These packages are needed to fully use the dotfiles.
   - [ ] Ag
   - [ ] Minidlnad
   - [ ] ROS
+  - [ ] fzf _(install in ~/.fzf/)_
   - [ ] Node _(NVM/NPM)_
   - [ ] Vtop _(Node package)_
   - [ ] Todocmd _(Node package)_

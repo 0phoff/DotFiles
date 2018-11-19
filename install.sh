@@ -51,14 +51,15 @@ if [[ "$1" =~ ^scripts/?$ ]]; then
     	echo 'Installed scripts'
     fi
 elif [[ "$1" =~ ^rc/?$ ]]; then
-    #$DEBUG ln -sf $PWD/rc/agignore            $HOME/.agignore
-    $DEBUG ln -sf $PWD/rc/bashrc              $HOME/.bashrc
-    $DEBUG ln -sf $PWD/rc/dir_colors	      $HOME/.dir_colors
-    $DEBUG ln -sf $PWD/rc/gitconfig           $HOME/.gitconfig
-    $DEBUG ln -sf $PWD/rc/gitignore           $HOME/.gitignore
-    $DEBUG ln -sf $PWD/rc/profile	      $HOME/.profile
-    $DEBUG ln -sf $PWD/rc/Xresources	      $HOME/.Xresources
-    $DEBUG cp $PWD/rc/local.bashrc            $HOME/.config/local.bashrc
+    #$DEBUG ln -sf $PWD/rc/agignore          $HOME/.agignore
+    $DEBUG ln -sf $PWD/rc/bashrc            $HOME/.bashrc
+    $DEBUG ln -sf $PWD/rc/dir_colors        $HOME/.dir_colors
+    $DEBUG ln -sf $PWD/rc/gitconfig         $HOME/.gitconfig
+    $DEBUG ln -sf $PWD/rc/gitignore         $HOME/.gitignore
+    $DEBUG ln -sf $PWD/rc/profile           $HOME/.profile
+    $DEBUG ln -sf $PWD/rc/Xresources        $HOME/.Xresources
+    $DEBUG ln -sf $PWD/rc/fzf.bashrc        $HOME/.config/fzf.bashrc
+    $DEBUG cp -n $PWD/rc/local.bashrc       $HOME/.config/local.bashrc
     if [ -z ${DEBUG+x} ]; then
         echo 'Installed config files'
 	echo "edit '$HOME/.config/local.bashrc' to your likings"

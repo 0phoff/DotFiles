@@ -158,6 +158,14 @@ if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
 fi
 
 
+# FZF settings
+##############
+if [ -f ~/.config/fzf.bashrc ]; then
+    export FZF_DEFAULT_OPTS='--height 50% --layout=reverse'
+    source ~/.config/fzf.bashrc
+fi
+
+
 # Tmux autostart
 ################
 if [ -z "$TMUX" ] && [ -z "$SSH_CONNECTION" ] && [ -z "$NO_TMUX" ]; then
