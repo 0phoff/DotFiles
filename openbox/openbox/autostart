@@ -1,11 +1,15 @@
+# Turn off system beep
+xset b off
+
+# Setup screens
+xrandr --auto --output HDMI-1-1 --mode 1920x1080 --right-of eDP-1-1
+xrandr --auto --output DP-1-1-2 --mode 1920x1080 --right-of eDP-1-1
+
 # Set Windows key to garbage combination for openbox keybindings
 xcape -e 'Super_L=Super_L|Alt_L|F1' &
 
 # Remap CapsLock to control
 setxkbmap -option ctrl:nocaps
-
-# Turn off system beep
-xset b off
 
 # System
 xfce4-power-manager &
