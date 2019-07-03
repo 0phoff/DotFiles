@@ -77,7 +77,7 @@ case $LAYOUT in
     
     [dD]ev[rR]unner | [dD][rR] )
         tmux splitw -h -c "#{PWD}" -p 35
-        tmux splitw -d -v -c "#{PWD}" -p 40
+        tmux splitw -d -v -c "#{PWD}" -p 50
         tmux lastp
         ;;
 
