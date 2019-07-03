@@ -265,11 +265,100 @@
     <keybind key="W-x">
       <action name="Close"/>
     </keybind>
-    <keybind key="W-Up">
+    <keybind key="W-m">
       <action name="ToggleMaximize"/>
     </keybind>
+    <keybind key="W-Left">
+      <action name="If">
+        <query target="default">
+          <maximizedvertical>yes</maximizedvertical>
+        </query>
+        <then>
+          <action name="Unmaximize">
+            <direction>horizontal</direction>
+          </action>
+          <action name="MoveResizeTo">
+            <x>0</x>
+            <width>50%</width>
+          </action>
+        </then>
+        <else>
+          <action name="Unmaximize" />
+          <action name="MoveResizeTo">
+            <x>0</x>
+            <width>50%</width>
+          </action>
+        </else>
+      </action>
+    </keybind>
+    <keybind key="W-Right">
+      <action name="If">
+        <query target="default">
+          <maximizedvertical>yes</maximizedvertical>
+        </query>
+        <then>
+          <action name="Unmaximize">
+            <direction>horizontal</direction>
+          </action>
+          <action name="MoveResizeTo">
+            <x>-0</x>
+            <width>50%</width>
+          </action>
+        </then>
+        <else>
+          <action name="Unmaximize" />
+          <action name="MoveResizeTo">
+            <x>-0</x>
+            <width>50%</width>
+          </action>
+        </else>
+      </action>
+    </keybind>
+    <keybind key="W-Up">
+      <action name="If">
+        <query target="default">
+          <maximizedhorizontal>yes</maximizedhorizontal>
+        </query>
+        <then>
+          <action name="Unmaximize">
+            <direction>vertical</direction>
+          </action>
+          <action name="MoveResizeTo">
+            <y>0</y>
+            <height>50%</height>
+          </action>
+        </then>
+        <else>
+          <action name="Unmaximize" />
+          <action name="MoveResizeTo">
+            <y>0</y>
+            <height>50%</height>
+          </action>
+        </else>
+      </action>
+    </keybind>
     <keybind key="W-Down">
-      <action name="Iconify"/>
+      <action name="If">
+        <query target="default">
+          <maximizedhorizontal>yes</maximizedhorizontal>
+        </query>
+        <then>
+          <action name="Unmaximize">
+            <direction>vertical</direction>
+          </action>
+          <action name="MoveResizeTo">
+            <y>-0</y>
+            <height>50%</height>
+          </action>
+        </then>
+        <else>
+          <action name="Unmaximize" />
+          <action name="MoveResizeTo">
+            <y>-0</y>
+            <height>50%</height>
+          </action>
+        </else>
+      </action>
     </keybind>
     <!-- Window switching -->
     <keybind key="W-Tab">
@@ -851,19 +940,24 @@
 
   # end of the example
 -->
-    <application class="*">
+    <application class="?*">
       <position force="no">
         <x>center</x>
         <y>center</y>
+        <monitor>mouse</monitor>
       </position>
     </application>
-    <application class="oblogout">
+    
+    <application class="Oblogout">
+      <decor>no</decor>
       <position force="yes">
-        <x>-1</x>
-        <y>-1</y>
+        <x>center</x>
+        <y>center</y>
         <monitor>1</monitor>
       </position>
-      <fullscreen>yes</fullscreen>
+      <desktop>all</desktop>
+      <maximized>yes</maximized>
     </application>
+
   </applications>
 </openbox_config>
