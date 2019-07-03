@@ -68,8 +68,8 @@ set noshowmode          " Dont show mode -> already in statusline
     map <SPACE> <leader>
     inoremap jj <ESC>
     nnoremap <Leader><Space> za
+    nnoremap <silent> <Leader>w :w<CR>
     nnoremap <silent> <Leader>h :nohlsearch <CR>
-    nnoremap <silent> <Leader>r :tabe\|tabo!\|%bd <CR>
     nnoremap <silent> <Leader>s :syntax sync fromstart <CR>
 
     " Get rid of accidental Ex Mode -> Use gQ if really wanted
@@ -87,15 +87,14 @@ set noshowmode          " Dont show mode -> already in statusline
     nnoremap <M-j> :bn <CR>
     nnoremap <M-k> :bp <CR>
     nnoremap <silent> <Leader>bh :b# <CR>
-    nnoremap <Leader>bb :ls<CR>:b<Space>
+    nnoremap <Leader>bb :ls<CR>:b
+    nnoremap <Leader>bd :tabe\|tabo!\|%bd<CR>
+    nnoremap <silent> <Leader>q :bd<CR>
 
     " Search visual selection
     vnoremap // y/<C-r>"<CR>
     " Visual select last inserted text
     nnoremap gV `[v`]
-
-    " File Manipulations
-    nnoremap <silent> <Leader>w :w<CR>
 
     " Delete with X -> black hole register
     nnoremap x "_x
@@ -168,6 +167,7 @@ let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1                         " Change Cursor Shap
 " Highlight current line number of current buffer
 hi CursorLine NONE
 hi CursorLineNR cterm=bold ctermbg=NONE guibg=NONE
+hi Visual ctermbg=3
 
 set history=250             " Increase history
 set encoding=utf-8          " Set encoding
@@ -216,6 +216,9 @@ set autoindent              " Auto indent code
 set path=.,**               " Search down into subfolders
 set wildmenu                " Display all matching files when tabbing
 set completeopt=menu        " Set completion to only show popup menu & not preview scratch buffer
+
+set exrc                    " Allow project-specific local rc files
+set secure                  " Secure project specific rc files
 
 " ----------------------}}}
 
