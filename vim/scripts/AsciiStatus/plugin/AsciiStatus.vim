@@ -150,22 +150,23 @@ function! SL_Statusline(nr) abort
   " --------------------}}}
 
   " Left
-  let s .= '[' . s:color(active, 3, '%{SL_Mode()}') . ']'       " Mode
-  let s .= '%<╾─╼'                                              " Separator
-  let s .= '[' . s:color(active, 2, '%t') . ']'                 " Filename
+  let s .= '[' . s:color(active, 3, '%{SL_Mode()}') . ']'         " Mode
+  let s .= '%<╾─╼'                                                " Separator
+  let s .= '[' . s:color(active, 2, '%02n') . ']'                 " Buffer number
+  let s .= '[' . s:color(active, 2, '%t') . ']'                   " Filename
   let s .= '['
-  let s .= s:color(active, 5, '%{SL_FileMod(1)}')               " File saved
-  let s .= s:color(active, 6, '%{SL_FileMod(2)}')               " File modified
-  let s .= s:color(active, 7, '%{SL_FileMod(3)}')               " File locked
+  let s .= s:color(active, 5, '%{SL_FileMod(1)}')                 " File saved
+  let s .= s:color(active, 6, '%{SL_FileMod(2)}')                 " File modified
+  let s .= s:color(active, 7, '%{SL_FileMod(3)}')                 " File locked
   let s .= ']%8*%=%*'
   
   " Right
-  let s .= '[' . s:color(active, 2, '%{SL_FileType()}') . ']'   " Filetype
-  let s .= '╾─╼'                                                " Separator
-  let s .= '[' . s:color(active, 2, '%{SL_FilePath()}') . ']'   " Path to file
-  let s .= '[' . s:color(active, 2, '%{SL_CWD()}') . ']'        " Current working directory
-  let s .= '╾─╼'                                                " Separator
-  let s .= '[' . s:color(active, 3, '%04l %03v') . ']'        " Cursor position
+  let s .= '[' . s:color(active, 2, '%{SL_FileType()}') . ']'     " Filetype
+  let s .= '╾─╼'                                                  " Separator
+  let s .= '[' . s:color(active, 2, '%.40{SL_FilePath()}') . ']'  " Path to file
+  let s .= '[' . s:color(active, 2, '%{SL_CWD()}') . ']'          " Current working directory
+  let s .= '╾─╼'                                                  " Separator
+  let s .= '[' . s:color(active, 3, '%04l %03v') . ']'          " Cursor position
 
   return s
 endfunction
