@@ -8,8 +8,5 @@ if !exists('b:CP_Pairs')
 endif
 call CP_AddPair('`', '`')
 
-" Automatically run XO
-autocmd! BufReadPost,BufWritePost *.js Neomake
-
 " Settings loaded buffer flag
 let b:did_ftplugin_pers = 1
