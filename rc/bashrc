@@ -105,16 +105,7 @@ tks() {
     fi
 }
 
-## Docker: clean <none> images
-dockerclean() {
-    images=$(docker images -q -f "dangling=true" | tr '\n' ' ')
-    if [ ! -z ${images// } ]; then
-        echo -e "\e[01mDeleting images:\e[00m"
-        docker rmi $images
-    fi
-}
-
-# Update environment variables for eg. SSH sessions
+## Tmux: Update environment variables for eg. SSH sessions
 tmux-env() {
     local v
     while read v; do
@@ -127,6 +118,28 @@ tmux-env() {
             eval export $v
         fi
     done < <(tmux show-environment)
+}
+
+## Docker: clean <none> images
+dockerclean() {
+    images=$(docker images -q -f "dangling=true" | tr '\n' ' ')
+    if [ ! -z ${images// } ]; then
+        echo -e "\e[01mDeleting images:\e[00m"
+        docker rmi $images
+    fi
+}
+
+## Run program in background and disown
+bgrun() {
+    $@ &> /dev/null &
+    disown $!
+}
+complete -c bgrun   # Enable completion for this command
+
+## Run jupyter notebook in the background (use virtualenv py36 if none are active)
+jnb() {
+  [ -z ${VIRTUAL_ENV+x} ] && workon py36
+  jupyter notebook $@ &> /dev/null &
 }
 
 
@@ -170,6 +183,6 @@ fi
 ################
 if [ -z "$TMUX" ] && [ -z "$SSH_CONNECTION" ] && [ -z "$NO_TMUX" ]; then
     if type -f tmux &> /dev/null; then
-        tmux has -t random && exec tmux attach -t random || exec tmux
+        tmux has && exec tmux attach || exec tmux
     fi
 fi

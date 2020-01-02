@@ -1,5 +1,6 @@
 # Setup fzf
 # ---------
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 if [[ ! "$PATH" == */home/top/.fzf/bin* ]]; then
   export PATH="$PATH:/home/top/.fzf/bin"
 fi
