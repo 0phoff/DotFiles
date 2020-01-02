@@ -6,12 +6,13 @@
   # Visualisation
   st = status
   lg = log --graph --date=relative --abbrev-commit --pretty=tformat:'%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%an %ad)%Creset'
+  pwd = "rev-parse --show-prefix"
   lgl = "!git lg @{push}.."
   lgb = "!f() { local commit; if [ -t 1 ]; then git lg --color=always | fzf --height=95% --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort --bind \"ctrl-g:execute:(echo {} | grep -o '[a-f0-9]\\{7\\}' | xargs -I % sh -c 'git show --color=always % | less -R')\" --bind \"ctrl-f:execute:(echo {} | grep -o '[a-f0-9]\\{7\\}' | xargs -I % sh -c 'git show --color=always --name-status -r % | less -R')\"; else commit=$(git lg --color=always | fzf --height=95% --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort | grep -o '[a-f0-9]\\{7\\}') || return; echo ${commit}; fi }; f"
   # Configuration
   gh = "!git config user.name \"$GH_USER\" && git config user.email \"$GH_MAIL\""
   gl = "!git config user.name \"$GL_USER\" && git config user.email \"$GL_MAIL\""
-	remote-set = "!f() { git remote set-url $1 $(git remote get-url $1 | sed \"s/git\\(hub\\|lab\\)\\.com/$(git config user.name)@\\0/\" | sed 's@\\(/[^.]*\\)\\(\\.git\\)\\{0,1\\}$@\\1.git@'); git remote get-url $1; }; f"
+  remote-set = "!f() { git remote set-url $1 $(git remote get-url $1 | sed \"s/git\\(hub\\|lab\\)\\.com/$(git config user.name)@\\0/\" | sed 's@\\(/[^.]*\\)\\(\\.git\\)\\{0,1\\}$@\\1.git@'); git remote get-url $1; }; f"
 [credential]
   helper = cache
 [color]
@@ -30,3 +31,8 @@
   abbrevCommit = true
 [push]
   default = simple
+[filter "lfs"]
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
+  required = true
