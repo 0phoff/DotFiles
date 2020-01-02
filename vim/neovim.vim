@@ -36,6 +36,8 @@ call plug#begin()
     " Functional Plugins
     Plug 'christoomey/vim-tmux-navigator'                           " Use ctrl-hjkl to navigate vim & tmux
     Plug 'mattn/emmet-vim', {'for': emmetFiles}                     " Emmet fast html-tag creation
+    Plug '~/.fzf'                                                   " Point to install path of FZF
+    Plug 'junegunn/fzf.vim'
 
     " Visual Plugins
     Plug 'arcticicestudio/nord-vim'                                 " Nord theme
@@ -43,6 +45,7 @@ call plug#begin()
     " Custom Plugins
     Plug '~/.config/nvim/scripts/ClosePair'
     Plug '~/.config/nvim/scripts/AsciiStatus'
+    Plug '~/.config/nvim/scripts/FuzzyScripts'
 call plug#end()
 
 " ----------------------}}}
@@ -62,13 +65,77 @@ set noshowmode          " Dont show mode -> already in statusline
 " ----------------------}}}
 
 
+" Custom Settings       {{{
+
+" Highlight current line number of current buffer
+hi CursorLine NONE
+hi CursorLineNR cterm=bold ctermbg=NONE guibg=NONE
+hi Visual ctermbg=3
+set guicursor=n-v-c:block-Cursor/lCursor-blinkon0,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor
+
+set history=250             " Increase history
+set encoding=utf-8          " Set encoding
+set spelllang=en            " Set default spelllang
+
+set nu                      " Set linenumbers
+set rnu                     " Relative numbers
+set cul                     " Highlight current line
+set showcmd                 " Show command
+set conceallevel=0          " Don't hide text
+set linebreak               " Only wrap at whitespace
+set tw=2147483647           " Don't auto wrap long lines (big Number for ftplugin)
+
+set ignorecase              " Searching is case insensitive
+set smartcase               " Searching is case sensitive if there is a capital
+set incsearch               " Set incremetal searching
+set hlsearch                " Highlight search
+
+set hidden                  " Allow to leave unsaved buffers
+set splitbelow              " Split below current
+set splitright              " Split right of current
+
+set ttimeoutlen=3           " Fix slow mode switching
+set timeoutlen=750          " 750ms for keystroke combo's
+
+set mouse=n                 " Enable mouse in normal mode
+
+set foldenable              " Enable folding
+set foldlevelstart=99       " Open all folds when opening a file
+set foldnestmax=10          " Maximum nested folds
+set foldmethod=marker       " Create folds based on markers in code
+set foldmarker={,}          " Markers are { }
+set foldtext=IndFoldTxt()   " Indent Fold Text
+  function! IndFoldTxt()    "{{{
+    let indent = repeat(' ', indent(v:foldstart))
+    let txt = foldtext()
+    return indent . txt
+  endfunction               "}}}
+
+set tabstop=2               " Tabs are 2 characters long
+set softtabstop=-1          " when entering tab -> #shiftwidth spaces are inserted
+set shiftwidth=2
+set expandtab               " Expand tab to spaces
+set autoindent              " Auto indent code
+
+set path=.,**               " Search down into subfolders
+set wildmenu                " Display all matching files when tabbing
+set completeopt=menu        " Set completion to only show popup menu & not preview scratch buffer
+
+set exrc                    " Allow project-specific local rc files
+set secure                  " Secure project specific rc files
+
+let g:python_host_prog='/usr/bin/python'
+
+" ----------------------}}}
+
+
 " Key Remapping         {{{
 
   " Basics
     map <SPACE> <leader>
     inoremap jj <ESC>
     nnoremap <Leader><Space> za
-    nnoremap <silent> <Leader>w :w<CR>
+    nnoremap <silent> <Leader>w :w <CR>
     nnoremap <silent> <Leader>h :nohlsearch <CR>
     nnoremap <silent> <Leader>s :syntax sync fromstart <CR>
 
@@ -83,12 +150,16 @@ set noshowmode          " Dont show mode -> already in statusline
     onoremap <silent> <expr> j v:count ? 'j':'gj' 
     onoremap <silent> <expr> k v:count ? 'k':'gk'
 
+    " Files
+    nnoremap <silent> <Leader>ff :Files <CR>
+    nnoremap <silent> <Leader>fg :FZSRg <CR>
+
     " Buffer mappings
     nnoremap <M-j> :bn <CR>
     nnoremap <M-k> :bp <CR>
-    nnoremap <silent> <Leader>bh :b# <CR>
-    nnoremap <Leader>bb :ls<CR>:b
+    nnoremap <Leader>bb :Buffers <CR>
     nnoremap <Leader>bd :tabe\|tabo!\|%bd<CR>
+    nnoremap <silent> <Leader>bh :b# <CR>
     nnoremap <silent> <Leader>q :bd<CR>
 
     " Search visual selection
@@ -155,70 +226,6 @@ set noshowmode          " Dont show mode -> already in statusline
         let &ruler=x | let &showcmd=y
         return "\<C-x>"
       endfunction                 "}}}
-
-" ----------------------}}}
-
-
-" Custom Settings       {{{
-
-" TEMPORARY
-let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1                         " Change Cursor Shape Depending on Mode -> syntax will change in future
-
-" Highlight current line number of current buffer
-hi CursorLine NONE
-hi CursorLineNR cterm=bold ctermbg=NONE guibg=NONE
-hi Visual ctermbg=3
-
-set history=250             " Increase history
-set encoding=utf-8          " Set encoding
-set spelllang=en            " Set default spelllang
-
-set nu                      " Set linenumbers
-set rnu                     " Relative numbers
-set cul                     " Highlight current line
-set showcmd                 " Show command
-set conceallevel=0          " Don't hide text
-set linebreak               " Only wrap at whitespace
-set tw=2147483647           " Don't auto wrap long lines (big Number for ftplugin)
-
-set ignorecase              " Searching is case insensitive
-set smartcase               " Searching is case sensitive if there is a capital
-set incsearch               " Set incremetal searching
-set hlsearch                " Highlight search
-
-set hidden                  " Allow to leave unsaved buffers
-set splitbelow              " Split below current
-set splitright              " Split right of current
-
-set ttimeoutlen=3           " Fix slow mode switching
-set timeoutlen=750          " 750ms for keystroke combo's
-
-set mouse=n                 " Enable mouse in normal mode
-
-set foldenable              " Enable folding
-set foldlevelstart=99       " Open all folds when opening a file
-set foldnestmax=10          " Maximum nested folds
-set foldmethod=marker       " Create folds based on markers in code
-set foldmarker={,}          " Markers are { }
-set foldtext=IndFoldTxt()   " Indent Fold Text
-  function! IndFoldTxt()    "{{{
-    let indent = repeat(' ', indent(v:foldstart))
-    let txt = foldtext()
-    return indent . txt
-  endfunction               "}}}
-
-set tabstop=2               " Tabs are 2 characters long
-set softtabstop=-1          " when entering tab -> #shiftwidth spaces are inserted
-set shiftwidth=2
-set expandtab               " Expand tab to spaces
-set autoindent              " Auto indent code
-
-set path=.,**               " Search down into subfolders
-set wildmenu                " Display all matching files when tabbing
-set completeopt=menu        " Set completion to only show popup menu & not preview scratch buffer
-
-set exrc                    " Allow project-specific local rc files
-set secure                  " Secure project specific rc files
 
 " ----------------------}}}
 

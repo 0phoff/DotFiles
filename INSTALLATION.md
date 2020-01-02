@@ -8,7 +8,8 @@ These packages are needed to fully use the dotfiles.
   - [ ] Tmux
   - [ ] Neovim
   - [ ] Git
-  - [ ] Ag
+  - [ ] RipGrep
+  - [ ] fd-find
   - [ ] Minidlnad
   - [ ] ROS
   - [ ] fzf _(install in ~/.fzf/)_
@@ -21,7 +22,7 @@ Things to do after installing the dotfiles.
   - [ ] Check if simlinks are correct
   - [ ] Powerline font
   - [ ] gnome-terminal-colors _https://github.com/metalelf0/gnome-terminal-colors_
+  - [ ] Neovim :checkhealth
   - [ ] vim-plug _https://github.com/junegunn/vim-plug_
   - [ ] Neovim PlugInstall
   - [ ] Change keyboard _(optional)_
-
