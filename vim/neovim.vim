@@ -37,7 +37,7 @@ call plug#begin()
     Plug 'christoomey/vim-tmux-navigator'                           " Use ctrl-hjkl to navigate vim & tmux
     Plug 'mattn/emmet-vim', {'for': emmetFiles}                     " Emmet fast html-tag creation
     Plug '~/.fzf'                                                   " Point to install path of FZF
-    Plug 'junegunn/fzf.vim'
+    Plug 'junegunn/fzf.vim'                                         " Fuzzy finder in vim
 
     " Visual Plugins
     Plug 'arcticicestudio/nord-vim'                                 " Nord theme
@@ -61,6 +61,7 @@ colorscheme nord
 " Statusline
 set laststatus=2        " Always show statusbar
 set noshowmode          " Dont show mode -> already in statusline
+
 
 " ----------------------}}}
 
@@ -161,6 +162,10 @@ let g:python_host_prog='/usr/bin/python'
     nnoremap <Leader>bd :tabe\|tabo!\|%bd<CR>
     nnoremap <silent> <Leader>bh :b# <CR>
     nnoremap <silent> <Leader>q :bd<CR>
+
+    " Git maps
+    nnoremap <silent> <Leader>gf :FZSGitStatus <CR>
+    nnoremap <silent> <Leader>gc :FZSGitCommit <CR>
 
     " Search visual selection
     vnoremap // y/<C-r>"<CR>

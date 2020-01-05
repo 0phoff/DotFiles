@@ -61,11 +61,47 @@ function! s:RipGrep()
   endif
 endfunction
 
+function! s:GitStatusHandler(lines)
+  if len(a:lines) < 2 | return | endif
+
+  let cmd = get({
+    \   'ctrl-a': '!git add ',
+    \   'ctrl-r': '!git reset -- ',
+    \ },
+    \ a:lines[0], '!git add '
+    \ )
+  let files = join(map(a:lines[1:], {idx, val -> split(val)[1]}))
+
+  silent execute cmd . files
+endfunction
+
+function! s:GitCommit()
+  let text = input('MESSAGE: ')
+
+  if text != ''
+    silent execute "!git commit -m '" . text . "'"
+  endif
+endfunction
+
 " }}}
 
 
 " Commands {{{
 
-command! FZSRg call <SID>RipGrep()
+command!        FZSRg
+  \ call <SID>RipGrep()
+
+command! -bang  FZSGitStatus
+  \ call fzf#vim#gitfiles(
+  \ '?',
+  \ {
+  \   'sink*':    function('<SID>GitStatusHandler'),
+  \   'options':  '--ansi --expect=ctrl-a,ctrl-r --multi --bind=ctrl-s:select-all,ctrl-d:deselect-all'
+  \ },
+  \ <bang>0
+  \ )
+
+command!        FZSGitCommit
+  \ call <SID>GitCommit()
 
 " }}}
