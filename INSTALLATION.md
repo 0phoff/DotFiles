@@ -12,7 +12,7 @@ These packages are needed to fully use the dotfiles.
   - [ ] fd-find
   - [ ] Minidlnad
   - [ ] ROS
-  - [ ] fzf _(install in ~/.fzf/)_
+  - [ ] fzf _(install in ~/.fzf/)_ _[Only install binary, setup already in dotfiles]_
   - [ ] Node _(NVM/NPM)_
   - [ ] Vtop _(Node package)_
   - [ ] Todocmd _(Node package)_
