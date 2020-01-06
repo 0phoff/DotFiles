@@ -23,6 +23,11 @@
 *.o
 *.so
 *.pyc
+*.aux
+*.nav
+*.out
+*.snm
+*.toc
 
 # Build folder #
 ################
@@ -49,3 +54,4 @@ __pycache__/
 .Trashes
 ehthumbs.db
 Thumbs.db
+.fuse*
