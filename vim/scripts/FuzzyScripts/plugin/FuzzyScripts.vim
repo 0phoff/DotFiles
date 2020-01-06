@@ -80,6 +80,9 @@ function! s:GitCommit()
 
   if text != ''
     silent execute "!git commit -m '" . text . "'"
+    if v:shell_error
+      echo 'Could not commit [' . v:shell_error . ']'
+    endif
   endif
 endfunction
 
