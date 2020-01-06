@@ -13,7 +13,7 @@ bind R source-file ~/.tmux.conf \; display 'Tmux Config Reloaded'
 bind p setw synchronize-panes
 
 # Create session commands
-bind n new
+bind n new -c "$HOME"
 
 # Create terminal commands
 unbind '"'
@@ -43,7 +43,8 @@ unbind -T copy-mode-vi M
 unbind -T copy-mode-vi H
 bind u copy-mode
 bind -T copy-mode-vi v send -X begin-selection
-bind -T copy-mode-vi y send -X copy-pipe 'xclip -in -selection clipboard' \; send -X clear-selection
+#bind -T copy-mode-vi y send -X copy-pipe 'xclip -in -selection clipboard' \; send -X clear-selection
+bind -T copy-mode-vi y send -X copy-pipe-and-cancel 'xclip -in -selection clipboard'
 bind -T copy-mode-vi u send -X scroll-up
 bind -T copy-mode-vi d send -X scroll-down
 bind -T copy-mode-vi z \
