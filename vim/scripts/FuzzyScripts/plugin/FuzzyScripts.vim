@@ -73,6 +73,7 @@ function! s:GitStatusHandler(lines)
   let files = join(map(a:lines[1:], {idx, val -> split(val)[1]}))
 
   silent execute cmd . files
+  call jobstart(['bash', '-c', 'eval $(tmux display -p "\#{GITMUX_SCRIPT}")'])
 endfunction
 
 function! s:GitCommit()
@@ -83,6 +84,7 @@ function! s:GitCommit()
     if v:shell_error
       echo 'Could not commit [' . v:shell_error . ']'
     endif
+  call jobstart(['bash', '-c', 'eval $(tmux display -p "\#{GITMUX_SCRIPT}")'])
   endif
 endfunction
 
