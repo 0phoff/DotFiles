@@ -53,11 +53,16 @@ function! FloatingWindow(...)
     \ signcolumn=no
 endfunction
 
-function! s:RipGrep()
+function! s:RipGrep(fullscreen)
   let text = input('GREP: ')
 
   if text != ''
-    execute 'Rg ' . text
+    call fzf#vim#grep(
+      \ 'rg --column --line-number --no-heading --smart-case --follow --hidden --iglob !.git/* --color=always ' . text,
+      \ 1,
+      \ {'options':  '--ansi --multi --bind=ctrl-s:select-all,ctrl-d:deselect-all'},
+      \ a:fullscreen
+      \ )
   endif
 endfunction
 
@@ -93,8 +98,8 @@ endfunction
 
 " Commands {{{
 
-command!        FZSRg
-  \ call <SID>RipGrep()
+command! -bang  FZSRg
+  \ call <SID>RipGrep(<bang>0)
 
 command! -bang  FZSGitStatus
   \ call fzf#vim#gitfiles(
