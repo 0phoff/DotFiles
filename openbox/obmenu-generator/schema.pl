@@ -33,7 +33,7 @@ our $SCHEMA = [
 #          COMMAND                 LABEL              ICON
 {item => ['rofi -show drun -font "Roboto Regular 8"',
 	                       'Run..',        'system-run']},
-{item => ['thunar', 'File Manager', 'system-file-manager']},
+{item => ['nautilus', 'File Manager', 'system-file-manager']},
 {item => ['x-terminal-emulator', 'Terminal', 'utilities-terminal']},
 {item => ['x-www-browser', 'Web Browser', 'web-browser']},
 
