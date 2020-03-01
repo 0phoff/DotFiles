@@ -93,6 +93,20 @@ function! s:GitCommit()
   endif
 endfunction
 
+function! s:BuffersHandler(lines)
+  if len(a:lines) < 2 | return | endif
+
+  let cmd = get({
+    \   'ctrl-q': 'bd ',
+    \ },
+    \ a:lines[0], 'e '
+    \ )
+  if len(a:lines) > 2 && cmd == 'e ' | return | endif
+
+  let files = join(map(a:lines[1:], {idx, val -> split(val)[1]}))
+  silent execute cmd . files
+endfunction
+
 " }}}
 
 
@@ -113,5 +127,14 @@ command! -bang  FZSGitStatus
 
 command!        FZSGitCommit
   \ call <SID>GitCommit()
+
+command! -bang  FZSBuffers
+  \ call fzf#vim#buffers(
+  \ {
+  \   'sink*':    function('<SID>BuffersHandler'),
+  \   'options':  '--ansi --expect=ctrl-c --multi --bind=ctrl-s:select-all,ctrl-d:deselect-all'
+  \ },
+  \ <bang>0
+  \ )
 
 " }}}

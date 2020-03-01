@@ -158,10 +158,10 @@ let g:python_host_prog='/usr/bin/python'
     " Buffer mappings
     nnoremap <M-j> :bn <CR>
     nnoremap <M-k> :bp <CR>
-    nnoremap <Leader>bb :Buffers <CR>
+    nnoremap <Leader>bb :FZSBuffers <CR>
     nnoremap <Leader>bd :tabe\|tabo!\|%bd<CR>
     nnoremap <silent> <Leader>bh :b# <CR>
-    nnoremap <silent> <Leader>q :bd<CR>
+    nnoremap <silent> <Leader>c :bd<CR>
 
     " Git maps
     nnoremap <silent> <Leader>gf :FZSGitStatus <CR>
