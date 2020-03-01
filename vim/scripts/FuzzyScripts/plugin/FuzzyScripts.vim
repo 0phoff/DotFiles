@@ -97,7 +97,7 @@ function! s:BuffersHandler(lines)
   if len(a:lines) < 2 | return | endif
 
   let cmd = get({
-    \   'ctrl-q': 'bd ',
+    \   'ctrl-c': 'bd ',
     \ },
     \ a:lines[0], 'e '
     \ )
