@@ -30,4 +30,7 @@ if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
 
+# Add necessary folders to path
 PATH="$PATH:$HOME/anaconda3/bin"
+PATH="$HOME/.cargo/bin:$PATH"
+PATH="$HOME/.yarn/bin:$PATH"
