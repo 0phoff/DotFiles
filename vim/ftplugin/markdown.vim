@@ -11,9 +11,9 @@ endif
 call CP_AddPair('_', '_')
 call CP_AddPair('~', '~')
 
-iabbrev <buffer> -> →
-iabbrev <buffer> => ⇒
-iabbrev <buffer> >> »
+"iabbrev <buffer> -> →
+"iabbrev <buffer> => ⇒
+"iabbrev <buffer> >> »
 
 setlocal foldmethod=expr
 setlocal foldexpr=MarkdownLevel(v:lnum)
