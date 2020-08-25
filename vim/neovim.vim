@@ -18,20 +18,16 @@
 
 " Plugins               {{{
 
-let emmetFiles = ["html","xhtml","xml","xaml","xsd","xsl","css","less","scss","sass","styl","svg"]
+let emmetFiles  = ["html","xhtml","xml","xaml","xsd","xsl","css","less","scss","sass","styl","svg", "javascriptreact"]
+let jsFiles     = ["javascript", "javascriptreact"]
 
 " Internal Plugins
 
 call plug#begin()
     " Syntax Plugins
-    "Plug 'othree/html5.vim', {'for': 'html'}                        " Html 5
-    "Plug 'JulesWang/css.vim', {'for': ['css','styl','scss','less']} " Css
-    "Plug 'wavded/vim-stylus', {'for': 'styl'}                       " Stylus
-    "Plug 'pangloss/vim-javascript', {'for': 'javascript'}           " Js
-    "Plug 'elzr/vim-json',{'for': 'json'}                            " Json
-    "Plug 'stephpy/vim-yaml', {'for': 'yaml'}                        " Yaml
-    "Plug 'keith/tmux.vim'                                           " Tmux
-    "Plug 'gabrielelana/vim-markdown'                                " Markdown
+    Plug 'yuezk/vim-js', {'for': jsFiles}                           " Better JS
+    Plug 'maxmellon/vim-jsx-pretty', {'for': jsFiles}               " JSX
+    Plug 'jxnblk/vim-mdx-js'                                        " MDX
 
     " Functional Plugins
     Plug 'christoomey/vim-tmux-navigator'                           " Use ctrl-hjkl to navigate vim & tmux
@@ -46,6 +42,7 @@ call plug#begin()
     Plug '~/.config/nvim/scripts/ClosePair'
     Plug '~/.config/nvim/scripts/AsciiStatus'
     Plug '~/.config/nvim/scripts/FuzzyScripts'
+    Plug '~/.config/nvim/scripts/RelativeFileCompletion/'
 call plug#end()
 
 " ----------------------}}}
@@ -62,6 +59,13 @@ colorscheme nord
 set laststatus=2        " Always show statusbar
 set noshowmode          " Dont show mode -> already in statusline
 
+" Emmet
+let g:user_emmet_settings = {
+\  "javascriptreact" : {
+\      "extends" : "jsx",
+\  },
+\}
+
 
 " ----------------------}}}
 
@@ -75,6 +79,7 @@ hi Visual ctermbg=3
 set guicursor=n-v-c:block-Cursor/lCursor-blinkon0,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor
 
 set history=250             " Increase history
+set dir=/tmp                " Set swapfile directory to /tmp
 set encoding=utf-8          " Set encoding
 set spelllang=en            " Set default spelllang
 
@@ -121,6 +126,7 @@ set autoindent              " Auto indent code
 set path=.,**               " Search down into subfolders
 set wildmenu                " Display all matching files when tabbing
 set completeopt=menu        " Set completion to only show popup menu & not preview scratch buffer
+set completefunc=RelativeFileCompletion#completefunc
 
 set exrc                    " Allow project-specific local rc files
 set secure                  " Secure project specific rc files
@@ -218,7 +224,7 @@ let g:python_host_prog='/usr/bin/python'
     inoremap <expr> <C-x> FullCompletion()
       function! FullCompletion()  "{{{
         let width = winwidth(0)
-        let msg = "Completion: ^L_line ^N_infile ^K_dictionary ^T_thesaurus ^I_included ^]_tags ^F_files ^D_definitions ^V_vimcommand ^U_userdef ^O_omni s_spell"
+        let msg = "Completion: L line | N infile | F files | U localfiles | I included | ] tags | K dictionary | T thesaurus | D definitions | V vimcommand | O omni | s spell"
         let len = strlen(msg)
         let x=&ruler | let y=&showcmd
         set noruler noshowcmd
