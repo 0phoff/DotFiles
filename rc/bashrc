@@ -174,8 +174,6 @@ fi
 # FZF settings
 ##############
 if [ -f ~/.config/fzf.bashrc ]; then
-    export FZF_DEFAULT_OPTS='--height 50% --layout=reverse'
-    export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
     source ~/.config/fzf.bashrc
 fi
 
