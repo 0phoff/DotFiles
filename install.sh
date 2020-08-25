@@ -54,6 +54,7 @@ elif [[ "$1" =~ ^rc/?$ ]]; then
     #$DEBUG ln -sf $PWD/rc/agignore          $HOME/.agignore
     $DEBUG ln -sf $PWD/rc/bashrc            $HOME/.bashrc
     $DEBUG ln -sf $PWD/rc/dir_colors        $HOME/.dir_colors
+    $DEBUG ln -sf $PWD/rc/fdignore          $HOME/.fdignore
     $DEBUG ln -sf $PWD/rc/gitconfig         $HOME/.gitconfig
     $DEBUG ln -sf $PWD/rc/gitignore         $HOME/.gitignore
     $DEBUG ln -sf $PWD/rc/profile           $HOME/.profile

@@ -13,6 +13,7 @@
 # Editor #
 ##########
 .nvimrc
+.fdignore
 
 # Compiled source #
 ###################
