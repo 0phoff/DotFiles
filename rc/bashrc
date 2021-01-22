@@ -147,7 +147,7 @@ jnb() {
 ##############
 if [ -f /opt/ros/kinetic/setup.bash ]; then
     source /opt/ros/kinetic/setup.bash
-    
+
     if [ -n "$ROSSETUP" ]; then
         source "$ROSSETUP"
     fi
