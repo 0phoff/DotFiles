@@ -72,6 +72,7 @@ elif [[ "$1" =~ ^tmux/?$ ]]; then
     $DEBUG ln -sf $PWD/tmux/keymap.tmux          $HOME/.tmux/keymap.tmux
     $DEBUG ln -sf $PWD/tmux/status-ascii.tmux	 $HOME/.tmux/status-ascii.tmux
     $DEBUG ln -sf $PWD/tmux/status-power.tmux	 $HOME/.tmux/status-power.tmux
+    $DEBUG ln -sf $PWD/tmux/colors.tmux          $HOME/.tmux/colors.tmux
     if [ -z ${DEBUG+x} ]; then
         echo 'Installed tmux config'
     fi

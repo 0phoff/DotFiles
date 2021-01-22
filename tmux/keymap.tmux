@@ -68,3 +68,9 @@ bind -n M-h previous-window
 bind -n M-l next-window
 bind -T copy-mode-vi M-h previous-window
 bind -T copy-mode-vi M-l next-window
+
+# Rotate panes
+unbind C-o
+unbind M-O
+bind -n M-[ rotate-window -U
+bind -n M-] rotate-window -D

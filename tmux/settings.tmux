@@ -9,6 +9,9 @@ set -g base-index 1
 set -g pane-base-index 1
 set -g renumber-windows on 
 
+# Show pane number long enough
+set -g display-panes-time 3000
+
 # Longer History
 set-option -g history-limit 50000
 
