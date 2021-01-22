@@ -66,15 +66,29 @@ fi
 # Create corresponding layout
 case $LAYOUT in
 
+    [dD][eE][vV]1 )
+        tmux splitw -d -h -c "#{PWD}" -p 35
+        ;;
+
+    [dD][eE][vV]2 )
+        tmux splitw -h -c "#{PWD}" -p 35
+        tmux splitw -d -v -c "#{PWD}" -p 50
+        tmux lastp
+        ;;
+
+    [dD][eE][vV]3 )
+        tmux splitw -h -c "#{PWD}" -p 35
+        tmux splitw -d -v -c "#{PWD}" -p 33
+        tmux splitw -d -v -c "#{PWD}" -p 50
+        tmux lastp
+        ;;
+
+    # Superseded by dev1
     [cC]ommand[rR]unner | [cC][rR] )
         tmux splitw -d -h -c "#{PWD}" -p 35
         ;;
 
-    [bB]uild[rR]unner | [bB][rR] )
-        tmux splitw -d -h -c "#{PWD}" -p 30
-        tmux splitw -d -v -c "#{PWD}" -l 7
-        ;;
-    
+    # Superseded by dev2
     [dD]ev[rR]unner | [dD][rR] )
         tmux splitw -h -c "#{PWD}" -p 35
         tmux splitw -d -v -c "#{PWD}" -p 50
