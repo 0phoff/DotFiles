@@ -7,7 +7,7 @@ fi
 # Options
 # -------
 export FZF_DEFAULT_OPTS='--height 50% --layout=reverse'
-export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow'
+export FZF_DEFAULT_COMMAND='fdfind --type f --hidden --follow'
 
 
 # Auto-completion
