@@ -90,7 +90,7 @@ elif [[ "$1" =~ ^vim/?$ ]]; then
     $DEBUG rm -f $PWD/vim/scripts/scripts
     $DEBUG rm -f $PWD/vim/syntax/syntax
     if [ -z ${DEBUG+x} ]; then
-        echo "Installed neovim setup\nPlease install vim-plug manually and run :PlugInstall in the editor\nhttps://github.com/junegunn/vim-plug"
+        echo -e "Installed neovim setup\nPlease install vim-plug manually and run :PlugInstall in the editor\nhttps://github.com/junegunn/vim-plug"
     fi
 elif [[ "$1" =~ ^fonts/?$ ]]; then
     $DEBUG mkdir -p $HOME/.local/share/fonts
