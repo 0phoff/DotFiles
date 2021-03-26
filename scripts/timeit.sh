@@ -28,7 +28,7 @@
 # Functions
 help()
 {
-    printf "timeit Usage:\n  timeit [-s|S] [-n loopcount] command\n\n"
+    printf "timeit usage:\n  timeit [-s|S] [-n loopcount] command\n\n"
     printf "Flags:\n"
     printf "  -h : Print help\n"
     printf "  -s : [silent mode] pipe output of command to /dev/null\n"
