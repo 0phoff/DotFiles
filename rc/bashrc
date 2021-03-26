@@ -43,6 +43,8 @@ compile_prompt() {
   # Format:   (bracket open)(virtualenv)(bracket close)
   if [[ -n "$VIRTUAL_ENV" ]]; then
     PS1+="[${c_purple}${VIRTUAL_ENV##*/}${c_gray}]"
+  elif [[ -n "$CONDA_DEFAULT_ENV" ]] && [[ "$CONDA_DEFAULT_ENV" != "base" ]]; then
+    PS1+="[${c_purple}${CONDA_DEFAULT_ENV##*/}${c_gray}]"
   fi
 
   # > Working Directory
@@ -71,6 +73,7 @@ alias ls="ls --color"
 alias ll="ls -Al"
 alias lx="ls -AgohXL --group-directories-first"
 alias vim="nvim"
+alias fd="fdfind"
 alias top="vtop --theme wizard"
 alias grep="grep --color"
 alias dev=". .startup.sh"
@@ -180,7 +183,9 @@ fi
 
 # Tmux autostart
 ################
-if [ -z "$TMUX" ] && [ -z "$SSH_CONNECTION" ] && [ -z "$NO_TMUX" ]; then
+if [ -n "$NO_TMUX" ]; then
+    unset TMUX
+elif [ -z "$TMUX" ] && [ -z "$SSH_CONNECTION" ]; then
     if type -f tmux &> /dev/null; then
         tmux has && exec tmux attach || exec tmux
     fi
