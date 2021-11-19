@@ -22,3 +22,6 @@ set -g mouse on
 set -sa terminal-overrides ',xterm-256color:RGB'            # True Color in NVIM
 set -g -a terminal-overrides ',*:Ss=\E[%p1%d q:Se=\E[2 q'   # Cursor Shape
 set -g escape-time 0                                        # Fix Slow ESC-response
+
+# Focus events
+set-option -g focus-events on

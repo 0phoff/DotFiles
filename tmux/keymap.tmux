@@ -43,14 +43,13 @@ unbind -T copy-mode-vi M
 unbind -T copy-mode-vi H
 bind u copy-mode
 bind -T copy-mode-vi v send -X begin-selection
-#bind -T copy-mode-vi y send -X copy-pipe 'xclip -in -selection clipboard' \; send -X clear-selection
 bind -T copy-mode-vi y send -X copy-pipe-and-cancel 'xclip -in -selection clipboard'
 bind -T copy-mode-vi u send -X scroll-up
 bind -T copy-mode-vi d send -X scroll-down
-bind -T copy-mode-vi z \
-  bind -T copy-mode-vi t send -X top-line    \\; unbind -T copy-mode-vi t \; \
-  bind -T copy-mode-vi m send -X middle-line \\; unbind -T copy-mode-vi m \; \
-  bind -T copy-mode-vi b send -X bottom-line \\; unbind -T copy-mode-vi b \; \
+#bind -T copy-mode-vi z \
+#  bind -T copy-mode-vi t send -X top-line    \\; unbind -T copy-mode-vi t \; \
+#  bind -T copy-mode-vi m send -X middle-line \\; unbind -T copy-mode-vi m \; \
+#  bind -T copy-mode-vi b send -X bottom-line \\; unbind -T copy-mode-vi b \; \
 
 # Switch Pane C-hjkl -> Work with vim
 is_vim="ps -o state= -o comm= -t '#{pane_tty}' \ | grep -iqE '^[^TXZ ]+ +(\\S+\\/)?g?(view|n?vim?x?)(diff)?$'"
@@ -74,3 +73,7 @@ unbind C-o
 unbind M-O
 bind -n M-[ rotate-window -U
 bind -n M-] rotate-window -D
+
+# Fix Home/End
+bind-key -n Home send Escape "OH"
+bind-key -n End send Escape "OF"
