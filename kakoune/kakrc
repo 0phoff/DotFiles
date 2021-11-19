@@ -1,0 +1,51 @@
+# Plugins
+# -------
+evaluate-commands %sh{
+    plugins="$kak_config/plugins"
+    mkdir -p "$plugins"
+    [ ! -e "$plugins/plug.kak" ] && \
+        git clone -q https://github.com/andreyorst/plug.kak.git "$plugins/plug.kak"
+    printf "%s\n" "source '$plugins/plug.kak/rc/plug.kak'"
+}
+plug "andreyorst/plug.kak" noload
+
+plug 'andreyorst/fzf.kak' config %{
+    map global user f ': fzf-mode<ret>' -docstring 'FZF mode'
+} defer fzf %{
+    set-option global fzf_preview false
+    set-option global fzf_preview_tmux_height '40%'
+}
+
+plug "andreyorst/smarttab.kak" defer smarttab %{
+    set-option global tabstop 4
+    set-option global indentwidth 4
+    set-option global softtabstop 4
+} config %{
+    hook global WinSetOption filetype=(rust|markdown|kak|sh|python) expandtab
+    hook global WinSetOption filetype=(makefile) noexpandtab
+    hook global WinSetOption filetype=(c|cpp) smarttab
+}
+
+# Scripts
+# -------
+source "%val{config}/scripts/theme/theme.kak"
+
+
+# Settings
+# --------
+set-option global scrolloff 1,3
+set-option global autocomplete prompt
+set-option global ui_options terminal_status_on_top=true terminal_enable_mouse=true terminal_assistant=none
+
+add-highlighter global/ number-lines -hlcursor -relative -separator " "
+add-highlighter global/ show-matching
+
+
+# Keymap
+# ------
+map global user y '<a-|> xclip -sel clip -i<ret>' -docstring 'Yank the selection into the clipboard'
+map global user p '<a-!> xclip -sel clip -o<ret>' -docstring 'Paste the clipboard'
+map global user w ': w<ret>'                      -docstring 'Save current buffer'
+map global user d ': db<ret>'                     -docstring 'Close current buffer'
+map global user q ': q<ret>'                      -docstring 'Quit current session'
+map global user x ': waq<ret>'                    -docstring 'Save all buffers and quit'

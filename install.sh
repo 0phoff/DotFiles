@@ -90,7 +90,17 @@ elif [[ "$1" =~ ^vim/?$ ]]; then
     $DEBUG rm -f $PWD/vim/scripts/scripts
     $DEBUG rm -f $PWD/vim/syntax/syntax
     if [ -z ${DEBUG+x} ]; then
-        echo -e "Installed neovim setup\nPlease install vim-plug manually and run :PlugInstall in the editor\nhttps://github.com/junegunn/vim-plug"
+        echo -e "Installed neovim setup\nPlease run :PlugInstall in the editor"
+    fi
+elif [[ "$1" =~ ^kakoune/?$ ]]; then
+    $DEBUG mkdir -p /home/top/.config/kak/plugins
+    $DEBUG ln -s $PWD/kakoune/kakrc             $HOME/.config/kak/kakrc
+    $DEBUG ln -s $PWD/kakoune/scripts           $HOME/.config/kak/scripts
+
+    # Not sure why these files get created...
+    $DEBUG rm -f $PWD/kakoune/scripts/scripts
+    if [ -z ${DEBUG+x} ]; then
+        echo -e "Installed kakoune setup\nPlease run :plug-install in the editor"
     fi
 elif [[ "$1" =~ ^fonts/?$ ]]; then
     $DEBUG mkdir -p $HOME/.local/share/fonts
