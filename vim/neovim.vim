@@ -19,14 +19,20 @@
 " Plugins               {{{
 
 let emmetFiles  = ["html","xhtml","xml","xaml","xsd","xsl","css","less","scss","sass","styl","svg", "javascriptreact"]
-let jsFiles     = ["javascript", "javascriptreact"]
+let jsFiles     = ["javascript", "typescript", "javascriptreact", "typescriptreact"]
 
 " Internal Plugins
+
+let data_dir = stdpath('data') . '/site'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+endif
 
 call plug#begin()
     " Syntax Plugins
     Plug 'yuezk/vim-js', {'for': jsFiles}                           " Better JS
     Plug 'maxmellon/vim-jsx-pretty', {'for': jsFiles}               " JSX
+    Plug 'leafgarland/typescript-vim', {'for': jsFiles}             " TS/TSX
     Plug 'jxnblk/vim-mdx-js'                                        " MDX
 
     " Functional Plugins
