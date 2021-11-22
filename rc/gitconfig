@@ -20,7 +20,7 @@
 [core]
   excludesfile = /home/top/.gitignore
   pager = cat
-  editor = nvim
+  editor = kak
   whitespace = -trailing-space
 [diff]
   mnemonicPrefix = true

@@ -63,9 +63,8 @@ PROMPT_COMMAND="precmd;compile_prompt;$PROMPT_COMMAND"
 
 # Environment variables
 #######################
-export EDITOR="vim"
+export EDITOR="kak"
 export PAGER="less"
-export PYTHONBREAKPOINT="pudb.set_trace"
 
 
 # Aliases

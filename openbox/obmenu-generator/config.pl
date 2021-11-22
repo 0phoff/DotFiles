@@ -73,7 +73,7 @@
 =cut
 
 our $CONFIG = {
-  "editor"              => "nvim",
+  "editor"              => "kak",
   "Linux::DesktopFiles" => {
                              desktop_files_paths     => [
                                                           "/usr/share/applications",
