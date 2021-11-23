@@ -32,7 +32,7 @@ while read -r folder event filename; do
     fi
   done
 
-  if [ ! -z ${match+x} ]; then
+  if [ -n "${match}" ]; then
     unset match
     eval "$cmd"
   fi
