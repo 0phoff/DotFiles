@@ -19,6 +19,9 @@ set-option -g history-limit 50000
 # Enable Mouse Ctrl
 set -g mouse on
 
+# Vim keybindings
+set -g mode-keys vi
+
 # Fix Editor Related Problems
 set -ga terminal-overrides ',*:Ss=\E[%p1%d q:Se=\E[2 q'     # Cursor Shape
 set -g escape-time 0                                        # Fix Slow ESC-response
