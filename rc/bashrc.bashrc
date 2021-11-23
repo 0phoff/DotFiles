@@ -78,14 +78,8 @@ alias top="vtop --theme wizard"
 alias grep="grep --color"
 alias dev=". .startup.sh"
 
-alias mediaserve="minidlnad -f /home/ophoff/.config/minidlna/minidlna.conf -P /home/ophoff/.config/minidlna/minidlna.pid -r"
-alias mediakill="pkill minidlnad"
-
 alias mdserve="sudo -E grip 80 &>/dev/null"
 alias mdkill="sudo -E pkill grip"
-
-alias catkin_make="catkin_make -DPYTHON_EXECUTABLE=/usr/bin/python2 -DPYTHON_INCLUDE_DIR=/usr/include/python2.7 -DPYTHON_LIBRARY=/usr/lib/libpython2.7.so"
-alias rosinit="source rosinit.sh"
 
 ## Executes sudo -E for nvim so it loads with user config and not root config
 ## Otherwise behaves like regular sudo command
@@ -146,18 +140,24 @@ jnb() {
 }
 
 
-# Sourcing ROS
-##############
-if [ -f /opt/ros/kinetic/setup.bash ]; then
-    source /opt/ros/kinetic/setup.bash
-
-    if [ -n "$ROSSETUP" ]; then
-        source "$ROSSETUP"
-    fi
+# Sourcing local bashrc
+#######################
+if [ -f ${HOME}/.config/local.bashrc ]; then
+    source "${HOME}/.config/local.bashrc"
 fi
 
-if [ -f ~/.dir_colors ]; then
-    eval "$(dircolors ~/.dir_colors)"
+
+# FZF settings
+##############
+if [ -f "${HOME}/.config/fzf.bashrc" ]; then
+    source "${HOME}/.config/fzf.bashrc"
+fi
+
+
+# Sourcing Dir Colors
+#####################
+if [ -f "${HOME}/.dir_colors" ]; then
+    eval "$(dircolors ${HOME}/.dir_colors)"
 fi
 
 
@@ -174,19 +174,12 @@ if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
 fi
 
 
-# FZF settings
-##############
-if [ -f ~/.config/fzf.bashrc ]; then
-    source ~/.config/fzf.bashrc
-fi
-
-
 # Tmux autostart
 ################
-if [ -n "$NO_TMUX" ]; then
+if [ -z "${AUTO_TMUX}" ] || [ "${AUTO_TMUX}" = "0" ]; then
     unset TMUX
 elif [ -z "$TMUX" ] && [ -z "$SSH_CONNECTION" ]; then
-    if type -f tmux &> /dev/null; then
+    if command -v tmux &> /dev/null; then
         tmux has && exec tmux attach || exec tmux
     fi
 fi
