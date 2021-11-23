@@ -14,7 +14,7 @@
 ##########
 .nvimrc
 .fdignore
-.git/
+.agignore
 
 # Compiled source #
 ###################
@@ -35,6 +35,7 @@
 ################
 build/
 __pycache__/
+node_modules/
 
 # Packages #
 ############
