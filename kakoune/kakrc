@@ -1,7 +1,7 @@
 # Scripts
 # -------
 source "%val{config}/scripts/theme/theme.kak"
-source "%val{config}/scripts/mapping.kak"
+source "%val{config}/scripts/usermodes.kak"
 
 
 # Settings
@@ -50,7 +50,7 @@ plug 'kakounedotcom/connect.kak' do %{
     
     alias global popup tmux-terminal-popup
 } config %{
-    source "%val{config}/scripts/connect/fzf.kak"
+    source "%val{config}/scripts/connect/connect.kak"
     map global user f ': require-module connect-custom-fzf<ret>: enter-user-mode fzf<ret>' -docstring 'FZF'
 } \
 plug "andreyorst/smarttab.kak" config %{

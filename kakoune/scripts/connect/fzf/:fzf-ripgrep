@@ -1,0 +1,93 @@
+#!/usr/bin/env bash
+#----------------------------------------------------------------------------------------------------------------------
+# FZF-RIPGREP
+#----------------------------------------------------------------------------------------------------------------------
+#
+# Search through file content with RipGrep and FZF
+# By 0phoff
+# GPL license
+#
+#----------------------------------------------------------------------------------------------------------------------
+#
+# Usage: 
+#   :fzf-ripgrep -m searchterm [searchterm ...]
+#       -m : Hide rg match color
+#
+#----------------------------------------------------------------------------------------------------------------------
+
+# Load Prelude
+. "$KAKOUNE_PRELUDE"
+
+# Functions
+function open_files() {
+    # Check if file or string
+    if [ -f "$1" ]
+    then
+        isfile=true
+        len=$(cat "$1" | wc -l)
+        first=$(head -n1 "$1")
+    else
+        isfile=false
+        len=$(echo "$1" | wc -l)
+        first=$(echo "$1" | head -n1)
+    fi
+
+    if [[ $len -ge 2 ]]
+    then
+        # Create fifo with grep results
+        output=$(mktemp --dry-run --tmpdir kak-grep.XXXXXXXXXX)
+        mkfifo "${output}"
+
+        if [[ "${isfile}" = "true" ]]
+        then
+            cat "$1" > ${output} 2>&1 &
+        else
+            printf "%s" "$1" > ${output} 2>&1 &
+        fi
+
+        # Load *grep* buffer
+        :send edit! -readonly -fifo "${output}" *grep*
+        :send set-option buffer filetype grep
+        :send set-option buffer grep_current_line 1
+        :send hook -always -once buffer BufCloseFifo '.*' "%{ nop %sh{ rm ${output} } }"
+        :exec ga
+    fi
+
+    # Open first file
+    file=$(echo "$first" | cut -d':' -f1)
+    line=$(echo "$first" | cut -d':' -f2)
+    eval "${2:-':edit'} +$line '$file'"
+}
+
+# Process input arguments
+MATCH_COLOR='match:fg:red'
+while getopts "m" flag
+do
+    case "$flag" in
+        m) MATCH_COLOR='match:none';;
+        *) ;;
+    esac
+done
+
+search=()
+for term in "$@"
+do
+    search+=('-e' "${term}")
+done
+
+# Perform search
+files=$(
+    rg \
+        --line-number --with-filename --follow --smart-case --trim \
+        --color always --colors 'path:fg:0x4C,0x56,0x6A' --colors 'line:fg:0x4C,0x56,0x6A' --colors ${MATCH_COLOR} \
+        "${search[@]}" |
+    fzf \
+        --height=100% --cycle --multi --tiebreak=length,begin,index \
+        --ansi --delimiter=: --nth=3.. \
+        --header $'<ret>: Open \n<c-a>: Select all\n<c-d>: Deselect all\n<c-s>: Clear selection' \
+        --bind "ctrl-a:select-all" \
+        --bind "ctrl-d:deselect-all" \
+        --bind "ctrl-s:clear-selection" \
+)
+
+[ -n "$files" ] && open_files "$files" || exit 0

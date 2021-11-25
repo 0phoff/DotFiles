@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+. "$KAKOUNE_PRELUDE"
+
+CLIENTS=($(:get %val{client_list}))
+
+for client in "${CLIENTS[@]}"
+do
+    if [ "${client}" != "${KAKOUNE_CLIENT}" ]
+    then
+        echo "${client}"
+        kak_escape evaluate-commands -client "${client}" "q" | kak -p "$KAKOUNE_SESSION"
+    fi
+done
+
+:send q

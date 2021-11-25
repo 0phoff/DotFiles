@@ -1,0 +1,6 @@
+#!/bin/sh
+
+. "$KAKOUNE_PRELUDE"
+
+# execute keys on the client
+kak_escape execute-keys -try-client "$KAKOUNE_CLIENT" "$@" | kak -p "$KAKOUNE_SESSION"

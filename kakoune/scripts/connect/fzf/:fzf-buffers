@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+#----------------------------------------------------------------------------------------------------------------------
+# FZF-BUFFERS
+#----------------------------------------------------------------------------------------------------------------------
+#
+# Search through buffers with FZF
+# By 0phoff
+# GPL license
+#
+#----------------------------------------------------------------------------------------------------------------------
+#
+# Usage: 
+#   :fzf-buffers
+#
+#----------------------------------------------------------------------------------------------------------------------
+
+# Load Prelude
+. "$KAKOUNE_PRELUDE"
+
+CTRL_V="tmux-terminal-horizontal kak -c $KAKOUNE_SESSION -e 'buffer {}'"
+CTRL_H="tmux-terminal-vertical kak -c $KAKOUNE_SESSION -e 'buffer {}'"
+CTRL_W="tmux-terminal-window kak -c $KAKOUNE_SESSION -e 'buffer {}'"
+CTRL_D="db {}"
+
+file=$(
+    :ls |
+    fzf \
+        --height=100% --cycle --no-sort --tiebreak=length,begin,index \
+        --header $'<ret>: Open \n<c-v>: Open in vertical pane \n<c-h>: Open in horizontal pane\n<c-w>: Open in new window\n<c-d>: Delete buffer' \
+        --bind "ctrl-v:execute(:send -verbatim ${CTRL_V})+abort" \
+        --bind "ctrl-h:execute(:send -verbatim ${CTRL_H})+abort" \
+        --bind "ctrl-w:execute(:send -verbatim ${CTRL_W})+abort" \
+        --bind "ctrl-d:reload(:send -verbatim ${CTRL_D} && :ls)" \
+)
+
+[ -n "$file" ] && :buffer "$file" || exit 0

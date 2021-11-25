@@ -14,9 +14,9 @@
 #
 #--------------------------------------------------------------------------------------------------------
 
-declare-option -hidden str theme_path %sh{ dirname "$kak_source" }
+declare-option -hidden str script_theme_path %sh{ dirname "$kak_source" }
 
-source "%opt{theme_path}/colors.kak"
-source "%opt{theme_path}/colorscheme.kak"
-source "%opt{theme_path}/statusline.kak"
-source "%opt{theme_path}/hooks.kak"
+source "%opt{script_theme_path}/colors.kak"
+source "%opt{script_theme_path}/colorscheme.kak"
+source "%opt{script_theme_path}/statusline.kak"
+source "%opt{script_theme_path}/hooks.kak"
