@@ -1,41 +1,7 @@
-# Plugins
-# -------
-evaluate-commands %sh{
-    plugins="$kak_config/plugins"
-    mkdir -p "$plugins"
-    [ ! -e "$plugins/plug.kak" ] && \
-        git clone -q https://github.com/andreyorst/plug.kak.git "$plugins/plug.kak"
-    printf "%s\n" "source '$plugins/plug.kak/rc/plug.kak'"
-}
-plug "andreyorst/plug.kak" noload
-
-plug-chain \
-    plug "andreyorst/smarttab.kak" config %{
-        source "%val{config}/scripts/smarttab-editorconfig.kak"
-
-        # Default to editorconfig or expandtab
-        hook global WinSetOption filetype=.* %{ smarttab-editorconfig expandtab }
-        
-        # Force specific modes
-        hook global WinSetOption filetype=(makefile) noexpandtab
-
-        # Force specific mode unless editorconfig
-        hook global WinSetOption filetype=(c|cpp|typescript|javascript) %{ smarttab-editorconfig smarttab }
-    } defer smarttab %{
-        set-option global softtabstop 4
-        set-option global smarttab_default true
-    }
-    plug 'andreyorst/fzf.kak' config %{
-        map global user f ': fzf-mode<ret>' -docstring 'FZF'
-    } defer fzf %{
-        set-option global fzf_preview false
-        set-option global fzf_preview_tmux_height '40%'
-    }
-
-
 # Scripts
 # -------
 source "%val{config}/scripts/theme/theme.kak"
+source "%val{config}/scripts/mapping.kak"
 
 
 # Settings
@@ -51,14 +17,54 @@ add-highlighter global/ number-lines -hlcursor -relative -separator " "
 add-highlighter global/ show-matching
 
 
-# Keymap
-# ------
-map global user , ': enter-user-mode shortcuts<ret>'                -docstring 'Shortcuts'
+# Plugins
+# -------
+evaluate-commands %sh{
+    plugins="$kak_config/plugins"
+    mkdir -p "$plugins"
+    [ ! -e "$plugins/plug.kak" ] && \
+        git clone -q https://github.com/andreyorst/plug.kak.git "$plugins/plug.kak"
+    printf "%s\n" "source '$plugins/plug.kak/rc/plug.kak'"
+}
+plug "andreyorst/plug.kak" noload
 
-declare-user-mode shortcuts
-map global shortcuts y '<a-|> xclip -sel clip -i<ret>'              -docstring 'Yank into the clipboard'
-map global shortcuts p '<a-!> xclip -sel clip -o<ret>'              -docstring 'Paste from the clipboard'
-map global shortcuts w ': w<ret>'                                   -docstring 'Save current buffer'
-map global shortcuts d ': db<ret>'                                  -docstring 'Close current buffer'
-map global shortcuts q ': q<ret>'                                   -docstring 'Quit current client'
-map global shortcuts x ': waq<ret>'                                 -docstring 'Save all buffers and quit'
+plug-chain \
+plug 'kakounedotcom/prelude.kak' \
+plug 'kakounedotcom/connect.kak' do %{
+    make install
+} defer tmux %{
+    define-command tmux-terminal-popup -params 1.. -shell-completion \
+        -docstring 'tmux-terminal-popup <program> [<arguments>]: create a new popup terminal' \
+    %{
+        evaluate-commands %sh{
+            tmux=${kak_client_env_TMUX:-$TMUX}
+            tmux_args="display-popup -E -w 80% -h 80%"
+
+            if [ -n "$TMPDIR" ]; then
+                TMUX=$tmux tmux $tmux_args env TMPDIR="$TMPDIR" "$@" < /dev/null > /dev/null 2>&1 &
+            else
+                TMUX=$tmux tmux $tmux_args "${@}" < /dev/null > /dev/null 2>&1 &
+            fi
+        }
+    }
+    
+    alias global popup tmux-terminal-popup
+} config %{
+    source "%val{config}/scripts/connect/fzf.kak"
+    map global user f ': require-module connect-custom-fzf<ret>: enter-user-mode fzf<ret>' -docstring 'FZF'
+} \
+plug "andreyorst/smarttab.kak" config %{
+    source "%val{config}/scripts/smarttab-editorconfig.kak"
+
+    # Default to editorconfig or expandtab
+    hook global WinSetOption filetype=.* %{ smarttab-editorconfig expandtab }
+    
+    # Force specific modes
+    hook global WinSetOption filetype=(makefile) noexpandtab
+
+    # Force specific mode unless editorconfig
+    hook global WinSetOption filetype=(c|cpp|typescript|javascript) %{ smarttab-editorconfig smarttab }
+} defer smarttab %{
+    set-option global softtabstop 4
+    set-option global smarttab_default true
+}
