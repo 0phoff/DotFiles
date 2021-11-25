@@ -30,12 +30,11 @@ provide-module connect-custom-fzf %§
     }
 
     define-command fzf-ripgrep-cursor -hidden -docstring %{
-        fzf-ripgrep-cursor: Search file contents for word under cursor
+        fzf-ripgrep-cursor: Search file contents for selection or prompt
     } %{
         evaluate-commands %sh{
             if [ "$kak_selection_length" = "1" ]; then
-                # Expand selection under cursor
-                echo "execute-keys -draft '<a-i>w:fzf-ripgre %val{selection}<ret>'"
+                echo "prompt 'regex: ' 'fzf-ripgrep %val{text}'"
             else
                 echo "fzf-ripgrep ${kak_selection}"
             fi
