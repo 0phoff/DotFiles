@@ -68,3 +68,8 @@ plug "andreyorst/smarttab.kak" config %{
     set-option global softtabstop 4
     set-option global smarttab_default true
 }
+
+
+# Load local kakrc
+# ----------------
+evaluate-commands %sh{ [ -f "${PWD}/.kakrc" ] && echo "source '${PWD}/.kakrc'" }
