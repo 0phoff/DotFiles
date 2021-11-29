@@ -9,6 +9,7 @@ shopt -s histappend
 export HISTCONTROL=ignoredups:erasedups
 export HISTSIZE=10000
 export HISTFILESIZE=10000
+export PYTHONSTARTUP="$HOME/.config/pythonrc/__init__.py"
 PROMPT_COMMAND="history -a;$PROMPT_COMMAND"
 
 bind '"\C-p": history-search-backward'
