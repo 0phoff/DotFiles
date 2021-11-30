@@ -15,6 +15,10 @@ bind p setw synchronize-panes
 # Create session commands
 bind n new -c "$HOME"
 
+# Session chooser
+unbind s
+bind s popup -E tmsc
+
 # Create terminal commands
 unbind '"'
 unbind %
@@ -62,11 +66,11 @@ bind -T copy-mode-vi C-j if-shell "$is_vim" "send-keys C-j"  "select-pane -D"
 bind -T copy-mode-vi C-k if-shell "$is_vim" "send-keys C-k"  "select-pane -U"
 bind -T copy-mode-vi C-l if-shell "$is_vim" "send-keys C-l"  "select-pane -R"
 
-# Switch Window M-hl
-bind -n M-h previous-window
-bind -n M-l next-window
-bind -T copy-mode-vi M-h previous-window
-bind -T copy-mode-vi M-l next-window
+# Switch Window M-jk
+bind -n M-k previous-window
+bind -n M-j next-window
+bind -T copy-mode-vi M-k previous-window
+bind -T copy-mode-vi M-j next-window
 
 # Rotate panes
 unbind C-o
