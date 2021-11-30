@@ -30,9 +30,12 @@ function install() {
             # Ignore scripts
             ${SKIP})
                 ;;
-            # Install as tmc command
-            tmuxCreator.sh)
-                $DEBUG ln -sfT "$f" "$TARGET/tmc"
+            # Install as tmux commands with shorter aliases
+            tmux-window-creator.sh)
+                $DEBUG ln -sfT "$f" "$TARGET/tmwc"
+                ;;
+            tmux-session-chooser.sh)
+                $DEBUG ln -sfT "$f" "$TARGET/tmsc"
                 ;;
             # Install with extension
             rosinit.sh)

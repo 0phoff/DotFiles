@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
 #--------------------------------------------------------------------------------------------------------
-# TMUX CREATOR SCRIPT
+# TMUX WINDOW CREATOR
 #--------------------------------------------------------------------------------------------------------
 #
-# Tmux Creator : Create tmux windows with predefined layouts
+# Tmux Window Creator : Create tmux windows with predefined layouts
 # By 0phoff
 # MIT license
 #
 #--------------------------------------------------------------------------------------------------------
 #
-# Usage: tmuxCreator [-d directory] [-s|-t targetWindow] [-n windowName] layoutName
+# Usage: tmux-window-creator [-d directory] [-s|-t targetWindow] [-n windowName] layoutName
 # Layouts:
 #   - buildrunner   [br] : 1 main split, 1 small split at bottom for automated tasks, side pane for cmds
 #   - commandrunner [cr] : 1 main split, with side split at right for commands
