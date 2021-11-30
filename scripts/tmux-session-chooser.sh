@@ -22,6 +22,8 @@ session=$(
     fzf \
         --ansi --nth=1 \
         --height=100% --cycle --tiebreak=length,begin,index \
+        --bind "ctrl-d:reload% tmux kill-session -t \"\$(echo {} | awk -F '\\\\s+▏' '{print \$1}')\" && echo -e \"\$(tmux ls -F '#{p${length}:session_name} ▏ \033[2m#{?session_attached,, } #{session_windows} windows [#W]\033[m')\" %" \
+        --bind "ctrl-x:reload% echo -e \"\$(tmux ls -F '#{p${length}:session_name} ▏ \033[2m#{?session_attached,, } #{session_windows} windows [#W]\033[m')\" %" \
         |
     awk -F '\\s+▏' '{print $1}'
 )
