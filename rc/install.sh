@@ -21,6 +21,7 @@ function install() {
     $DEBUG ln -sfT  "$PWD/dir_colors"       "$HOME/.dir_colors"
     $DEBUG ln -sfT  "$PWD/gitconfig"        "$HOME/.gitconfig"
     $DEBUG ln -sfT  "$PWD/gitignore"        "$HOME/.gitignore"
+    $DEBUG ln -sfT  "$PWD/fdignore"         "$HOME/.fdignore"
     $DEBUG ln -sfT  "$PWD/profile"          "$HOME/.profile"
     $DEBUG ln -sfT  "$PWD/Xresources"       "$HOME/.Xresources"
 

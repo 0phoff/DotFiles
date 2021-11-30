@@ -175,6 +175,13 @@ if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
 fi
 
 
+# Sourcing cargo
+################
+if [ -f "${HOME}/.cargo/env" ]; then
+    source "${HOME}/.cargo/env"
+fi
+
+
 # Tmux autostart
 ################
 if [ -z "${AUTO_TMUX}" ] || [ "${AUTO_TMUX}" = "0" ]; then
