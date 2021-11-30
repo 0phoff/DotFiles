@@ -2,7 +2,6 @@
 # Automatic imports #
 #####################
 import os
-import math
 from pathlib import Path
 
 
