@@ -22,6 +22,7 @@ function install() {
     $DEBUG mkdir -p "${TARGET}/plugins"
     $DEBUG ln -sfT "$PWD/kakrc"     "${TARGET}/kakrc"
     $DEBUG ln -sfT "$PWD/scripts"   "${TARGET}/scripts"
+    $DEBUG ln -sfT "$PWD/plug"      "${TARGET}/plug"
 
     if [ -z ${DEBUG} ]
     then

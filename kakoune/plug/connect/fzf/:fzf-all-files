@@ -22,7 +22,7 @@ CTRL_H="tmux-terminal-vertical kak -c $KAKOUNE_SESSION {}"
 CTRL_W="tmux-terminal-window kak -c $KAKOUNE_SESSION {}"
 
 file=$(
-    fdfind --type file --hidden --follow . ${1} |
+    fdfind --type file --follow --hidden --no-ignore . ${1} |
     fzf \
         --height=100% --cycle --tiebreak=length,begin,index \
         --header $'<ret>: Open \n<c-v>: Open in vertical pane \n<c-h>: Open in horizontal pane\n<c-w>: Open in new window' \

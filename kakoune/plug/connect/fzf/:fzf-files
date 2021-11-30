@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+#----------------------------------------------------------------------------------------------------------------------
+# FZF-FILES
+#----------------------------------------------------------------------------------------------------------------------
+#
+# Search through files with FZF
+# By 0phoff
+# GPL license
+#
+#----------------------------------------------------------------------------------------------------------------------
+#
+# Usage: 
+#   :fzf-files [directory]
+#
+#----------------------------------------------------------------------------------------------------------------------
+
+# Load Prelude
+. "$KAKOUNE_PRELUDE"
+
+CTRL_V="tmux-terminal-horizontal kak -c $KAKOUNE_SESSION {}"
+CTRL_H="tmux-terminal-vertical kak -c $KAKOUNE_SESSION {}"
+CTRL_W="tmux-terminal-window kak -c $KAKOUNE_SESSION {}"
+
+file=$(
+    fdfind --type file --follow . ${1} |
+    fzf \
+        --height=100% --cycle --tiebreak=length,begin,index \
+        --header $'<ret>: Open \n<c-v>: Open in vertical pane \n<c-h>: Open in horizontal pane\n<c-w>: Open in new window' \
+        --bind "ctrl-v:execute(:send -verbatim ${CTRL_V})+abort" \
+        --bind "ctrl-h:execute(:send -verbatim ${CTRL_H})+abort" \
+        --bind "ctrl-w:execute(:send -verbatim ${CTRL_W})+abort" \
+)
+
+[ -n "$file" ] && :edit "$file" || exit 0
