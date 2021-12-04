@@ -29,11 +29,11 @@ bind p popup bash
 unbind '"'
 unbind %
 unbind c
-unbind m
+unbind `
 bind w run-shell 'tmux new-window "cd \"$(tmux show-environment $(echo "TMUXPWD_#D" | tr -d %) | sed -e "s/^.*=//")\"; exec $SHELL -l"'
 bind v run-shell 'tmux split-window -h "cd \"$(tmux show-environment $(echo "TMUXPWD_#D" | tr -d %) | sed -e "s/^.*=//")\"; exec $SHELL -l"'
 bind h run-shell 'tmux split-window -v "cd \"$(tmux show-environment $(echo "TMUXPWD_#D" | tr -d %) | sed -e "s/^.*=//")\"; exec $SHELL -l"'
-bind m run-shell 'monitor'
+bind ` run-shell 'monitor'
 
 # Kill terminal commands
 bind x kill-pane
