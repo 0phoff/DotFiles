@@ -3,6 +3,7 @@ map global user , ': enter-user-mode shortcuts<ret>'                -docstring '
 declare-user-mode shortcuts
 map global shortcuts y '<a-|> xclip -sel clip -i<ret>'                                      -docstring 'yank into the clipboard'
 map global shortcuts p '<a-!> xclip -sel clip -o<ret>'                                      -docstring 'paste from the clipboard'
+map global shortcuts t ': tmux-persist-session-name<ret>'                                   -docstring 'keep tmux session name'
 map global shortcuts w ': w<ret>'                                                           -docstring 'write buffer'
 map global shortcuts d ': db<ret>'                                                          -docstring 'delete buffer'
 map global shortcuts c ': q<ret>'                                                           -docstring 'close client'

@@ -1,12 +1,13 @@
 # Scripts
 # -------
+source "%val{config}/scripts/tmuxsession.kak"
 source "%val{config}/scripts/usermodes/init.kak"
 source "%val{config}/scripts/theme/init.kak"
 
 
 # Settings
 # --------
-set-option global scrolloff 1,3
+set-option global scrolloff 3,3
 set-option global autocomplete prompt
 set-option global ui_options terminal_status_on_top=true terminal_enable_mouse=true terminal_assistant=none
 
