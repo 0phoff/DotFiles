@@ -7,10 +7,12 @@ set-option -g prefix C-q
 bind C-q send-prefix
 
 # Easy Reload 'Prefix-r'
+unbind R
 bind R source-file ~/.tmux.conf \; display 'Tmux Config Reloaded'
 
 # Sync-panes
-bind p setw synchronize-panes
+unbind y
+bind y setw synchronize-panes
 
 # Create session commands
 bind n new -c "$HOME"
@@ -19,15 +21,19 @@ bind n new -c "$HOME"
 unbind s
 bind s popup -E tmsc
 
+# Throwaway popup
+unbind p
+bind p popup bash
+
 # Create terminal commands
 unbind '"'
 unbind %
 unbind c
-unbind `
+unbind m
 bind w run-shell 'tmux new-window "cd \"$(tmux show-environment $(echo "TMUXPWD_#D" | tr -d %) | sed -e "s/^.*=//")\"; exec $SHELL -l"'
 bind v run-shell 'tmux split-window -h "cd \"$(tmux show-environment $(echo "TMUXPWD_#D" | tr -d %) | sed -e "s/^.*=//")\"; exec $SHELL -l"'
 bind h run-shell 'tmux split-window -v "cd \"$(tmux show-environment $(echo "TMUXPWD_#D" | tr -d %) | sed -e "s/^.*=//")\"; exec $SHELL -l"'
-bind ` run-shell 'monitor'
+bind m run-shell 'monitor'
 
 # Kill terminal commands
 bind x kill-pane
