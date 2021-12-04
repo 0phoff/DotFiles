@@ -5,6 +5,13 @@ verbosity = 2
 timeout = 1800 # seconds = 30 minutes
 
 
+[language.c_cpp]
+filetypes = ["c", "cpp"]
+roots = ["compile_commands.json", ".clangd", ".git", ".hg"]
+command = "clangd"
+offset_encoding = "utf-8"
+
+
 [language.python]
 filetypes = ["python"]
 roots = ["requirements.txt", "setup.py", ".git", ".hg"]
