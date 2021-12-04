@@ -5,19 +5,6 @@ source "%val{config}/scripts/usermodes/init.kak"
 source "%val{config}/scripts/theme/init.kak"
 
 
-# Settings
-# --------
-set-option global scrolloff 3,3
-set-option global autocomplete prompt
-set-option global ui_options terminal_status_on_top=true terminal_enable_mouse=true terminal_assistant=none
-
-set-option global tabstop 4
-set-option global indentwidth 4
-
-add-highlighter global/ number-lines -hlcursor -relative -separator " "
-add-highlighter global/ show-matching
-
-
 # Plugins
 # -------
 evaluate-commands %sh{
@@ -32,6 +19,19 @@ plug "andreyorst/plug.kak" noload
 source "%val{config}/plug/connect/init.kak"
 source "%val{config}/plug/smarttab/init.kak"
 source "%val{config}/plug/lsp/init.kak"
+
+
+# Settings
+# --------
+set-option global scrolloff 3,3
+set-option global autocomplete prompt
+set-option global ui_options terminal_status_on_top=true terminal_enable_mouse=true terminal_assistant=none
+
+set-option global tabstop 4
+set-option global indentwidth 4
+
+add-highlighter global/ number-lines -hlcursor -relative -separator " "
+add-highlighter global/ show-matching
 
 
 # Load local kakrc
