@@ -16,9 +16,9 @@
 
 # Windows
 if [ "$1" == "self" ]; then
-    tmc -s -n Monitor -d $HOME vv
+    tmwc -s -n Monitor -d $HOME vv
 else
-    tmc -n Monitor -d $HOME vv
+    tmwc -n Monitor -d $HOME vv
 fi
 
 # Check if nvtop is installed
