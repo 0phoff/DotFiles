@@ -14,12 +14,9 @@ bind R source-file ~/.tmux.conf \; display 'Tmux Config Reloaded'
 unbind y
 bind y setw synchronize-panes
 
-# Create session commands
-bind n new -c "$HOME"
-
 # Session chooser
 unbind s
-bind s popup -E tmsc
+bind s popup -E "tmsc $(tmux display-message -p '#S')"
 
 # Throwaway popup
 unbind p
@@ -33,15 +30,14 @@ unbind `
 bind w run-shell 'tmux new-window "cd \"$(tmux show-environment $(echo "TMUXPWD_#D" | tr -d %) | sed -e "s/^.*=//")\"; exec $SHELL -l"'
 bind v run-shell 'tmux split-window -h "cd \"$(tmux show-environment $(echo "TMUXPWD_#D" | tr -d %) | sed -e "s/^.*=//")\"; exec $SHELL -l"'
 bind h run-shell 'tmux split-window -v "cd \"$(tmux show-environment $(echo "TMUXPWD_#D" | tr -d %) | sed -e "s/^.*=//")\"; exec $SHELL -l"'
-bind ` run-shell 'monitor'
 
-# Kill terminal commands
-bind x kill-pane
+# Kill Window
 bind C-w kill-window
 
 # Terminal commands
 bind c send-keys 'clear' Enter
 bind r send-keys 'clear' Enter '!-2' Enter
+bind ` run-shell 'monitor'
  
 # Copy mode commands
 unbind [
@@ -56,10 +52,6 @@ bind -T copy-mode-vi v send -X begin-selection
 bind -T copy-mode-vi y send -X copy-pipe-and-cancel 'xclip -in -selection clipboard'
 bind -T copy-mode-vi u send -X scroll-up
 bind -T copy-mode-vi d send -X scroll-down
-#bind -T copy-mode-vi z \
-#  bind -T copy-mode-vi t send -X top-line    \\; unbind -T copy-mode-vi t \; \
-#  bind -T copy-mode-vi m send -X middle-line \\; unbind -T copy-mode-vi m \; \
-#  bind -T copy-mode-vi b send -X bottom-line \\; unbind -T copy-mode-vi b \; \
 
 # Switch Pane C-hjkl -> Work with vim
 is_vim="ps -o state= -o comm= -t '#{pane_tty}' \ | grep -iqE '^[^TXZ ]+ +(\\S+\\/)?g?(view|n?vim?x?)(diff)?$'"
