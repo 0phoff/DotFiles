@@ -64,17 +64,17 @@ bind -T copy-mode-vi C-j if-shell "$is_vim" "send-keys C-j"  "select-pane -D"
 bind -T copy-mode-vi C-k if-shell "$is_vim" "send-keys C-k"  "select-pane -U"
 bind -T copy-mode-vi C-l if-shell "$is_vim" "send-keys C-l"  "select-pane -R"
 
-# Switch Window M-jk
-bind -n M-k previous-window
-bind -n M-j next-window
-bind -T copy-mode-vi M-k previous-window
-bind -T copy-mode-vi M-j next-window
+# Switch Window C-M-jk
+bind -n M-C-k previous-window
+bind -n M-C-j next-window
+bind -T copy-mode-vi M-C-k previous-window
+bind -T copy-mode-vi M-C-j next-window
 
 # Rotate panes
 unbind C-o
 unbind M-O
-bind -n M-[ rotate-window -U
-bind -n M-] rotate-window -D
+bind -n M-C-[ rotate-window -U
+bind -n M-C-] rotate-window -D
 
 # Fix Home/End
 bind-key -n Home send Escape "OH"
