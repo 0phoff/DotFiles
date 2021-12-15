@@ -184,9 +184,7 @@ fi
 
 # Tmux autostart
 ################
-if [ -z "${AUTO_TMUX}" ] || [ "${AUTO_TMUX}" = "0" ]; then
-    unset TMUX
-elif [ -z "$TMUX" ] && [ -z "$SSH_CONNECTION" ]; then
+if [ -z "$TMUX" ] && [ -n "${AUTO_TMUX}" ] && [ "${AUTO_TMUX}" != "0" ] && [ -z "$SSH_CONNECTION" ]; then
     if command -v tmux &> /dev/null; then
         tmux has && exec tmux attach || exec tmux
     fi
