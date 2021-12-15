@@ -1,12 +1,16 @@
 # Change cursor color in insert mode
 hook global -group theme-change-cursor ModeChange (push|pop):.*:insert %{
-    set-face window PrimaryCursor "PrimaryCursorInsert"
-    set-face window SecondaryCursor "SecondaryCursorInsert"
+    set-face window PrimaryCursor       "PrimaryCursorInsert"
+    set-face window PrimaryCursorEol    "PrimaryCursorInsert"
+    set-face window SecondaryCursor     "SecondaryCursorInsert"
+    set-face window SecondaryCursorEol  "SecondaryCursorInsert"
 }
 
 hook global -group theme-change-cursor ModeChange (push|pop):insert:.* %{
     unset-face window PrimaryCursor
+    unset-face window PrimaryCursorEol
     unset-face window SecondaryCursor
+    unset-face window SecondaryCursorEol
 }
 
 
@@ -28,21 +32,23 @@ hook global -group theme-show-focused FocusIn .* %{
     
     evaluate-commands %sh{
         if [ "${kak_mode}" = "insert" ]; then
-            echo "set-face window PrimaryCursor 'PrimaryCursorInsert'"
-            echo "set-face window SecondaryCursor 'SecondaryCursorInsert'"
+            echo "set-face window PrimaryCursor         'PrimaryCursorInsert'"
+            echo "set-face window PrimaryCursorEol      'PrimaryCursorInsert'"
+            echo "set-face window SecondaryCursor       'SecondaryCursorInsert'"
+            echo "set-face window SecondaryCursorEol    'SecondaryCursorInsert'"
         fi
         for client in $kak_client_list; do
             if [ "$client" != "$kak_hook_param" ]; then
-                echo "eval -no-hooks -client '${client}' 'set-face window StatusLine StatusLineDim'"
-                echo "eval -no-hooks -client '${client}' 'set-face window StatusLineMode StatusLineDim'"
-                echo "eval -no-hooks -client '${client}' 'set-face window StatusLineInfo StatusLineDim'"
-                echo "eval -no-hooks -client '${client}' 'set-face window StatusLineValue StatusLineDim'"
-                echo "eval -no-hooks -client '${client}' 'set-face window StatusLineOk StatusLineDim'"
-                echo "eval -no-hooks -client '${client}' 'set-face window StatusLineWarn StatusLineDim'"
-                echo "eval -no-hooks -client '${client}' 'set-face window StatusLineError StatusLineDim'"
-                echo "eval -no-hooks -client '${client}' 'set-face window StatusLineCursor StatusLineDim'"
-                echo "eval -no-hooks -client '${client}' 'set-face window PrimaryCursor PrimarySelection'"
-                echo "eval -no-hooks -client '${client}' 'set-face window SecondaryCursor SecondarySelection'"
+                echo "eval -no-hooks -client '${client}' 'set-face window StatusLine        StatusLineDim'"
+                echo "eval -no-hooks -client '${client}' 'set-face window StatusLineMode    StatusLineDim'"
+                echo "eval -no-hooks -client '${client}' 'set-face window StatusLineInfo    StatusLineDim'"
+                echo "eval -no-hooks -client '${client}' 'set-face window StatusLineValue   StatusLineDim'"
+                echo "eval -no-hooks -client '${client}' 'set-face window StatusLineOk      StatusLineDim'"
+                echo "eval -no-hooks -client '${client}' 'set-face window StatusLineWarn    StatusLineDim'"
+                echo "eval -no-hooks -client '${client}' 'set-face window StatusLineError   StatusLineDim'"
+                echo "eval -no-hooks -client '${client}' 'set-face window StatusLineCursor  StatusLineDim'"
+                echo "eval -no-hooks -client '${client}' 'set-face window PrimaryCursor     PrimarySelection'"
+                echo "eval -no-hooks -client '${client}' 'set-face window SecondaryCursor   SecondarySelection'"
             fi
         done
     }
@@ -75,20 +81,22 @@ hook global -group theme-show-focused WinDisplay .* %{
             echo "unset-face window PrimaryCursor"
             echo "unset-face window SecondaryCursor"
             if [ "${kak_mode}" = "insert" ]; then
-                echo "set-face window PrimaryCursor 'PrimaryCursorInsert'"
-                echo "set-face window SecondaryCursor 'SecondaryCursorInsert'"
+                echo "set-face window PrimaryCursor         'PrimaryCursorInsert'"
+                echo "set-face window PrimaryCursorEol      'PrimaryCursorInsert'"
+                echo "set-face window SecondaryCursor       'SecondaryCursorInsert'"
+                echo "set-face window SecondaryCursorEol    'SecondaryCursorInsert'"
             fi
         elif [ -n "$kak_opt_last_focus_in" ]; then
-            echo "set-face window StatusLine StatusLineDim"
-            echo "set-face window StatusLineMode StatusLineDim"
-            echo "set-face window StatusLineInfo StatusLineDim"
-            echo "set-face window StatusLineValue StatusLineDim"
-            echo "set-face window StatusLineOk StatusLineDim"
-            echo "set-face window StatusLineWarn StatusLineDim"
-            echo "set-face window StatusLineError StatusLineDim"
-            echo "set-face window StatusLineCursor StatusLineDim"
-            echo "set-face window PrimaryCursor PrimarySelection"
-            echo "set-face window SecondaryCursor SecondarySelection"
+            echo "set-face window StatusLine        StatusLineDim"
+            echo "set-face window StatusLineMode    StatusLineDim"
+            echo "set-face window StatusLineInfo    StatusLineDim"
+            echo "set-face window StatusLineValue   StatusLineDim"
+            echo "set-face window StatusLineOk      StatusLineDim"
+            echo "set-face window StatusLineWarn    StatusLineDim"
+            echo "set-face window StatusLineError   StatusLineDim"
+            echo "set-face window StatusLineCursor  StatusLineDim"
+            echo "set-face window PrimaryCursor     PrimarySelection"
+            echo "set-face window SecondaryCursor   SecondarySelection"
         fi
     }
 }
