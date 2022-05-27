@@ -19,3 +19,9 @@ command = "pylsp"
 offset_encoding = "utf-8"
 workaround_server_sends_plaintext_labeled_as_markdown = true
 settings_section = "_"
+
+[language.typescript]
+filetypes = ["typescript"]
+roots = ["package.json"]
+command = "typescript-language-server"
+args = ["--stdio"]
