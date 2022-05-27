@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #----------------------------------------------------------------------------------------------------------------------
-# FZF-BUFFERS
+# FZF-ALL-BUFFERS
 #----------------------------------------------------------------------------------------------------------------------
 #
 # Search through buffers with FZF
@@ -10,7 +10,7 @@
 #----------------------------------------------------------------------------------------------------------------------
 #
 # Usage: 
-#   :fzf-buffers
+#   :fzf-all-buffers
 #
 #----------------------------------------------------------------------------------------------------------------------
 
@@ -23,7 +23,7 @@ CTRL_W="tmux-terminal-window kak -c $KAKOUNE_SESSION -e 'buffer {}'"
 CTRL_D="db {}"
 
 file=$(
-    :ls | grep -v '^\*.*\*$' |
+    :ls |
     fzf \
         --height=100% --cycle --no-sort --tiebreak=length,begin,index \
         --header $'<ret>: Open \n<c-v>: Open in vertical pane \n<c-h>: Open in horizontal pane\n<c-w>: Open in new window\n<c-d>: Delete buffer' \

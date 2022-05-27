@@ -7,27 +7,34 @@ provide-module -override connect-fzf %§
 
     declare-user-mode fzf
     map global fzf f ': fzf-files<ret>'             -docstring 'Open file'
-    map global fzf F ': fzf-all-files<ret>'         -docstring 'Open hidden file'
+    map global fzf F ': fzf-all-files<ret>'         -docstring 'Open from all files'
     map global fzf b ': fzf-buffers<ret>'           -docstring 'Open buffer'
+    map global fzf B ': fzf-all-buffers<ret>'       -docstring 'Open from all buffers'
     map global fzf g ': fzf-ripgrep -m .<ret>'      -docstring 'Search file contents'
     map global fzf G ': fzf-ripgrep-cursor<ret>'    -docstring 'Search file contents for word under cursor'
 
     define-command fzf-files -params ..1 -file-completion -docstring %{
-        fzf-files: Open files with fzf
+        fzf-files: Open from files with fzf
     } %{
         + :fzf-files %arg{1}
     }
 
     define-command fzf-all-files -params ..1 -file-completion -docstring %{
-        fzf-all-files: Open hidden files with fzf
+        fzf-all-files: Open from all files with fzf
     } %{
         + :fzf-all-files %arg{1}
     }
 
     define-command fzf-buffers -docstring %{
-        fzf-buffers: Open buffers with fzf
+        fzf-buffers: Open from buffers with fzf
     } %{
         + :fzf-buffers
+    }
+
+    define-command fzf-all-buffers -docstring %{
+        fzf-all-buffers: Open from all buffers with fzf
+    } %{
+        + :fzf-all-buffers
     }
 
     define-command fzf-ripgrep -params 1.. -docstring %{
