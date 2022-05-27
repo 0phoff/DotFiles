@@ -31,5 +31,12 @@ hook global KakEnd .* %{
 
 define-command -docstring "Make tmux session rename persistent even if we quit Kakoune" tmux-persist-session-name %{
     set-option global tmuxsession_old_name ''
+    nop %sh{
+        is_renamed=$(tmux show -w | grep 'automatic-rename off')
+        if [ -z "${is_renamed}" ]
+        then
+            tmux rename-window "Editor"
+        fi
+    }
 }
 
