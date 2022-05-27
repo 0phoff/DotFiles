@@ -21,10 +21,12 @@ plug "kak-lsp/kak-lsp" do %{
     set-option global lsp_config %{
         [language.python.settings._]
         pylsp.configurationSources = ['flake8']
-        pylsp.plugins.flake8.enabled = true
-        pylsp.plugins.flake8.maxLineLength = 120
         pylsp.plugins.pyflakes.enabled = false
         pylsp.plugins.pycodestyle.enabled = false
+        pylsp.plugins.flake8.enabled = true
+        pylsp.plugins.flake8.maxLineLength = 200
+        pylsp.plugins.flake8.ignore = ['E501']
+        pylsp.plugins.flake8.perFileIgnores = ['__init__.py:F401,F403,F405']
     }
     
     hook global KakEnd .* lsp-exit
