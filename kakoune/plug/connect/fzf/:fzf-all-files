@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #----------------------------------------------------------------------------------------------------------------------
-# FZF-FILES
+# FZF-ALL-FILES
 #----------------------------------------------------------------------------------------------------------------------
 #
 # Search through files with FZF
@@ -17,17 +17,26 @@
 # Load Prelude
 . "$KAKOUNE_PRELUDE"
 
+# Get current buffer path
+current_path=$(:it)
+
+# Define subcommands
 CTRL_V="tmux-terminal-horizontal kak -c $KAKOUNE_SESSION {}"
+CTRL_ALT_V="tmux-terminal-horizontal kak -c $KAKOUNE_SESSION ${current_path}"
 CTRL_H="tmux-terminal-vertical kak -c $KAKOUNE_SESSION {}"
+CTRL_ALT_H="tmux-terminal-vertical kak -c $KAKOUNE_SESSION ${current_path}"
 CTRL_W="tmux-terminal-window kak -c $KAKOUNE_SESSION {}"
 
+# FZF
 file=$(
     fdfind --type file --follow --hidden --no-ignore . ${1} |
     fzf \
         --height=100% --cycle --tiebreak=length,begin,index \
         --header $'<ret>: Open \n<c-v>: Open in vertical pane \n<c-h>: Open in horizontal pane\n<c-w>: Open in new window' \
         --bind "ctrl-v:execute(:send -verbatim ${CTRL_V})+abort" \
+        --bind "ctrl-alt-v:execute(:send -verbatim ${CTRL_ALT_V} && sleep 0.05s)+accept" \
         --bind "ctrl-h:execute(:send -verbatim ${CTRL_H})+abort" \
+        --bind "ctrl-alt-h:execute(:send -verbatim ${CTRL_ALT_H} && sleep 0.05s)+accept" \
         --bind "ctrl-w:execute(:send -verbatim ${CTRL_W})+abort" \
 )
 
