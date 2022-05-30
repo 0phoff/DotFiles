@@ -15,7 +15,7 @@ hook global -group theme-change-cursor ModeChange (push|pop):insert:.* %{
 
 
 # Toggle Status Line and Cursor if client is not active
-declare-option str last_focus_in
+declare-option -hidden str last_focus_in
 hook global -group theme-show-focused FocusIn .* %{
     set-option global last_focus_in %val{client}
 
