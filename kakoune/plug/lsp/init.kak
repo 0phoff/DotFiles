@@ -1,6 +1,11 @@
 plug "kak-lsp/kak-lsp" do %{
     cargo install --force --locked --path .
-    pip install -U 'python-lsp-server[rope,flake8,yapf,pydocstyle]'
+
+    # Install language servers
+    if true; then
+        pip install -U 'python-lsp-server[rope,flake8,yapf,pydocstyle]'
+        npm install typescript-language-server typescript --location=global
+    fi
 } config %{
     map global user l ': enter-user-mode lsp<ret>' -docstring 'LSP'
 
@@ -21,16 +26,16 @@ plug "kak-lsp/kak-lsp" do %{
     set-face   global LineFlagInfo      "%opt{theme_color_10}"
     set-face   global LineFlagHint      "%opt{theme_color_09}"
 
-    set-option global lsp_config %{
-        [language.python.settings._]
-        pylsp.configurationSources = ['flake8']
-        pylsp.plugins.pyflakes.enabled = false
-        pylsp.plugins.pycodestyle.enabled = false
-        pylsp.plugins.flake8.enabled = true
-        pylsp.plugins.flake8.maxLineLength = 200
-        pylsp.plugins.flake8.ignore = ['E501']
-        pylsp.plugins.flake8.perFileIgnores = ['__init__.py:F401,F403,F405']
-    }
+    # set-option global lsp_config %{
+    #     [language.python.settings._]
+    #     pylsp.configurationSources = ['flake8']
+    #     pylsp.plugins.pyflakes.enabled = false
+    #     pylsp.plugins.pycodestyle.enabled = false
+    #     pylsp.plugins.flake8.enabled = true
+    #     pylsp.plugins.flake8.maxLineLength = 200
+    #     pylsp.plugins.flake8.ignore = ['E501']
+    #     pylsp.plugins.flake8.perFileIgnores = ['__init__.py:F401,F403,F405']
+    # }
 
     define-command -hidden -override -params 6 lsp-handle-progress %{
         set-option global lsp_modeline_progress %sh{

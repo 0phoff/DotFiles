@@ -1,5 +1,5 @@
 snippet_support = false
-verbosity = 2
+verbosity = 1
 
 [server]
 timeout = 1800 # seconds = 30 minutes
@@ -19,9 +19,22 @@ command = "pylsp"
 offset_encoding = "utf-8"
 workaround_server_sends_plaintext_labeled_as_markdown = true
 settings_section = "_"
+[language.python.settings._]
+pylsp.configurationSources = ['flake8']
+pylsp.plugins.pyflakes.enabled = false
+pylsp.plugins.pycodestyle.enabled = false
+pylsp.plugins.flake8.enabled = true
+pylsp.plugins.flake8.maxLineLength = 200
+pylsp.plugins.flake8.ignore = ['E501']
+pylsp.plugins.flake8.perFileIgnores = ['__init__.py:F401,F403,F405']
 
-[language.typescript]
-filetypes = ["typescript"]
-roots = ["package.json"]
-command = "typescript-language-server"
-args = ["--stdio"]
+
+[language.tsx]
+command = 'typescript-language-server'
+filetypes = ['typescript']
+roots = ['package.json']
+args = ['--stdio']
+settings_section = '_'
+[language.tsx.settings._]
+preferences.quotePreference = 'single'
+preferences.includeCompletionsWithSnippetText = false
