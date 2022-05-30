@@ -1,11 +1,11 @@
 plug "kak-lsp/kak-lsp" do %{
+    set -e
+
     cargo install --force --locked --path .
 
     # Install language servers
-    if true; then
-        pip install -U 'python-lsp-server[rope,flake8,yapf,pydocstyle]'
-        npm install typescript-language-server typescript --location=global
-    fi
+    pip install -U 'python-lsp-server[rope,flake8,yapf,pydocstyle]' || true
+    npm install -g typescript-language-server typescript || true
 } config %{
     map global user l ': enter-user-mode lsp<ret>' -docstring 'LSP'
 
