@@ -4,6 +4,14 @@ set-option global promptfmt         '{StatusLineDim}[{StatusLineMode}%sh{echo ${
 # ModeLine
 set-option global modelinefmt       '{StatusLineDim}'
 
+# LSP
+set-option -add global modelinefmt '%sh{[ -n "${kak_opt_lsp_modeline_progress}${kak_opt_lsp_modeline_code_actions}" ] && echo [}{StatusLineMode}'
+set-option -add global modelinefmt '%sh{
+    [ -n "${kak_opt_lsp_modeline_progress}" ] && echo "羽"
+    [ -n "${kak_opt_lsp_modeline_code_actions}" ] && echo " ${kak_opt_lsp_modeline_code_actions}"
+}'
+set-option -add global modelinefmt '{StatusLineDim}%sh{[ -n "${kak_opt_lsp_modeline_progress}${kak_opt_lsp_modeline_code_actions}" ] && echo ]}'
+
 # [no-hooks]
 set-option -add global modelinefmt  '%sh{[ "${kak_hooks_enabled}" = "false" ] && echo [}{StatusLineMode}'
 set-option -add global modelinefmt  '%sh{[ "${kak_hooks_enabled}" = "false" ] && echo "ﯠ"}'
