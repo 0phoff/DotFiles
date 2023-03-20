@@ -49,7 +49,7 @@ unbind -T copy-mode-vi M
 unbind -T copy-mode-vi H
 bind u copy-mode
 bind -T copy-mode-vi v send -X begin-selection
-bind -T copy-mode-vi y send -X copy-pipe-and-cancel 'xclip -i -d :0 -selection clipboard'
+bind -T copy-mode-vi y send -X copy-pipe-and-cancel 'xclip -i -selection clipboard'
 bind -T copy-mode-vi u send -X scroll-up
 bind -T copy-mode-vi d send -X scroll-down
 

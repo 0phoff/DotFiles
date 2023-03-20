@@ -85,8 +85,8 @@ alias mdkill="sudo -E pkill grip"
 ## Executes sudo -E for nvim so it loads with user config and not root config
 ## Otherwise behaves like regular sudo command
 sudo() {
-    if [[ $1 == "vim" ]] || [[ $1 == "nvim" ]]; then
-        command sudo -E nvim "${@:2}"
+    if [[ $1 == "vim" ]] || [[ $1 == "nvim" ]] || [[ $1 == "kak" ]]; then
+        command sudo -E $1 "${@:2}"
     else
         command sudo "$@"
     fi
@@ -159,6 +159,17 @@ fi
 #####################
 if [ -f "${HOME}/.dir_colors" ]; then
     eval "$(dircolors ${HOME}/.dir_colors)"
+fi
+
+
+# Completion in Interactive Shells
+##################################
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
 fi
 
 
