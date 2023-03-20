@@ -1,6 +1,7 @@
 # Scripts
 # -------
 source "%val{config}/scripts/tmuxsession.kak"
+source "%val{config}/scripts/filetypes.kak"
 source "%val{config}/scripts/usermodes/init.kak"
 source "%val{config}/scripts/theme/init.kak"
 
