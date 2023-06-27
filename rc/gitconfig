@@ -13,6 +13,8 @@
   gh = "!git config user.name \"$GH_USER\" && git config user.email \"$GH_MAIL\""
   gl = "!git config user.name \"$GL_USER\" && git config user.email \"$GL_MAIL\""
   remote-set = "!f() { git remote set-url $1 $(git remote get-url $1 | sed \"s/git\\(hub\\|lab\\)\\.com/$(git config user.name)@\\0/\" | sed 's@\\(/[^.]*\\)\\(\\.git\\)\\{0,1\\}$@\\1.git@'); git remote get-url $1; }; f"
+  # LFS
+  lfspulldir = "!f() { git lfs pull -I \"$(git rev-parse --show-prefix)/**/*\"; }; f"
 [credential]
   helper = cache
 [color]
@@ -22,6 +24,7 @@
   pager = cat
   editor = kak
   whitespace = -trailing-space
+  attributesfile = ~/.gitattributes
 [diff]
   mnemonicPrefix = true
   renames = true
@@ -37,8 +40,8 @@
   process = git-lfs filter-process
   required = true
 [pull]
-	ff = only
+  ff = only
 [init]
-	defaultBranch = master
+  defaultBranch = master
 [safe]
-	directory = *
+  directory = *
