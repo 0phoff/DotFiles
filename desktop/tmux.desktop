@@ -3,7 +3,7 @@ Name=Tmux
 Comment=Use the command line from Tmux
 Keywords=shell;prompt;command;commandline;cmd;
 Type=Application
-Icon=org.gnome.Terminal
+Icon=utilities-terminal
 Exec=env AUTO_TMUX=1 gnome-terminal
 Categories=GNOME;GTK;System;TerminalEmulator;
 StartupNotify=true
