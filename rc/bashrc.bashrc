@@ -43,7 +43,14 @@ compile_prompt() {
   # > Python Virtual Environment
   # Format:   (bracket open)(virtualenv)(bracket close)
   if [[ -n "$VIRTUAL_ENV" ]]; then
-    PS1+="[${c_purple}${VIRTUAL_ENV##*/}${c_gray}]"
+    if [[ $VIRTUAL_ENV == $HOME/.virtualenvs/* ]]; then
+      # Virtual Env Wrapper
+      PS1+="[${c_purple}${VIRTUAL_ENV##*/}${c_gray}]"
+    else
+      # python -m venv
+      PS1+="[${c_purple}$(realpath --relative-to=$PWD --relative-base=$PWD $VIRTUAL_ENV)${c_gray}]"
+    fi
+
   elif [[ -n "$CONDA_DEFAULT_ENV" ]] && [[ "$CONDA_DEFAULT_ENV" != "base" ]]; then
     PS1+="[${c_purple}${CONDA_DEFAULT_ENV##*/}${c_gray}]"
   fi
