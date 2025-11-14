@@ -1,0 +1,108 @@
+[user]
+  name = {{ .gitUser }}
+  email = {{ .gitMail }}
+
+[branch]
+  sort = -committerdate
+
+[color]
+  ui = auto
+
+[column]
+  ui = auto
+
+[core]
+  excludesfile = ~/.gitignore
+  pager = less
+  editor = vim
+  whitespace = -trailing-space
+
+[credential]
+{{- if eq .gitCredentials true }}
+  helper = store
+{{- else }}
+  helper = cache
+{{- end }}
+
+[diff]
+  algorithm = histogram
+  colorMoved = plain
+  mnemonicPrefix = true
+  renames = true
+
+[fetch]
+  prune = true
+  pruneTags = true
+  all = true
+
+[filter "lfs"]
+  process = git-lfs filter-process
+  required = true
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+
+[help]
+  autocorrect = prompt
+
+[init]
+  defaultBranch = master
+
+[log]
+  abbrevCommit = true
+
+[pull]
+  ff = only
+
+[push]
+  default = simple
+  autoSetupRemote = true
+
+[rebase]
+  autoSquash = true
+  autoStash = true
+  updateRefs = true
+
+[rerere]
+  enabled = true
+  autoupdate = true
+
+[safe]
+  directory = *
+
+[tag]
+  sort = version:refname
+
+
+[alias]
+  # Basic aliases
+  st = status
+  pwd = "rev-parse --show-prefix"
+  default-branch = "!git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@'"
+
+  # Remove local branches which were removed from remote
+  rm-local-branches = "!f() { git fetch --prune && git branch -vv | grep 'gone]' | grep -v '^* ' | awk '{print $1}' | xargs git branch -D; }; f"
+
+  # Working with PR stacks
+  merge-base-origin ="!f() { git merge-base ${1-HEAD} origin/$(git default-branch); }; f"
+  stack = "!f() { \
+    local branch=${1-HEAD}; \
+    local merge_base=$(git merge-base-origin $BRANCH); \
+    git log --decorate-refs=refs/heads --simplify-by-decoration --pretty=format:\"%(decorate:prefix=,suffix=,tag=,separator=%n)\" ${merge_base}..${branch}; \
+  }; f"
+  push-stack = "!f() { \
+    local branch=${1-HEAD}; \
+    git stack ${branch} | xargs -I {} git push --force-with-lease origin {}; \
+  }; f"
+  
+  # Logging aliases
+  lg = log --graph --date=relative --abbrev-commit --pretty=tformat:'%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%an %ad)%Creset'
+  lgl = "!git lg @{push}^1.."
+  lgb = "!f() { \
+    local commit; \
+    if [ -t 1 ]; then \
+      git lg --color=always $@ | fzf --height=95% --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort --bind \"ctrl-g:execute:(echo {} | grep -o '[a-f0-9]\\{7\\}' | xargs -I % sh -c 'git show --color=always % | less -R')\" --bind \"ctrl-f:execute:(echo {} | grep -o '[a-f0-9]\\{7\\}' | xargs -I % sh -c 'git show --color=always --name-status -r % | less -R')\"; \
+    else \
+      commit=$(git lg --color=always | fzf --height=95% --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort | grep -o '[a-f0-9]\\{7\\}') || return; \
+      echo ${commit}; \
+    fi \
+  }; f"

@@ -1,0 +1,28 @@
+.venv/
+.sandbox/
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Temporary files #
+###################
+*.bak
+*.swp
+*.swo
+*~
+*#
+
+# IDE files #
+#############
+.vscode
+.idea
+.iml
+*.sublime-workspace

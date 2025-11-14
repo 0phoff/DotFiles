@@ -1,0 +1,9 @@
+{{- $gitCredentials := promptBoolOnce . "gitCredentials" "Store git credentials" false -}}
+{{- $gitUser := promptStringOnce . "gitUser" "Git username" "0phoff" -}}
+{{- $gitMail := promptStringOnce . "gitMail" "Git email address" "0phoff@noreply.github.com" -}}
+
+[data]
+  gitCredentials = {{ $gitCredentials }}
+  gitUser = {{ $gitUser | quote }}
+  gitMail = {{ $gitMail | quote }}
+
