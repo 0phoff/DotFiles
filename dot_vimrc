@@ -13,7 +13,9 @@ set mouse=nv                            " Enable mouse in normal and visual mode
 set linebreak                           " Only wrap at whitespace
 set autoread                            " Automatically reload file if it changed outside of vim
 set sidescrolloff=5                     " Keep 5 columns from cursor visible
-set nowriteany                          " Do not allow to write file that needs !
+set nowriteany                          " Do not allow to write file that needs '!'
+set nowrap                              " Disable line wrapping
+set noesckeys                           " Do not allow Fn keys in insert mode (emulated by ESC+...), which in turn makes esc more responsive
 
 set ignorecase                          " Searching is case insensitive
 set smartcase                           " Searching is case sensitive if there is a capital
@@ -43,6 +45,7 @@ set novisualbell                        " Disable visual bell
 set belloff=all                         " No beep
 
 set number                              " Set linenumbers
+set relativenumber                      " Relative linenumbers
 set cursorline                          " Highlight current line
 set showtabline=2                       " Always show tab
 set laststatus=2                        " Always show statusbar
@@ -59,7 +62,8 @@ nnoremap <silent> <Leader>w :w <CR>
 nnoremap <silent> <Leader>q :q <CR>
 nnoremap <silent> <Leader>x :x <CR>
 nnoremap <silent> <Leader>h :nohlsearch <CR>
-nnoremap <silent> <Leader>s :syntax sync fromstart <CR>
+nnoremap <silent> <Leader>r :set wrap! <CR>
+nnoremap <silent> <Leader>n :set relativenumber! <CR>
 
 " Get rid of accidental Ex Mode -> Use gQ if really wanted
 nnoremap Q <nop>
@@ -79,6 +83,10 @@ onoremap <silent> <expr> k v:count ? 'k':'gk'
 hi CursorLine NONE
 hi CursorLineNR cterm=bold ctermbg=NONE guibg=NONE
 hi Visual ctermbg=3
+
+" Cursor shape to line in insert mode
+let &t_SI = "\e[6 q"
+let &t_EI = "\e[2 q"
 
 " Statusline
 function! ModeName()
