@@ -1,6 +1,9 @@
+{{- if ne .gitUser "-" -}}
 [user]
   name = {{ .gitUser }}
   email = {{ .gitMail }}
+
+{{ end -}}
 
 [branch]
   sort = -committerdate
