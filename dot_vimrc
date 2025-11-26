@@ -15,7 +15,8 @@ set autoread                            " Automatically reload file if it change
 set sidescrolloff=5                     " Keep 5 columns from cursor visible
 set nowriteany                          " Do not allow to write file that needs '!'
 set nowrap                              " Disable line wrapping
-set noesckeys                           " Do not allow Fn keys in insert mode (emulated by ESC+...), which in turn makes esc more responsive
+set ttimeout                            " time out for key codes
+set ttimeoutlen=5                       " wait up to 100ms after Esc for special key
 
 set ignorecase                          " Searching is case insensitive
 set smartcase                           " Searching is case sensitive if there is a capital
