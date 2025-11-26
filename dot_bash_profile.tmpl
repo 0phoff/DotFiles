@@ -1,12 +1,12 @@
 # Path
 ######
+{{ if eq .chezmoi.os "darwin" -}}
 if [ -d "/opt/homebrew/bin" ] ; then
     export PATH=$PATH:/opt/homebrew/bin
 fi
 
+{{ end -}}
 
-# User path
-###########
 if [ -d "$HOME/bin" ] ; then
     export PATH="$HOME/bin:$PATH"
 fi

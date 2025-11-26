@@ -1,0 +1,115 @@
+# Only source bashrc on interactive prompts
+[[ $- != *i* ]] && return
+
+
+# General
+#########
+shopt -s checkwinsize 2>/dev/null
+shopt -s globstar 2>/dev/null
+bind 'set bell-style none'
+
+
+# History
+#########
+shopt -s histappend
+export HISTCONTROL=ignoredups:erasedups
+export HISTSIZE=10000
+export HISTFILESIZE=10000
+export SHELL_SESSION_HISTORY=0
+PROMPT_COMMAND="history -a;$PROMPT_COMMAND"
+bind '"\C-p": history-search-backward'
+bind '"\C-n": history-search-forward'
+
+
+# Prompt
+########
+__ps1_data() {
+  local output=""
+  local delim=""
+  
+  local git=$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')
+  if [ -n "${git}" ]; then
+    output="${output}${delim}${git}"
+    delim=" "
+  fi
+
+  local venv=$(echo "${VIRTUAL_ENV_PROMPT}" | sed -e 's/^(\([^()]*\)) $/\1/')
+  if [ -n "${venv}" ]; then
+    output="${output}${delim}${venv}"
+    delim=" "
+  fi
+
+  echo "${output}"
+}
+
+FONT_RESET=$(tput sgr0)
+FONT_USER=$(tput bold; tput setaf 6)
+FONT_HOST=$(tput dim)
+FONT_PWD=$(tput bold; tput setaf 3)
+FONT_DATA=$(tput bold; tput setaf 1)
+FONT_ARROW=$(tput bold; tput setaf 6)
+
+PS1=''
+PS1+='\[${FONT_USER}\]\u\[${FONT_HOST}\]@\H\[${FONT_RESET}\] '  # user@host
+PS1+='\[${FONT_PWD}\]\w\[${FONT_RESET}\] '                      # pwd
+PS1+='\[${FONT_DATA}\]$(__ps1_data)\[${FONT_RESET}\]'           # [ git | venv ]
+PS1+='\n\[${FONT_ARROW}\]>>>\[${FONT_RESET}\] '                 # prompt arrow
+PS2='\[${FONT_ARROW}\]...\[${FONT_RESET}\] '                    # continuation prompt
+
+export PS1
+export PS2
+export VIRTUAL_ENV_DISABLE_PROMPT=1
+export PROMPT_DIRTRIM=3
+
+
+# Environment variables
+#######################
+export EDITOR="vim"
+export PAGER="less"
+
+
+# Aliases
+#########
+{{- if eq .chezmoi.os "darwin" }}
+# Install `gls` from brew to get the latest ls with all options for `lx`
+if command -v gls >/dev/null 2>&1; then
+  alias ls="gls --color"
+else
+  alias ls="ls --color"
+fi
+
+{{- else }}
+alias ls="ls --color"
+{{- end }}
+alias ll="ls -Al"
+alias lx="ls -AgohXL --group-directories-first"
+alias grep="grep --color"
+
+## Executes sudo -E for nvim so it loads with user config and not root config
+## Otherwise behaves like regular sudo command
+sudo() {
+    if [[ $1 == "vim" ]] || [[ $1 == "nvim" ]]; then
+        command sudo -E $1 "${@:2}"
+    else
+        command sudo "$@"
+    fi
+}
+
+
+# Completion
+############
+if ! shopt -oq posix; then
+  {{- if eq .chezmoi.os "darwin" }}
+  if command -v brew >/dev/null 2>&1 && [ -f "$(brew --prefix)/etc/bash_completion.d/git-completion.bash" ]; then
+    source $(brew --prefix)/etc/bash_completion.d/git-completion.bash
+  elif [ -f /usr/share/bash-completion/bash_completion ]; then
+  {{- else }}
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+  {{- end }}
+    source /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    source /etc/bash_completion
+  elif [ -f /usr/local/etc/bash_completetion ]; then
+    source /usr/local/etc/bash_completion
+  fi
+fi
