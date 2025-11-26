@@ -2,22 +2,22 @@
 ######
 {{ if eq .chezmoi.os "darwin" -}}
 if [ -d "/opt/homebrew/bin" ] ; then
-    export PATH=$PATH:/opt/homebrew/bin
+  export PATH="/opt/homebrew/bin:${PATH}"
 fi
 
 {{ end -}}
 
 if [ -d "$HOME/bin" ] ; then
-    export PATH="$HOME/bin:$PATH"
+  export PATH="$HOME/bin:${PATH}"
 fi
 
 if [ -d "$HOME/.local/bin" ] ; then
-    export PATH="$HOME/.local/bin:$PATH"
+  export PATH="$HOME/.local/bin:${PATH}"
 fi
 
 
 # Bashrc
 ########
-if [ -n "$BASH_VERSION" ] && [ -f "$HOME/.bashrc" ]; then
-    . "$HOME/.bashrc"
+if [ -n "${BASH_VERSION}" ] && [ -f "${HOME}/.bashrc" ]; then
+  source "${HOME}/.bashrc"
 fi
