@@ -26,8 +26,14 @@ bind '"\C-n": history-search-forward'
 __ps1_data() {
   local output=""
   local delim=""
+
+  local direnv=$(basename "${DIRENV_FILE}" | sed -e 's/^\.\(.*\)/\1/')
+  if [ -n "${direnv}" ]; then
+    output="${output}${delim}${direnv}"
+    delim=" "
+  fi
   
-  local git=$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')
+  local git=$(git branch --show-current 2> /dev/null)
   if [ -n "${git}" ]; then
     output="${output}${delim}${git}"
     delim=" "
@@ -56,10 +62,8 @@ PS1+='\[${FONT_DATA}\]$(__ps1_data)\[${FONT_RESET}\]'           # [ git | venv ]
 PS1+='\n\[${FONT_ARROW}\]>>>\[${FONT_RESET}\] '                 # prompt arrow
 PS2='\[${FONT_ARROW}\]...\[${FONT_RESET}\] '                    # continuation prompt
 
-export PS1
-export PS2
-export VIRTUAL_ENV_DISABLE_PROMPT=1
-export PROMPT_DIRTRIM=3
+VIRTUAL_ENV_DISABLE_PROMPT=1
+PROMPT_DIRTRIM=3
 
 
 # Environment variables
