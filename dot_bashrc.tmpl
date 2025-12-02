@@ -100,8 +100,12 @@ sudo() {
 ############
 if ! shopt -oq posix; then
   {{- if eq .chezmoi.os "darwin" }}
-  if command -v brew >/dev/null 2>&1 && [ -f "$(brew --prefix)/etc/bash_completion.d/git-completion.bash" ]; then
-    source $(brew --prefix)/etc/bash_completion.d/git-completion.bash
+  if command -v brew >/dev/null 2>&1 && [ -f "$(brew --prefix)/etc/profile.d/bash_completion.sh" ]; then
+    # brew install bash-completion@2
+    source $(brew --prefix)/etc/profile.d/bash_completion.sh
+  elif command -v brew >/dev/null 2>&1 && [ -f "$(brew --prefix)/etc/bash_completion" ]; then
+    # brew install bash-completion
+    source $(brew --prefix)/etc/bash_completion
   elif [ -f /usr/share/bash-completion/bash_completion ]; then
   {{- else }}
   if [ -f /usr/share/bash-completion/bash_completion ]; then
