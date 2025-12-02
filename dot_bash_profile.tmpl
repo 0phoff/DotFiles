@@ -21,3 +21,7 @@ fi
 if [ -n "${BASH_VERSION}" ] && [ -f "${HOME}/.bashrc" ]; then
   source "${HOME}/.bashrc"
 fi
+
+if [ -n "${BASH_VERSION}" ] && [ -f "${HOME}/.local.bashrc" ]; then
+  source "${HOME}/.local.bashrc"
+fi
