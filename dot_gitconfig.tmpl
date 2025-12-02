@@ -87,14 +87,14 @@
 
   # Working with PR stacks
   merge-base-origin ="!f() { git merge-base ${1-HEAD} origin/$(git default-branch); }; f"
-  stack = "!f() { \
+  stack-show = "!f() { \
     local branch=${1-HEAD}; \
-    local merge_base=$(git merge-base-origin $BRANCH); \
-    git log --decorate-refs=refs/heads --simplify-by-decoration --pretty=format:\"%(decorate:prefix=,suffix=,tag=,separator=%n)\" ${merge_base}..${branch}; \
+    local merge_base=$(git merge-base-origin ${branch}); \
+    git log --decorate-refs=refs/heads --simplify-by-decoration --pretty=format:'%(decorate:prefix=,suffix=,tag=,separator=%n)' ${merge_base}..${branch}; \
   }; f"
-  push-stack = "!f() { \
+  stack-push = "!f() { \
     local branch=${1-HEAD}; \
-    git stack ${branch} | xargs -I {} git push --force-with-lease origin {}; \
+    git stack-show ${branch} | xargs -I {} git push --force-with-lease origin {}; \
   }; f"
   
   # Logging aliases
