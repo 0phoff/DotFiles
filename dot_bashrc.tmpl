@@ -34,6 +34,9 @@ __ps1_data() {
   fi
   
   local git=$(git branch --show-current 2> /dev/null)
+  if [ -z "${git}" ]; then
+    git=$(git rev-parse --short HEAD 2> /dev/null)
+  fi
   if [ -n "${git}" ]; then
     output="${output}${delim}${git}"
     delim=" "
